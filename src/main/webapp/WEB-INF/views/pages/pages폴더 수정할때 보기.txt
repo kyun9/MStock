@@ -1,0 +1,2 @@
+pages 폴던 안에 html 파일들 -> jsp로 바꾸고 사용할거
+assets에 대한 경로는 resources폴더 안으로 바꿀것 
