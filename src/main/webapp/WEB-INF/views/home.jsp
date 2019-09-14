@@ -37,6 +37,7 @@
 							<h4>Dashboard</h4>
 							<p class="text-gray">Welcome aboard, Allen Clerk</p>
 						</div>
+						<a href="/mstock/stockinfo?code=035420">네이버</a>
 					</div>
 					<div class="row">
 						<div class="col-md-3 col-sm-6 col-6 equel-grid">
