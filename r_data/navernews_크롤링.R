@@ -3,7 +3,7 @@
 
 library(RSelenium)
 library(dplyr)
-library(XML)
+##library(XML)
 library(httr)
 library(rvest)
 library(KoNLP)
