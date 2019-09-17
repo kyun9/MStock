@@ -13,5 +13,11 @@ public class HomeController {
 		mav.setViewName("home");
 		return mav;
 	}
+	@RequestMapping(value = "/default", method = RequestMethod.GET)
+	public ModelAndView homes() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("default");
+		return mav;
+	}
 	
 }

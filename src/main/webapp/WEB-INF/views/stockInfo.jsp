@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.beans.XMLEncoder"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="vo.StockInfoVO"%>
+<%-- <%@ page import="java.beans.XMLEncoder"%>
 <%@ page import="org.w3c.dom.*" %>
 <%@ page import="org.xml.sax.*" %>
 <%@ page import="java.util.*"%>
@@ -16,27 +18,27 @@
 	String janggubun = "";
 	String DungRakrate_str = "";
 	
-	int timeconclude_length = 0;
+//	int timeconclude_length = 0;
 	int dailystock_length = 0;
-	int Askprice_length= 0;
-	int Hoga_length= 0;
+//	int Askprice_length= 0;
+//	int Hoga_length= 0;
 	
 	int CurJuka = 0;
 	int Debi = 0;
 	float StandardPrice = 0;
 	float DungRakrate = 0;
 	
-	String up = "▲";
-	String down = "▼";
-	String bohab = "─";
+//	String up = "▲";
+//	String down = "▼";
+//	String bohab = "─";
 	String line="";
 	String xml = "";
 	
 	String Stockinfo[]= new String [17];
-	String Timeconclude[][] = new String [10][7];
+//	String Timeconclude[][] = new String [10][7];
 	String Dailystock[][] = new String [10][9];
-	String Askprice[][] = new String [5][4];
-	String Hoga[]= new String [22];
+//	String Askprice[][] = new String [5][4];
+//	String Hoga[]= new String [22];
 	
 
 	try{
@@ -138,7 +140,7 @@
 		
 		/*시간대별 체결가*/
 		
-		NodeList TBL_TimeConclude = doc.getElementsByTagName("TBL_TimeConclude");
+		/* NodeList TBL_TimeConclude = doc.getElementsByTagName("TBL_TimeConclude");
 		
 		timeconclude_length = TBL_TimeConclude.getLength()-1;
 		for(int i=0;i<timeconclude_length;i++){
@@ -152,11 +154,11 @@
 			Timeconclude[i][4] = TimeConclude.getNamedItem("buyprice").getNodeValue();	//매수호가
 			Timeconclude[i][5] = TimeConclude.getNamedItem("amount").getNodeValue();	//체결량
 			Timeconclude[i][6] = TimeConclude.getNamedItem("Dungrak").getNodeValue();	//전일대비코드
-		}
+		} */
 		
 		/*증권사별거래*/
 		
-		NodeList TBL_AskPrice = doc.getElementsByTagName("AskPrice");
+		/* NodeList TBL_AskPrice = doc.getElementsByTagName("AskPrice");
 		
 		Askprice_length = TBL_AskPrice.getLength();
 		for(int i=0;i<Askprice_length;i++){
@@ -168,10 +170,10 @@
 			Askprice[i][2] = AskPrice.getNamedItem("member_memsoMem").getNodeValue();	//매수증권사
 			Askprice[i][3] = AskPrice.getNamedItem("member_mesuoVol").getNodeValue();	//매수거래량
 		}
-		
+		 */
 		/*호가*/
 		
-		NodeList TBL_Hoga = doc.getElementsByTagName("TBL_Hoga");
+		/* NodeList TBL_Hoga = doc.getElementsByTagName("TBL_Hoga");
 		
 		Hoga_length = TBL_Hoga.getLength();
 
@@ -212,97 +214,128 @@
 				   Integer.parseInt(Hoga[13].replace(",", ""))+
 				   Integer.parseInt(Hoga[15].replace(",", ""))+
 				   Integer.parseInt(Hoga[17].replace(",", ""))+
-				   Integer.parseInt(Hoga[19].replace(",", "")));		
+				   Integer.parseInt(Hoga[19].replace(",", "")));	 */	
 	
 	} catch(Exception e){
 		
 	}
 
 
-%>
+%> --%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="http://asp1.krx.co.kr/inc/js/asp_chart.js"></script>
-<script type="text/javascript" src="resources/js/common.js"></script>
-<link rel="stylesheet" type="text/css" href="resources/css/stockinfo.css"/>
-<title>실시간시세</title>
+<!-- <script type="text/javascript" src="resources/js/common.js"></script> -->
+<link rel="stylesheet" type="text/css"
+	href="resources/css/stockinfo.css" />
+<title>MStock</title>
+<!-- plugins:css -->
+<link rel="stylesheet"
+	href="/mstock/resources/vendors/iconfonts/mdi/css/materialdesignicons.css">
+<!-- endinject -->
+<!-- vendor css for this page -->
+<!-- End vendor css for this page -->
+<!-- inject:css -->
+<link rel="stylesheet" href="/mstock/resources/css/shared/style.css">
+<!-- endinject -->
+<!-- Layout style -->
+<link rel="stylesheet" href="/mstock/resources/css/demo_1/style.css">
+<!-- Layout style -->
+<link rel="shortcut icon" href="/mstock/resources/images/favicon.ico" />
 </head>
-<body>
-	<div class="header-wrap">
-	실시간 시세<span><span class="time_img"></span><%=gettime%> 기준(<%=janggubun%>)</span>
-	</div>
-	<div class="body-wrap">
-		<div id="gpDisp"></div>
-		<div class="data-lists">
-			<dl>
-				<dt><span></span>주가정보</dt>
-				<dd>
-					<div class="main_stock_box1">
-						<ul>
-							<li>
-								<div class="main_stock_box1_title">
-									<%if(!Stockinfo[0].equals("")){ %>
-									<ul>			
-										<li class="main_stock_box1_title1">A<%=JongCd%><span><%=Stockinfo[0]%></span></li>
-										<li class="main_stock_box1_title2"><span class="CurJuka">현재가</span><%=Stockinfo[1]%></li>
-									</ul>
-									<ul>
-										<li class="main_stock_box1_contn"><span class="title">전일대비</span>
-										<span>
-										<%if(Stockinfo[2].equals("1")||Stockinfo[2].equals("2")){ %>
-										<span class="up">
-										<%=up%>
-										</span>
-										<%} %>
-										<%if(Stockinfo[2].equals("3")){ %>
-										<span class="bohab">
-										<%=bohab%>
-										</span>
-										<%} %>
-										<%if(Stockinfo[2].equals("4")||Stockinfo[2].equals("5")){ %>
-										<span class="down">
-										<%=down%>
-										</span>	
-										<%} %>
-										<%=Stockinfo[3]%>(<%=DungRakrate_str%>%)
-										</span>
-										</li>
-										<li class="main_stock_box1_contn"><span class="title">거래량</span>
-										<span><%=Stockinfo[5]%></span>
-										</li>
-										<li class="main_stock_box1_contn"><span class="title">거래대금</span>
-										<span><%=Stockinfo[6]%></span>
-										</li>
-									</ul>
-									<%}%>
-								</div>
-							</li>
-						</ul>
-					</div>
-					<div class="main_stock_box2">
-					<table id="stockInfo">
-						<tr>
-							<th>시가</th>
-							<td><%=Stockinfo[7]%></td>
-							<th colspan="2">상한가</th>
-							<td><%=Stockinfo[12]%></td>
-						</tr>
-						<tr>
-							<th>고가</th>
-							<td><%=Stockinfo[8]%></td>
-							<th colspan="2">하한가</th>
-							<td><%=Stockinfo[13]%></td>
-						</tr>
-						<tr>
-							<th>저가</th>						
-							<td><%=Stockinfo[9]%></td>
-							<th colspan="2">액면가</th>
-							<td><%=Stockinfo[16]%></td>
-						</tr>
-						<tr>
+<body class="header-fixed">
+	<%
+		StockInfoVO stock = (StockInfoVO) request.getAttribute("info");
+	%>
+	<!-- partial:partials/header.jsp -->
+	<%@ include file="./partials/header.jsp"%>
+	<!-- partial -->
+	<div class="page-body">
+		<!-- partial:partials/sidebar.jsp -->
+		<%@ include file="./partials/sidebar.jsp"%>
+		<!-- partial -->
+		<div class="page-content-wrapper">
+			<div class="page-content-wrapper-inner">
+				<div class="content-viewport">
+					<div class="row">
+						<div class="header-wrap">
+							실시간 시세<span><span class="time_img"></span><%=stock.getGettime()%>
+								기준(<%=stock.getJanggubun()%>)</span>
+						</div>
+						<div class="body-wrap">
+							<!-- <div id="gpDisp"></div> -->
+							<div class="data-lists">
+								<dl>
+									<dt>
+										<span></span>주가정보
+									</dt>
+									<dd>
+										<div class="main_stock_box1">
+											<ul>
+												<li>
+													<div class="main_stock_box1_title">
+														<%
+															if (!stock.getStockinfo()[0].equals("")) {
+														%>
+														<ul>
+															<li class="main_stock_box1_title1">A<%=stock.getJongCd()%><span><%=stock.getStockinfo()[0]%></span></li>
+															<li class="main_stock_box1_title2"><span
+																class="CurJuka">현재가</span><%=stock.getStockinfo()[1]%></li>
+														</ul>
+														<ul>
+															<li class="main_stock_box1_contn"><span
+																class="title">전일대비</span> <span> <%
+ 	if (stock.getStockinfo()[2].equals("1") || stock.getStockinfo()[2].equals("2")) {
+ %> <span class="up"> ▲ </span> <%
+ 	}
+ %> <%
+ 	if (stock.getStockinfo()[2].equals("3")) {
+ %> <span class="bohab"> ─ </span> <%
+ 	}
+ %> <%
+ 	if (stock.getStockinfo()[2].equals("4") || stock.getStockinfo()[2].equals("5")) {
+ %> <span class="down"> ▼ </span> <%
+ 	}
+ %> <%=stock.getStockinfo()[3]%>(<%=stock.getDungRakrate_str()%>%)
+															</span></li>
+															<li class="main_stock_box1_contn"><span
+																class="title">거래량</span> <span><%=stock.getStockinfo()[5]%></span>
+															</li>
+															<li class="main_stock_box1_contn"><span
+																class="title">거래대금</span> <span><%=stock.getStockinfo()[6]%></span>
+															</li>
+														</ul>
+														<%
+															}
+														%>
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div class="main_stock_box2">
+											<table id="stockInfo">
+												<tr>
+													<th>시가</th>
+													<td><%=stock.getStockinfo()[7]%></td>
+													<th colspan="2">상한가</th>
+													<td><%=stock.getStockinfo()[12]%></td>
+												</tr>
+												<tr>
+													<th>고가</th>
+													<td><%=stock.getStockinfo()[8]%></td>
+													<th colspan="2">하한가</th>
+													<td><%=stock.getStockinfo()[13]%></td>
+												</tr>
+												<tr>
+													<th>저가</th>
+													<td><%=stock.getStockinfo()[9]%></td>
+													<th colspan="2">액면가</th>
+													<td><%=stock.getStockinfo()[16]%></td>
+												</tr>
+												<%-- 		<tr>
 							
 							<th>PER</th>
 							<td><%=Stockinfo[14]%></td>
@@ -316,19 +349,20 @@
 							<th>최저</th>
 							<td><%=Stockinfo[11]%></td>
 							
-						</tr>
-					</table>
-					</div>
-				</dd>
-			</dl>
-			<ul class="tabs">
+						</tr> --%>
+											</table>
+										</div>
+									</dd>
+								</dl>
+								<!-- <ul class="tabs">
 		    	<li><a href="#tab1">호가</a></li>
 		   		<li><a href="#tab2">시간대별체결가</a></li>
 		   		<li><a href="#tab3">회원사별거래</a></li>
 		   		<li><a href="#tab4">일자별시세</a></li>
-			</ul>
-			<div class="tab_container">
-				<div id="tab1" class="tab_content">
+			</ul> -->
+								<strong>* 일자별시세</strong>
+								<div class="tab_container">
+									<%-- <div id="tab1" class="tab_content">
 					<table id="Hoga">
 						<tr>
 							<th>매도잔량</th>
@@ -469,58 +503,91 @@
 						</tr>
 					<%} %>
 				</table>
+				</div> --%>
+									<div class="tab_content">
+										<table id="tradedPrice_day">
+											<tr>
+												<th>일자</th>
+												<th>종가</th>
+												<th>전일대비</th>
+												<th>시가</th>
+												<th>고가</th>
+												<th>저가</th>
+												<th>거래량</th>
+												<th>거래대금</th>
+											</tr>
+											<%
+												if (stock.getDailystock_length() > 0) {
+											%>
+											<%
+												for (int j = 0; j < stock.getDailystock_length(); j++) {
+											%>
+											<tr>
+												<td><%=stock.getDailystock()[j][0]%></td>
+												<td><%=stock.getDailystock()[j][1]%></td>
+												<td>
+													<%
+														if (stock.getDailystock()[j][8].equals("1") || stock.getDailystock()[j][8].equals("2")) {
+													%> <span class="up"> ▲ <%
+ 	}
+ %>
+												</span> <%
+ 	if (stock.getDailystock()[j][8].equals("3")) {
+ %> <span class="bohab"> ─ <%
+ 	}
+ %>
+												</span> <%
+ 	if (stock.getDailystock()[j][8].equals("4") || stock.getDailystock()[j][8].equals("5")) {
+ %> <span class="down"> ▼ <%
+ 	}
+ %>
+												</span> <%=stock.getDailystock()[j][2]%></td>
+												<td><%=stock.getDailystock()[j][3]%></td>
+												<td><%=stock.getDailystock()[j][4]%></td>
+												<td><%=stock.getDailystock()[j][5]%></td>
+												<td><%=stock.getDailystock()[j][6]%></td>
+												<td><%=stock.getDailystock()[j][7]%></td>
+											</tr>
+											<%
+												}
+											%>
+											<%
+												} else {
+											%>
+											<tr>
+												<td colspan="8">데이터가 없습니다.</td>
+											</tr>
+											<%
+												}
+											%>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div id="tab4" class="tab_content">
-					<table id="tradedPrice_day">
-						<tr>
-							<th>일자</th>
-							<th>종가</th>
-							<th>전일대비</th>
-							<th>시가</th>
-							<th>고가</th>
-							<th>저가</th>
-							<th>거래량</th>
-							<th>거래대금</th>
-						</tr>
-						<%if(dailystock_length > 0){ %>
-							<%for(int j=0;j<dailystock_length;j++){ %>
-							<tr>
-								<td><%=Dailystock[j][0]%></td>
-								<td><%=Dailystock[j][1]%></td>
-								<td>
-								<%if(Dailystock[j][8].equals("1")||Dailystock[j][8].equals("2")){ %>
-								<span class="up">
-								<%=up%>
-								<%} %>
-								</span>
-								<%if(Dailystock[j][8].equals("3")){ %>
-								<span class="bohab">
-								<%=bohab%>
-								<%} %>
-								</span>
-								<%if(Dailystock[j][8].equals("4")||Dailystock[j][8].equals("5")){ %>
-								<span class="down">
-								<%=down%>
-								<%} %>
-								</span>	
-								<%=Dailystock[j][2]%></td>
-								<td><%=Dailystock[j][3]%></td>
-								<td><%=Dailystock[j][4]%></td>
-								<td><%=Dailystock[j][5]%></td>
-								<td><%=Dailystock[j][6]%></td>
-								<td><%=Dailystock[j][7]%></td>
-							</tr>
-							<%} %>
-						<%} else {%>
-							<tr>
-								<td colspan="8">데이터가 없습니다.</td>
-							</tr>
-						<%} %>
-					</table>
-				</div>
-			</div>				
+			</div>
+		<!-- content viewport ends -->
+			<!-- partial:partials/footer.jsp -->
+			<%@ include file="./partials/footer.jsp"%>
+			<!-- partial -->
 		</div>
+		<!-- page content ends -->
 	</div>
-	<div class="footer-wrap"></div>
+	<!--page body ends -->
+	<!-- SCRIPT LOADING START FORM HERE /////////////-->
+	<!-- plugins:js -->
+	<script src="/mstock/resources/vendors/js/core.js"></script>
+	<!-- endinject -->
+	<!-- Vendor Js For This Page Ends-->
+	<script src="/mstock/resources/vendors/apexcharts/apexcharts.min.js"></script>
+	<script src="/mstock/resources/vendors/chartjs/Chart.min.js"></script>
+	<script src="/mstock/resources/js/charts/chartjs.addon.js"></script>
+	<!-- Vendor Js For This Page Ends-->
+	<!-- build:js -->
+	<script src="/mstock/resources/js/template.js"></script>
+	<script src="/mstock/resources/js/dashboard.js"></script>
+	<!-- endbuild -->
 </body>
 </html>
