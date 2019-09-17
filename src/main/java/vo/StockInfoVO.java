@@ -1,5 +1,6 @@
 package vo;
 
+//주식 정보 담는 vo객체
 public class StockInfoVO {
 	private String JongCd;
 	private String gettime;

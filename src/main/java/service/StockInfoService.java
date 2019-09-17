@@ -144,6 +144,8 @@ public class StockInfoService {
 			e.printStackTrace();
 		}
 		
+		
+		// StockInfoVO 객체에 데이터 초기화 
 		vo.setJongCd(JongCd);
 		vo.setGettime(gettime);
 		vo.setJanggubun(janggubun);

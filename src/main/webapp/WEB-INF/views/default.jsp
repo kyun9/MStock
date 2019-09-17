@@ -29,17 +29,16 @@
 		<!-- partial:partials/sidebar.jsp -->
 		<%@ include file="./partials/sidebar.jsp"%>
 		<!-- partial -->
-					<!-- content viewport start -->
+		<!-- content viewport start -->
 		<div class="page-content-wrapper">
 			<div class="page-content-wrapper-inner">
 				<div class="content-viewport">
 					<div class="row">
-					fff
-					
+						<!-- @@@@@@@@@@@ 내용 @@@@@@@@@@@@ -->
 					</div>
 				</div>
 			</div>
-					<!-- content viewport ends -->
+			<!-- content viewport ends -->
 			<!-- partial:partials/footer.jsp -->
 			<%@ include file="./partials/footer.jsp"%>
 			<!-- partial -->
