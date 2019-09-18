@@ -54,7 +54,6 @@
 		<beans:property name="username" value="{username}" />
 		<beans:property name="password" value="{password}" />
 	</beans:bean>
-
 	<beans:bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource" />
@@ -63,7 +62,6 @@
 		<beans:property name="mapperLocations"
 			value="classpath:/*Mapper.xml" />
 	</beans:bean>
-
 	<beans:bean id="sqlSession"
 		class="org.mybatis.spring.SqlSessionTemplate"
 		destroy-method="clearCache">
