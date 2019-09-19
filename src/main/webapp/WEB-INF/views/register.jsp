@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html class="h-100" lang="en">
 
@@ -65,47 +67,61 @@
 }
 </style>
 <body>
+
+	<c:if test="${!empty msg}">
+		<script>
+			alert("${msg}");
+		</script>
+		<c:if test="${result eq 'success'}">
+			<script>
+			location.href = "/mstock/login";
+			</script>
+		</c:if>
+	</c:if>
 	<div class="login-form-bg h-100">
-		<div class="container h-100" style="margin-top:100px">
+		<div class="container h-100" style="margin-top: 100px">
 			<div class="row justify-content-center h-100">
 				<div class="col-xl-6">
 					<div class="form-input-content">
 						<div class="card login-form mb-0">
 							<div class="card-body pt-5">
 								<div class="text-center" style="width: 100%">
-									<a class="text-center" href="index.html"> <img class="logo"
-										src="/mstock/resources/images/logo.svg" alt="">
+									<a class="text-center" href="/mstock"> <img class="logo"
+										src="/mstock/resources/images/logo.svg" alt="logo">
 									</a>
 								</div>
-								<form class="mt-5 mb-5 login-input">
+								<form class="mt-5 mb-5 login-input" action="/mstock/register"
+									method="post">
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="아이디"
-											required>
+										<input name="id" type="text" class="form-control"
+											placeholder="아이디" required>
 									</div>
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="이름"
-											required>
+										<input name="nickname" type="text" class="form-control"
+											placeholder="닉네임" required>
 									</div>
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="닉네임"
-											required>
+										<input name="email" type="email" class="form-control"
+											placeholder="이메일" required>
 									</div>
 									<div class="form-group">
-										<input type="email" class="form-control" placeholder="이메일"
-											required>
-									</div>
-									<div class="form-group">
-										<input type="password" class="form-control"
+										<input id="password" name="password" type="password" class="form-control"
 											placeholder="비밀번호" required>
 									</div>
 									<div class="form-group">
-										<input type="password" class="form-control"
+										<input id="repassword" type="password" class="form-control"
 											placeholder="비밀번호 확인" required>
 									</div>
-									<button class="btn login-form__btn submit w-100">회원가입</button>
+
+									<div class="form-label-group">
+										<p id="checkpassword"></p>
+									</div>
+
+									<button type="submit" class="btn login-form__btn submit w-100">회원가입</button>
 								</form>
 								<p class="mt-5 login-form__footer">
-									이미 계정이 있으신가요? <a href="page-login.html" class="text-primary">로그인</a> 하세요
+									이미 계정이 있으신가요? 그렇다면 <a href="/mstock/login" class="text-primary">로그인</a>
+									하세요
 								</p>
 
 							</div>
@@ -115,6 +131,23 @@
 			</div>
 		</div>
 	</div>
-	</div>
+
+	<script>
+		$(document).ready(
+				function() {
+					$('#repassword').blur(
+							function() {
+								if ($('#repassword').val() != $('#password')
+										.val()) {
+									$('#checkpassword').text("비밀번호가 다릅니다").css(
+											"color", "red");
+								} else {
+									$('#checkpassword').text("비밀번호가 같습니다").css(
+											"color", "blue");
+								}
+							});
+				});
+	</script>
+
 </body>
 </html>
