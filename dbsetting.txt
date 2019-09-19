@@ -1,0 +1,125 @@
+create user mstock identified by mstock;
+grant connect, resource to mstock;
+
+--//테이블생성
+CREATE TABLE  users 
+(
+   u_id  NUMBER(8,0) PRIMARY KEY,
+   id varchar2(20) UNIQUE,
+   password  varchar2(20) NOT NULL,
+   email  varchar2(40) NOT NULL,
+   nickname varchar2(20) NOT NULL,
+   join_date  date,
+   img  varchar2(100),
+   grade NUMBER(8,0)
+);
+
+CREATE TABLE  accounts 
+(
+   account_id  NUMBER(8,0) PRIMARY KEY,
+   credit  NUMBER(8,0) NOT NULL,
+   u_id  NUMBER(8,0)
+);
+CREATE TABLE  companys
+(
+   company_id  NUMBER(8,0) PRIMARY KEY,
+   name  varchar2(20) NOT NULL,
+   wcimg  varchar2(500)
+);
+CREATE TABLE  purchase_list 
+(
+   list_id  NUMBER(8,0) PRIMARY KEY,
+   account_id  NUMBER(8,0) NOT NULL,
+   company_id  NUMBER(8,0) NOT NULL,
+   price NUMBER(8,0) NOT NULL,
+   quantity NUMBER(8,0) NOT NULL
+);
+CREATE TABLE  ranks
+(
+ rank_id NUMBER(8,0) PRIMARY KEY,
+ grade varchar2(20) NOT NULL,
+ val varchar2(20) NOT NULL
+);
+CREATE TABLE  board 
+(
+   bid  NUMBER(8,0) PRIMARY KEY,
+   writer  NUMBER(8,0) NOT NULL,
+   title  varchar2(120) NOT NULL,
+   content  varchar2(900),
+   writedate  date,
+   cnt  NUMBER(8,0)
+);
+
+CREATE TABLE  comments
+(
+   cid  NUMBER(8,0) PRIMARY KEY,
+   bid  NUMBER(8,0) NOT NULL,
+   writer   NUMBER(8,0) NOT NULL,
+   content  varchar2(500),
+   writedate  date
+);
+CREATE TABLE  stockinfos
+(
+   info_id NUMBER(8,0) PRIMARY KEY,
+   company_id  NUMBER(8,0), 
+   curjuka  NUMBER(8,0)
+);
+
+
+--//sequence 생성
+create sequence users_seq
+start with 1
+increment by 1;
+
+create sequence accounts_seq
+start with 1
+increment by 1;
+
+create sequence companys_seq
+start with 1
+increment by 1;
+
+create sequence purchase_seq
+start with 1
+increment by 1;
+
+create sequence board_seq
+start with 1
+increment by 1;
+
+create sequence comments_seq
+start with 1
+increment by 1;
+
+create sequence stockinfos_seq
+start with 1
+increment by 1;
+
+--//sequence 확인
+select * from user_sequences;
+
+--//sequence 설정
+update users set u_id=users_seq.nextval;
+update accounts set account_id =accounts_seq.nextval;
+update companys set company_id =companys_seq.nextval;
+update purchase_list set list_id=purchase_seq.nextval;
+update board set bid=board_seq.nextval;
+update comments set cid=comments_seq.nextval;
+update stockinfos set info_id=stockinfos_seq.nextval;
+
+--//제약조건
+ALTER TABLE  accounts  ADD FOREIGN KEY ( u_id ) REFERENCES  users  ( u_id ) 
+on delete cascade;
+ALTER TABLE  purchase_list  ADD FOREIGN KEY (account_id) REFERENCES  
+accounts  ( account_id  ) on delete cascade;
+ALTER TABLE  purchase_list  ADD FOREIGN KEY (company_id) REFERENCES  
+companys (company_id ) on delete cascade;
+ALTER TABLE  stockinfos  ADD FOREIGN KEY ( company_id ) REFERENCES  
+companys (company_id ) on delete cascade;
+ALTER TABLE  board  ADD FOREIGN KEY ( writer ) REFERENCES  users  ( u_id)on delete cascade;
+ALTER TABLE  comments  ADD FOREIGN KEY ( bid ) REFERENCES  board  ( bid 
+)on delete cascade;
+ALTER TABLE  comments  ADD FOREIGN KEY ( writer) REFERENCES  users  ( 
+u_id )on delete cascade;
+ALTER TABLE  users    ADD FOREIGN KEY ( grade) REFERENCES  ranks  ( rank_id 
+);
