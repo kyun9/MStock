@@ -48,18 +48,25 @@
 								if(!list.isEmpty()){
 							%>
 							 
-							
+							<% 
+							int t =0;
+							int size = list.size()/4;
+							System.out.println(size);
+							while(t< size){ 
+							%>
 							<div class="card-deck">
-							<% for(CompanyVO vo : list){ %>
+								<% int val=4*t;
+								for(int i=val;i<val+4;i++){ %>
 								<div class="card text-center" style="width: 18rem;">
 									<div class="card-body">
-										<h5 class="card-title"><%=vo.getName() %></h5>
-										<p class="card-text">종목 코드<%=vo.getCode() %></p>
-										<a href="/mstock/stockinfo?code=<%=vo.getCode() %>" class="btn btn-primary">종목 상세보기</a>
+										<h5 class="card-title"><%=list.get(i).getName() %></h5>
+										<p class="card-text">종목 코드<%=list.get(i).getCompany_id() %></p>
+										<a href="/mstock/stockinfo?code=<%=list.get(i).getCompany_id() %>" class="btn btn-primary">종목 상세보기</a>
 									</div>
 								</div>
-							<%}} %>
+								<%} %>
 							</div>
+							<%t++;}} %>
 						</div>
 					</div>
 				</div>

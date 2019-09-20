@@ -1,21 +1,22 @@
 package vo;
 
 public class CompanyVO {
+	private String company_id;
 	private String name;
-	private String code;
 	private String wcimg;
 	
+	
+	public String getCompany_id() {
+		return company_id;
+	}
+	public void setCompany_id(String company_id) {
+		this.company_id = company_id;
+	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
 	}
 	public String getWcimg() {
 		return wcimg;
@@ -25,7 +26,7 @@ public class CompanyVO {
 	}
 	@Override
 	public String toString() {
-		return "CompanyVO [name=" + name + ", code=" + code + ", wcimg=" + wcimg + "]";
+		return "CompanyVO [company_id=" + company_id + ", name=" + name + ", wcimg=" + wcimg + "]";
 	}
 	
 }

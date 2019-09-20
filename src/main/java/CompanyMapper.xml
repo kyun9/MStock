@@ -4,6 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CompanyMapper">
 	<select id="listall" resultType ="vo.CompanyVO">
-		select name,code,wcimg from companys
+		select company_id,name,wcimg from companys
 	</select>
 </mapper>

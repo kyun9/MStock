@@ -22,16 +22,15 @@ CREATE TABLE  accounts
 );
 CREATE TABLE  companys
 (
-   company_id  NUMBER(8,0) PRIMARY KEY,
+   company_id  varchar2(20) PRIMARY KEY,
    name  varchar2(20) NOT NULL,
-   code varchar2(20) NOT NULL,
    wcimg  varchar2(500)
 );
 CREATE TABLE  purchase_list 
 (
    list_id  NUMBER(8,0) PRIMARY KEY,
    account_id  NUMBER(8,0) NOT NULL,
-   company_id  NUMBER(8,0) NOT NULL,
+   company_id  varchar2(20) NOT NULL,
    price NUMBER(8,0) NOT NULL,
    quantity NUMBER(8,0) NOT NULL
 );
@@ -62,7 +61,7 @@ CREATE TABLE  comments
 CREATE TABLE  stockinfos
 (
    info_id NUMBER(8,0) PRIMARY KEY,
-   company_id  NUMBER(8,0), 
+   company_id  varchar2(20) NOT NULL, 
    curjuka  NUMBER(8,0)
 );
 
@@ -73,10 +72,6 @@ start with 1
 increment by 1;
 
 create sequence accounts_seq
-start with 1
-increment by 1;
-
-create sequence companys_seq
 start with 1
 increment by 1;
 
@@ -102,7 +97,6 @@ select * from user_sequences;
 --//sequence 설정
 update users set u_id=users_seq.nextval;
 update accounts set account_id =accounts_seq.nextval;
-update companys set company_id =companys_seq.nextval;
 update purchase_list set list_id=purchase_seq.nextval;
 update board set bid=board_seq.nextval;
 update comments set cid=comments_seq.nextval;
@@ -124,3 +118,4 @@ ALTER TABLE  comments  ADD FOREIGN KEY ( writer) REFERENCES  users  (
 u_id )on delete cascade;
 ALTER TABLE  users    ADD FOREIGN KEY ( grade) REFERENCES  ranks  ( rank_id 
 );
+commit;
