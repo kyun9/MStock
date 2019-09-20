@@ -44,10 +44,6 @@
 	text-decoration: none;
 }
 
-.login-input .form-group {
-	margin-bottom: 30px;
-}
-
 .login-input .form-group label {
 	color: #505F76;
 	font-size: 15px;
@@ -60,6 +56,10 @@
 	border-bottom: 1px solid #f5f5f5;
 	padding-left: 0;
 	color: #7A88A1;
+}
+
+.form-label-group p{
+	font-size: 12px;
 }
 
 .form-control:focus {
@@ -92,18 +92,40 @@
 								</div>
 								<form class="mt-5 mb-5 login-input" action="/mstock/register"
 									method="post">
-									<div class="form-group">
-										<input name="id" type="text" class="form-control"
-											placeholder="아이디" required>
+									
+									<div class="form-group input-group mb-3">
+										<input id="id" name="id" type="text" class="form-control" placeholder="아이디" required>
+										<div class="input-group-append">
+    										<button class="btn btn-outline-secondary" type="button" id="checkIdBtn">확인</button>
+ 										 </div>
 									</div>
-									<div class="form-group">
-										<input name="nickname" type="text" class="form-control"
-											placeholder="닉네임" required>
+									
+									<div class="form-label-group">
+										<p id="checkId"></p>
 									</div>
-									<div class="form-group">
-										<input name="email" type="email" class="form-control"
-											placeholder="이메일" required>
+									
+									<div class="form-group input-group mb-3">
+										<input id="nickname" name="nickname" type="text" class="form-control" placeholder="닉네임"  required>
+										<div class="input-group-append">
+    										<button class="btn btn-outline-secondary" type="button" id="checkNicknameBtn">확인</button>
+ 										 </div>
 									</div>
+									
+									<div class="form-label-group">
+										<p id="checkNickname"></p>
+									</div>
+									
+									<div class="form-group input-group mb-3">
+										<input id="email" name="email" type="text" class="form-control" placeholder="이메일" required>
+										<div class="input-group-append">
+    										<button class="btn btn-outline-secondary" type="button" id="checkEmailBtn">확인</button>
+ 										 </div>
+									</div>
+									
+									<div class="form-label-group">
+										<p id="checkEmail"></p>
+									</div>
+									
 									<div class="form-group">
 										<input id="password" name="password" type="password" class="form-control"
 											placeholder="비밀번호" required>
@@ -133,20 +155,79 @@
 	</div>
 
 	<script>
-		$(document).ready(
-				function() {
-					$('#repassword').blur(
-							function() {
-								if ($('#repassword').val() != $('#password')
-										.val()) {
-									$('#checkpassword').text("비밀번호가 다릅니다").css(
-											"color", "red");
-								} else {
-									$('#checkpassword').text("비밀번호가 같습니다").css(
-											"color", "blue");
-								}
-							});
-				});
+		$(document).ready(function() {
+					
+			/* 비밀번호 확인 */
+			$('#repassword').on("blur",function() {
+				if($('#repassword').val().length < 8 || $('#password').val() < 8){
+					$('#checkpassword').text("비밀번호를 8자 이상 입력해주세요").css("color", "red");
+				} else {
+					if ($('#repassword').val() != $('#password').val()) {
+						$('#checkpassword').text("비밀번호가 다릅니다").css("color", "red");
+					} else {
+						$('#checkpassword').text("비밀번호가 같습니다").css("color", "blue");
+					}
+				}
+			});
+					
+			/* 아이디 중복확인 */
+			$("#checkIdBtn").on("click", function(){
+				$.ajax({
+					url: "/mstock/register/check/id",
+					type: "POST",
+					data: $('#id').val(),
+					contentType: "application/json; charset=utf-8;",
+					dataType: "json",
+					success: function(data){
+						if(data.result != "success"){
+							$("#checkId").text(data.msg).css("color", "red");
+						} else {
+							$("#checkId").text(data.msg).css("color", "blue");
+						}
+						
+					}
+				})
+			});
+			
+			/* 닉네임 중복확인 */
+			$("#checkNicknameBtn").on("click", function(){
+				$.ajax({
+					url: "/mstock/register/check/nickname",
+					type: "POST",
+					data: $('#nickname').val(),
+					contentType: "application/json; charset=utf-8;",
+					dataType: "json",
+					success: function(data){
+						if(data.result != "success"){
+							$("#checkNickname").text(data.msg).css("color", "red");
+						} else {
+							$("#checkNickname").text(data.msg).css("color", "blue");
+						}
+						
+					}
+				})
+			});
+			
+			/* 이메일 중복확인 */
+			$("#checkEmailBtn").on("click", function(){
+				$.ajax({
+					url: "/mstock/register/check/email",
+					type: "POST",
+					data: $('#email').val(),
+					contentType: "application/json; charset=utf-8;",
+					dataType: "json",
+					success: function(data){
+						if(data.result != "success"){
+							$("#checkEmail").text(data.msg).css("color", "red");
+						} else {
+							$("#checkEmail").text(data.msg).css("color", "blue");
+						}
+						
+					}
+				})
+			});
+		
+		});
 	</script>
 
 </body>
