@@ -9,10 +9,16 @@ import dao.*;
 import vo.*;
 
 @Controller
+@SessionAttributes("user")
 public class LoginController {
 	
 	@Autowired
 	LoginDAO dao;
+	
+	@ModelAttribute("user")
+	public UserVO createUserModel() {
+		return new UserVO();
+	}
 	
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String getLogin() {
@@ -20,7 +26,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login", method = RequestMethod.POST)
-	public ModelAndView postLogin(UserVO vo) {
+	public ModelAndView postLogin(@ModelAttribute("user") UserVO vo) {
 		ModelAndView mav = new ModelAndView();
 		
 		if(dao.checkLogin(vo)) {

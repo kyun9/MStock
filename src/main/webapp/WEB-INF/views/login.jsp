@@ -63,7 +63,7 @@
 }
 
 .naver-login-img {
-	width: 250px;
+	width: 100%;
 	height: auto;
 	margin-top: 10px;
 }
@@ -80,7 +80,7 @@
 		</script>
 		<c:if test="${result eq 'success'}">
 			<script>
-			location.href = "/mstock";
+				location.href = "/mstock";
 			</script>
 		</c:if>
 	</c:if>
@@ -109,17 +109,17 @@
 											placeholder="비밀번호">
 									</div>
 									<button type="submit" class="btn login-form__btn submit w-100">로그인</button>
-									<div>
-										<img class="naver-login-img"
-											src="/mstock/resources/images/naver/Naver_Login_White.PNG"
-											alt="naver_login">
-									</div>
 								</form>
 								<p class="mt-5 login-form__footer">
 									계정이 없으신가요? 지금 <a href="/mstock/register" class="text-primary">회원가입</a>
 									하세요
 								</p>
 							</div>
+						</div>
+						<div>
+							<img class="naver-login-img"
+								src="/mstock/resources/images/naver/Naver_Login_White.PNG"
+								alt="naver_login">
 						</div>
 					</div>
 				</div>
