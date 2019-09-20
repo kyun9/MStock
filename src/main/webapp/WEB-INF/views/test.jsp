@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="vo.CompanyVO, java.util.ArrayList"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -36,69 +37,28 @@
 					<div class="row">  
 						<div class="col-12">
 							<div class="jumbotron" style="background-image: url(/mstock/resources/images/main3.jpg); background-repeat: no-repeat; background-size:100%;">
-								<h1 class="display-4">Hello, world!</h1>
-								<p class="lead">This is a simple hero unit, a simple
-									jumbotron-style component for calling extra attention to
-									featured content or information.</p>
+								<h1 class="display-4">청소년을 위한 모의주식 MStock!!</h1>
+								<p class="lead">MStock는 ------- 장려하는 서비스입니다.</p>
 								<hr class="my-4">
-								<p>It uses utility classes for typography and spacing to
-									space content out within the larger container.</p>
-								<a class="btn btn-primary btn-lg" href="#" role="button">Learn
-									more</a>
+								<p> 여러분의 주식 역량을 넓혀 나가세요.</p><br>
+								<a class="btn btn-primary btn-lg" href="#" role="button">로그인 바로가기</a>
 							</div>
+							
+							<% ArrayList<CompanyVO> list = (ArrayList<CompanyVO>) request.getAttribute("companyInfo");
+								if(!list.isEmpty()){
+							%>
+							 
+							
 							<div class="card-deck">
+							<% for(CompanyVO vo : list){ %>
 								<div class="card text-center" style="width: 18rem;">
 									<div class="card-body">
-										<h5 class="card-title">Special title treatment</h5>
-										<p class="card-text">With supporting text below as a
-											natural lead-in to additional content.</p>
-										<a href="#" class="btn btn-primary">Go somewhere</a>
+										<h5 class="card-title"><%=vo.getName() %></h5>
+										<p class="card-text">종목 코드<%=vo.getCode() %></p>
+										<a href="/mstock/stockinfo?code=<%=vo.getCode() %>" class="btn btn-primary">종목 상세보기</a>
 									</div>
 								</div>
-								<div class="card text-center" style="width: 18rem;">
-									<div class="card-body">
-										<h5 class="card-title">Special title treatment</h5>
-										<p class="card-text">With supporting text below as a
-											natural lead-in to additional content.</p>
-										<a href="#" class="btn btn-primary">Go somewhere</a>
-									</div>
-								</div>
-
-								<div class="card text-center" style="width: 18rem;">
-									<div class="card-body">
-										<h5 class="card-title">Special title treatment</h5>
-										<p class="card-text">With supporting text below as a
-											natural lead-in to additional content.</p>
-										<a href="#" class="btn btn-primary">Go somewhere</a>
-									</div>
-								</div>
-							</div>
-							<div class="card-deck">
-
-								<div class="card text-center" style="width: 18rem;">
-									<div class="card-body">
-										<h5 class="card-title">Special title treatment</h5>
-										<p class="card-text">With supporting text below as a
-											natural lead-in to additional content.</p>
-										<a href="#" class="btn btn-primary">Go somewhere</a>
-									</div>
-								</div>
-								<div class="card text-center" style="width: 18rem;">
-									<div class="card-body">
-										<h5 class="card-title">Special title treatment</h5>
-										<p class="card-text">With supporting text below as a
-											natural lead-in to additional content.</p>
-										<a href="#" class="btn btn-primary">Go somewhere</a>
-									</div>
-								</div>
-								<div class="card text-center" style="width: 18rem;">
-									<div class="card-body">
-										<h5 class="card-title">Special title treatment</h5>
-										<p class="card-text">With supporting text below as a
-											natural lead-in to additional content.</p>
-										<a href="#" class="btn btn-primary">Go somewhere</a>
-									</div>
-								</div>
+							<%}} %>
 							</div>
 						</div>
 					</div>

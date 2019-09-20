@@ -24,6 +24,7 @@ CREATE TABLE  companys
 (
    company_id  NUMBER(8,0) PRIMARY KEY,
    name  varchar2(20) NOT NULL,
+   code varchar2(20) NOT NULL,
    wcimg  varchar2(500)
 );
 CREATE TABLE  purchase_list 
