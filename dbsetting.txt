@@ -24,7 +24,8 @@ CREATE TABLE  companys
 (
    company_id  varchar2(20) PRIMARY KEY,
    name  varchar2(20) NOT NULL,
-   wcimg  varchar2(500)
+   wcimg  varchar2(500),
+   curjuka varchar2(20)
 );
 CREATE TABLE  purchase_list 
 (
