@@ -4,7 +4,7 @@ public class CompanyVO {
 	private String company_id;
 	private String name;
 	private String wcimg;
-	
+	private String curJuka;
 	
 	public String getCompany_id() {
 		return company_id;
@@ -24,9 +24,17 @@ public class CompanyVO {
 	public void setWcimg(String wcimg) {
 		this.wcimg = wcimg;
 	}
+	public String getCurJuka() {
+		return curJuka;
+	}
+	public void setCurJuka(String curJuka) {
+		this.curJuka = curJuka;
+	}
 	@Override
 	public String toString() {
-		return "CompanyVO [company_id=" + company_id + ", name=" + name + ", wcimg=" + wcimg + "]";
+		return "CompanyVO [company_id=" + company_id + ", name=" + name + ", wcimg=" + wcimg + ", curJuka=" + curJuka
+				+ "]";
 	}
+	
 	
 }

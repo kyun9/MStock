@@ -4,6 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CompanyMapper">
 	<select id="listall" resultType ="vo.CompanyVO">
-		select company_id,name,wcimg from companys
+		select c.company_id,c.name,c.wcimg,s.curjuka from companys c, stockinfos s where s.company_id = c.company_id
 	</select>
 </mapper>

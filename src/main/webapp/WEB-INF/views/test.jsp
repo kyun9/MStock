@@ -58,6 +58,7 @@
 									<div class="card-body">
 										<h5 class="card-title"><%=list.get(i).getName() %></h5>
 										<p class="card-text">종목 코드<%=list.get(i).getCompany_id() %></p>
+										<p class="card-text">현재 주가<%=list.get(i).getCurJuka() %></p>
 										<a href="/mstock/stockinfo?code=<%=list.get(i).getCompany_id() %>" class="btn btn-primary">종목 상세보기</a>
 									</div>
 								</div>
