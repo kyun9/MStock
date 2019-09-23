@@ -17,6 +17,7 @@
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+	<task:annotation-driven />
 
 	<!-- hadoop 설정 <hadoop:configuration id="hdConf"> fs.defaultFS=hdfs://192.168.111.120:9000 
 		</hadoop:configuration> -->
