@@ -2,7 +2,9 @@ package com.project.mstock;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.*;
 import org.springframework.web.servlet.*;
 
 import dao.*;
@@ -26,12 +28,14 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login", method = RequestMethod.POST)
-	public ModelAndView postLogin(@ModelAttribute("user") UserVO vo) {
+	public ModelAndView postLogin(@ModelAttribute("user") UserVO vo, Model model) {
 		ModelAndView mav = new ModelAndView();
 		
 		if(dao.checkLogin(vo)) {
 			mav.addObject("msg", "로그인에 성공하였습니다");
 			mav.addObject("result", "success");
+			model.addAttribute("user", dao.getUserInfo(vo.getId()));
+			
 		} else {
 			mav.addObject("msg", "아이디와 비밀번호를 확인해주세요");
 			mav.addObject("result", "fail");
@@ -40,5 +44,11 @@ public class LoginController {
 		mav.setViewName("login");
 		
 		return mav;
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String getlogout(SessionStatus s) {
+		s.setComplete();
+		return "login";
 	}
 }

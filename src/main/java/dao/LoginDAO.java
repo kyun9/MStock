@@ -22,5 +22,12 @@ public class LoginDAO {
 		
 		return check;
 	}
-	
+
+	public UserVO getUserInfo(String id) {
+		UserVO vo = null;
+		String statement = "resource.LoginMapper.getUserInfo";
+		vo = session.selectOne(statement, id);
+		return vo;
+	}
+
 }

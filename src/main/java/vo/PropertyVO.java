@@ -1,0 +1,26 @@
+package vo;
+
+public class PropertyVO {
+	int credit;
+	int stock_value;
+	double profit_rate;
+	public int getCredit() {
+		return credit;
+	}
+	public void setCredit(int credit) {
+		this.credit = credit;
+	}
+	public int getStock_value() {
+		return stock_value;
+	}
+	public void setStock_value(int stock_value) {
+		this.stock_value = stock_value;
+	}
+	public double getProfit_rate() {
+		return profit_rate;
+	}
+	public void setProfit_rate(double profit_rate) {
+		this.profit_rate = profit_rate;
+	}
+	
+}

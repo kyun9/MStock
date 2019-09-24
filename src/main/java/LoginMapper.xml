@@ -9,4 +9,8 @@
 		SELECT * FROM USERS WHERE ID = #{id} AND PASSWORD = #{password} 
 	</select>
 	
+	<!-- getUserInfo -->
+	<select id="getUserInfo" parameterType="string" resultType="vo.UserVO">
+		SELECT * FROM USERS WHERE ID = #{id} 
+	</select>
 </mapper>
