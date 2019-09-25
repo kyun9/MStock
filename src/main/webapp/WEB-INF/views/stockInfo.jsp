@@ -11,7 +11,7 @@
 <script src="http://asp1.krx.co.kr/inc/js/asp_chart.js"></script>
 <!-- <script type="text/javascript" src="resources/js/common.js"></script> -->
 <link rel="stylesheet" type="text/css"
-	href="resources/css/stockinfo.css" />
+	href="resources/css/stockinfo.css" />  
 <title>MStock</title>
 <!-- plugins:css -->
 <link rel="stylesheet"
@@ -48,11 +48,12 @@
 						<div class="header-wrap">
 							실시간 시세<span><span class="time_img"></span><%=stock.getGettime()%>
 								기준(<%=stock.getJanggubun()%>)</span>
-						</div> 
-						<div>
-							<canvas id="myChart" style=" hegiht: 30%"></canvas>
 						</div>
 						<div class="body-wrap">
+							<!-- chart.js 주식차트 -->
+							<div>
+								<canvas id="myChart"></canvas>
+							</div>
 							<!-- <div id="gpDisp"></div> -->
 							<div class="data-lists">
 								<dl>
@@ -212,71 +213,89 @@
 	<!-- endbuild -->
 	<script>
 		//chart.js 주식차트
-		$(document).ready(
-				function() {
-					$.getJSON('/mstock/resources/json/<%=request.getParameter("code")%>.json', function(data) {
-						var d = new Date();
-						var date = new Array();
-						var curjuka = new Array();
-						var today = d.getFullYear() + "-"
-								+ ('0' + (d.getMonth() + 1)).slice(-2) + "-"
-								+ d.getDate();
+		$(document).ready(function() {
+				$.getJSON('/mstock/resources/json/<%=request.getParameter("code")%>.json', function(data) {
+												var d = new Date();
+												var date = new Array();
+												var curjuka = new Array();
+												var today = d.getFullYear()
+														+ "-"
+														+ ('0' + (d.getMonth() + 1))
+																.slice(-2)
+														+ "-" + d.getDate();
 
-						console.log("success");
-						$.each(data, function(key, value) {
-							date.push(value.gettime.replace(/\//gi, '-'));
-							curjuka.push(Number(value.Stockinfo[1].replace(
-									/,/gi, '')));
+												console.log("success");
+												$
+														.each(
+																data,
+																function(key,
+																		value) {
+																	date
+																			.push(value.gettime
+																					.replace(
+																							/\//gi,
+																							'-'));
+																	curjuka
+																			.push(Number(value.Stockinfo[1]
+																					.replace(
+																							/,/gi,
+																							'')));
+																});
+												console.log(typeof (curjuka));
+												console.log(curjuka);
+												console
+														.log(typeof (curjuka[1]));
+												console.log(typeof (date));
+												console.log(date);
+												console.log(typeof (date[1]));
+												console.log(today);
+
+												var ctx = document
+														.getElementById('myChart');
+
+												var myChart = new Chart(
+														ctx,
+														{
+															type : 'line',
+															data : {
+																labels : date,
+																datasets : [ {
+																	data : curjuka,
+																	backgroundColor : 'transparent',
+																	borderColor : "#000000",
+																	lineTension : 0,
+																	pointRadius : 0,
+																	pointHitRadius : 5,
+																	borderWidth : 0.5
+																//선굵기
+																} ]
+															},
+															options : {
+																legend : {
+																	display : false
+																},
+																scales : {
+																	xAxes : [ {
+																		type : 'time',
+																		time : {
+																			min : today
+																					+ " 09:00:00",
+																			max : today
+																					+ " 16:00:00",
+																			unit : 'hour',
+																			unitStepSize : 1,
+																			displayFormats : {
+																				'hour' : 'H:mm'
+																			}
+																		}
+																	} ]
+																}
+															}
+														});
+
+											});
+
 						});
-						console.log(typeof (curjuka));
-						console.log(curjuka);
-						console.log(typeof (curjuka[1]));
-						console.log(typeof (date));
-						console.log(date);
-						console.log(typeof (date[1]));
-						console.log(today);
-
-						var ctx = document.getElementById('myChart');
-
-						var myChart = new Chart(ctx, {
-							type : 'line',
-							data : {
-								labels : date,
-								datasets : [ {
-									data : curjuka,
-									backgroundColor : 'transparent',
-									borderColor : "#000000",
-									lineTension : 0,
-									pointRadius : 0,
-									pointHitRadius : 5,
-									borderWidth : 0.5
-								//선굵기
-								} ]
-							},
-							options : {
-								legend:{
-									display:false   
-								},
-								scales : {
-									xAxes : [ {
-										type : 'time',
-										time : {
-											min : today + " 09:00:00",
-											max : today + " 16:00:00",
-											unit : 'hour',
-											unitStepSize : 1,
-											displayFormats : {
-												'hour' : 'H:mm'
-											}
-										}
-									} ]
-								}
-							}
-						});
-
-					});
-
-				});
 	</script>
 </body>
 </html>
