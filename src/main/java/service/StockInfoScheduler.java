@@ -1,6 +1,11 @@
 package service;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -8,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import dao.CompanyDAO;
 import dao.StockInfoDAO;
@@ -45,28 +51,67 @@ public class StockInfoScheduler {
 //			e.printStackTrace();
 //		}
 //	}
-	
-	
-	//종목 code별 json파일 생성
-	//@Scheduled(cron="0/10 0 9-16 ? * MON-FRI")  // 월요일~금, 9시에서 16시,10초간격
-	@Scheduled(cron = "0/10 * * * * *") // 10초간격 test
+
+	// 종목 code별 json파일 생성
+	// @Scheduled(cron="0/10 0 9-16 ? * MON-FRI") // 월요일~금, 9시에서 16시,10초간격
+//	@Scheduled(cron = "0/10 * * * * *") // 10초간격 test
+//	public void scaheduleJSON() {
+//		StockInfoVO vo = new StockInfoVO();
+//		try {
+//			for (int i = 0; i < stockInfos.length; i++) {
+//				//json형태로 변환해줄 gson 객체 생성
+//				Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//				
+//				//원하는 종목을  service에서 파싱해와서 vo객체 담고 fileName을 종목코드명을 지정
+//				vo = service.getInfo(stockInfos[i]);
+//				String filePath = "c:/uploadtest/" + vo.getJongCd() + ".json";
+//				
+//				//파일에 utf-8로 인코딩하고 json파일에 append  
+//				BufferedWriter writer = new BufferedWriter(
+//						new OutputStreamWriter(new FileOutputStream(filePath, true), "UTF-8"));
+//				gson.toJson(vo, writer);
+//				writer.close();
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+
+	@Scheduled(cron = "0 0/1 * * * *") // 10초간격 test
 	public void scaheduleJSON() {
 		StockInfoVO vo = new StockInfoVO();
+		Gson gson=null;
+		Type voListType =null;
+		
 		try {
 			for (int i = 0; i < stockInfos.length; i++) {
-				//json형태로 변환해줄 gson 객체 생성
-				Gson gson = new GsonBuilder().setPrettyPrinting().create();
-				
-				//원하는 종목을  service에서 파싱해와서 vo객체 담고 fileName을 종목코드명을 지정
 				vo = service.getInfo(stockInfos[i]);
+				gson = new GsonBuilder().setPrettyPrinting().create();
+				// json array 파싱할때 클래스 리터럴을 stockInfoVO로 준다,표시된 형식을 반환(getType())
+				voListType = new TypeToken<List<StockInfoVO>>(){}.getType();
 				String filePath = "c:/uploadtest/" + vo.getJongCd() + ".json";
-				
-				//파일에 utf-8로 인코딩하고 json파일에 append  
-				BufferedWriter writer = new BufferedWriter(
-						new OutputStreamWriter(new FileOutputStream(filePath, true), "UTF-8"));
-				gson.toJson(vo, writer);
-				writer.close();
+				File f = new File(filePath);
+				List<StockInfoVO> vos =null;
+				if(f.exists()) {   //파일 존재 시
+					FileReader fr = new FileReader(filePath);
+					//JSON 형식의 데이터를 지정한 타입의 데이터로 변환한걸 list에 저장
+					vos = gson.fromJson(fr, voListType);
+					fr.close();
+					System.out.println("파일있음");
+				}
+				else{   //파일 없을 시
+					vos = new ArrayList<StockInfoVO>();
+					System.out.println("파일없음");
+				}
+				//list에 새로운 객체 추가
+				vos.add(vo);
+				FileWriter fw  = new FileWriter(filePath);
+				//지정된 타입의 데이터를 JSON 형식의 데이터로 변환 , 두번째인자를 filewriter로 주어 file 추가 
+				gson.toJson(vos, fw);
+				fw.close();
+				System.out.println("파일 write 성공 "+stockInfos[i]+vo.getGettime() );
 			}
+			System.out.println("============================");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -81,25 +126,24 @@ public class StockInfoScheduler {
 //			System.out.println("=======================");
 //		}
 //	}
-	
-	
+
 //	json 파일 삭제 
 //	@Scheduled(cron="* 30 8 * * MON-FRI")   //월~금 8시 30분 종목별 json파일삭제 
-	@Scheduled(cron="0/10 * * * * *")     //30초간격 test
-	public void clearStockDB() {
-		try {
-			for (int i = 0; i < stockInfos.length; i++) {
-				File file = new File("c:/uploadtest/"+stockInfos[i]+".json");
-				if( file.exists() ){
-					if(file.delete()){
-		    			System.out.println("파일삭제 성공");
-		    		}else{
-		    			System.out.println("파일삭제 실패");
-		    		}
-				}
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	@Scheduled(cron="0/10 * * * * *")     //30초간격 test
+//	public void clearStockDB() {
+//		try {
+//			for (int i = 0; i < stockInfos.length; i++) {
+//				File file = new File("c:/uploadtest/"+stockInfos[i]+".json");
+//				if( file.exists() ){
+//					if(file.delete()){
+//		    			System.out.println("파일삭제 성공");
+//		    		}else{
+//		    			System.out.println("파일삭제 실패");
+//		    		}
+//				}
+//			}
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 }
