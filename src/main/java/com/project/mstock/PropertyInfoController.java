@@ -1,5 +1,7 @@
 package com.project.mstock;
 
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +18,11 @@ public class PropertyInfoController {
 	@Autowired
 	AccountDAO accountDAO;
 	@Autowired
+	PurchaseDAO purchaseDAO;
+	@Autowired
 	PropertyService propertyService;
+	@Autowired
+	MyStockService myStockService;
 	
 	@ModelAttribute("user")
 	public UserVO createUserModel() {
@@ -24,7 +30,7 @@ public class PropertyInfoController {
 	}
 	
 	@RequestMapping(value="/property", method = RequestMethod.GET)
-	public ModelAndView propertyInfo(@ModelAttribute("user") UserVO userVO) {
+	public ModelAndView getPropertyInfo(@ModelAttribute("user") UserVO userVO) {
 
 		ModelAndView mav = new ModelAndView();
 		
@@ -44,9 +50,13 @@ public class PropertyInfoController {
 				mav.addObject("account", "success");
 				mav.addObject("accountVO", accountVO);
 				
-				//유저의 credit, stock, profit을 저장할 객체 생성
-				PropertyVO propertyVO = propertyService.setProperty(userVO, accountVO);
+				//유저의 현재 자산 정보(credit, stock, profit)를 저장할 객체 생성
+				PropertyVO propertyVO = propertyService.getProperty(userVO, accountVO);
 				mav.addObject("propertyVO", propertyVO);
+				
+				//유저의 보유 주식을 저장할 객체 생성
+				List<MyStockVO> myStockList = myStockService.getMyStockList(userVO, accountVO);
+				mav.addObject("myStockList", myStockList);
 			}
 			
 		}
@@ -54,4 +64,14 @@ public class PropertyInfoController {
 		
 		return mav;
 	}
+	
+	@RequestMapping(value="/property/modal", method = RequestMethod.POST)
+	@ResponseBody
+	public Object postCheckEmail(@RequestParam(value="company_id") String company_id, @RequestParam(value="account_id") String account_id) {
+		HashMap<String, List<PurchaseVO>> map = new HashMap<String, List<PurchaseVO>>();
+		List<PurchaseVO> purchaseList = purchaseDAO.getOneCompanyStock(company_id, account_id);
+		map.put("purchaseList", purchaseList);
+		return map;
+	}
+	
 }

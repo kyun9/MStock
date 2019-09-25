@@ -4,10 +4,20 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="resource.PurchaseMapper">
 
-	<!-- getAccount-->
+	<!-- getStockValue-->
 	<select id="getStockValue" parameterType="int" resultType="int">
 		<!-- WITH P AS (SELECT COMPANY_ID, SUM(PRICE*QUANTITY)AS "ESTI_VALUE" FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{u_id} GROUP BY COMPANY_ID) SELECT SUM(P.ESTI_VALUE) AS "STOCK_VALUE" FROM P -->
 		WITH T AS (SELECT P.COMPANY_ID, SUM(CURJUKA*QUANTITY)AS "ESTI_VALUE" FROM PURCHASE_LIST P, COMPANYS C WHERE P.COMPANY_ID = C.COMPANY_ID AND ACCOUNT_ID = #{account_id} GROUP BY P.COMPANY_ID) SELECT SUM(T.ESTI_VALUE) AS "SUM_STOCK_VALUE" FROM T
+	</select>
+	
+	<!-- getMyStock -->
+	<select id="getMyStock" parameterType="int" resultType="vo.MyStockVO">
+		WITH P AS (SELECT COMPANY_ID, SUM(PRICE*QUANTITY) AS "SUM_PRICE", SUM(QUANTITY) AS "QUANTITY" FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{account_id} GROUP BY COMPANY_ID) SELECT P.COMPANY_ID, NAME, P.SUM_PRICE/P.QUANTITY AS "PRICE", CURJUKA, P.QUANTITY FROM P, COMPANYS C WHERE p.COMPANY_ID = C.COMPANY_ID
+	</select>
+	
+	<!-- getOneComapnyStock -->
+	<select id="getOneCompanyStock" parameterType="java.util.HashMap" resultType="vo.PurchaseVO">
+		SELECT *  FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{account_id} AND COMPANY_ID = #{company_id}
 	</select>
 	
 </mapper>

@@ -6,6 +6,14 @@ public class PurchaseVO {
 	String company_id;
 	int price;
 	int quantity;
+	String datetime;
+	
+	public String getDatetime() {
+		return datetime;
+	}
+	public void setDatetime(String datetime) {
+		this.datetime = datetime;
+	}
 	public int getList_id() {
 		return list_id;
 	}

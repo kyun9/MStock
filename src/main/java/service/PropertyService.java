@@ -12,8 +12,8 @@ public class PropertyService {
 	@Autowired
 	PurchaseDAO purchaseDAO;
 	
-	//현재 자산정보 set
-	public PropertyVO setProperty(UserVO userVO, AccountVO accountVO) {
+	//현재 자산정보 get
+	public PropertyVO getProperty(UserVO userVO, AccountVO accountVO) {
 		PropertyVO propertyVO = new PropertyVO();
 		
 		//credit set
