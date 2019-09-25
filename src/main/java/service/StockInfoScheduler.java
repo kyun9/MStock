@@ -7,6 +7,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,9 @@ public class StockInfoScheduler {
 	StockInfoDAO stockinfoDAO;
 	@Autowired
 	CompanyDAO companyDAO;
+	@Autowired
+	ServletContext context;
+	
 	static String[] stockInfos = { "006400", "000660", "012330", "035420", "066570", "068270", "090430", "004170",
 			"055550", "035720", "010950", "161890" };
 
@@ -89,7 +94,8 @@ public class StockInfoScheduler {
 				gson = new GsonBuilder().setPrettyPrinting().create();
 				// json array 파싱할때 클래스 리터럴을 stockInfoVO로 준다,표시된 형식을 반환(getType())
 				voListType = new TypeToken<List<StockInfoVO>>(){}.getType();
-				String filePath = "c:/uploadtest/" + vo.getJongCd() + ".json";
+				String filePath = context.getRealPath("/")+"/resources/json/" + vo.getJongCd() + ".json";
+				System.out.println(filePath);
 				File f = new File(filePath);
 				List<StockInfoVO> vos =null;
 				if(f.exists()) {   //파일 존재 시
@@ -133,7 +139,7 @@ public class StockInfoScheduler {
 //	public void clearStockDB() {
 //		try {
 //			for (int i = 0; i < stockInfos.length; i++) {
-//				File file = new File("c:/uploadtest/"+stockInfos[i]+".json");
+//				File file = new File(context.getRealPath("/")+"/resources/json/"+stockInfos[i]+".json");
 //				if( file.exists() ){
 //					if(file.delete()){
 //		    			System.out.println("파일삭제 성공");

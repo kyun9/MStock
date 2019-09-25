@@ -26,6 +26,9 @@
 <link rel="stylesheet" href="/mstock/resources/css/demo_1/style.css">
 <!-- Layout style -->
 <link rel="shortcut icon" href="/mstock/resources/images/favicon.ico" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
 </head>
 <body class="header-fixed">
 	<%
@@ -45,6 +48,9 @@
 						<div class="header-wrap">
 							실시간 시세<span><span class="time_img"></span><%=stock.getGettime()%>
 								기준(<%=stock.getJanggubun()%>)</span>
+						</div> 
+						<div>
+							<canvas id="myChart" style=" hegiht: 30%"></canvas>
 						</div>
 						<div class="body-wrap">
 							<!-- <div id="gpDisp"></div> -->
@@ -198,12 +204,79 @@
 	<!-- endinject -->
 	<!-- Vendor Js For This Page Ends-->
 	<script src="/mstock/resources/vendors/apexcharts/apexcharts.min.js"></script>
-	<script src="/mstock/resources/vendors/chartjs/Chart.min.js"></script>
 	<script src="/mstock/resources/js/charts/chartjs.addon.js"></script>
 	<!-- Vendor Js For This Page Ends-->
 	<!-- build:js -->
 	<script src="/mstock/resources/js/template.js"></script>
 	<script src="/mstock/resources/js/dashboard.js"></script>
 	<!-- endbuild -->
+	<script>
+		//chart.js 주식차트
+		$(document).ready(
+				function() {
+					$.getJSON('/mstock/resources/json/<%=request.getParameter("code")%>.json', function(data) {
+						var d = new Date();
+						var date = new Array();
+						var curjuka = new Array();
+						var today = d.getFullYear() + "-"
+								+ ('0' + (d.getMonth() + 1)).slice(-2) + "-"
+								+ d.getDate();
+
+						console.log("success");
+						$.each(data, function(key, value) {
+							date.push(value.gettime.replace(/\//gi, '-'));
+							curjuka.push(Number(value.Stockinfo[1].replace(
+									/,/gi, '')));
+						});
+						console.log(typeof (curjuka));
+						console.log(curjuka);
+						console.log(typeof (curjuka[1]));
+						console.log(typeof (date));
+						console.log(date);
+						console.log(typeof (date[1]));
+						console.log(today);
+
+						var ctx = document.getElementById('myChart');
+
+						var myChart = new Chart(ctx, {
+							type : 'line',
+							data : {
+								labels : date,
+								datasets : [ {
+									data : curjuka,
+									backgroundColor : 'transparent',
+									borderColor : "#000000",
+									lineTension : 0,
+									pointRadius : 0,
+									pointHitRadius : 5,
+									borderWidth : 0.5
+								//선굵기
+								} ]
+							},
+							options : {
+								legend:{
+									display:false   
+								},
+								scales : {
+									xAxes : [ {
+										type : 'time',
+										time : {
+											min : today + " 09:00:00",
+											max : today + " 16:00:00",
+											unit : 'hour',
+											unitStepSize : 1,
+											displayFormats : {
+												'hour' : 'H:mm'
+											}
+										}
+									} ]
+								}
+							}
+						});
+
+					});
+
+				});
+	</script>
 </body>
 </html>
