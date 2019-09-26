@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="vo.StockInfoVO"%>
+<%@ page import="vo.StockInfoVO, vo.CompanyVO"%>
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,7 @@
 <script src="http://asp1.krx.co.kr/inc/js/asp_chart.js"></script>
 <!-- <script type="text/javascript" src="resources/js/common.js"></script> -->
 <link rel="stylesheet" type="text/css"
-	href="resources/css/stockinfo.css" />  
+	href="resources/css/stockinfo.css" />
 <title>MStock</title>
 <!-- plugins:css -->
 <link rel="stylesheet"
@@ -33,7 +33,14 @@
 <body class="header-fixed">
 	<%
 		StockInfoVO stock = (StockInfoVO) request.getAttribute("info");
+		CompanyVO company=(CompanyVO)request.getAttribute("comInfo");
 	%>
+	
+	<script>
+		var a = ${user.u_id};
+		alert(a);
+	</script>
+	
 	<!-- partial:partials/header.jsp -->
 	<%@ include file="./partials/header.jsp"%>
 	<!-- partial -->
@@ -52,7 +59,7 @@
 						<div class="body-wrap">
 							<!-- chart.js 주식차트 / 차트부분 파일 분리(./partials/stockchart.jsp)-->
 							<div>
-								<canvas id="myChart" style="border:1px solid #000000;"></canvas>
+								<canvas id="myChart" style="border: 1px solid #000000;"></canvas>
 								<%@ include file="./partials/stockchart.jsp"%>
 							</div>
 							<!-- <div id="gpDisp"></div> -->
@@ -130,24 +137,50 @@
 								</dl>
 							</div>
 							<!-- 매수하기 기능 -->
-							<button onclick="displayDiv()">매수하기</button>
-							<script>
-								function displayDiv(){
-									document.getElementById("buyStock").style.display="block";
-								}
-								function closeDiv(){
-									document.getElementById("buyStock").style.display="none";
-								}
-							</script> 
-							<div id="buyStock" style="display : none; border:1px solid #000000">
-								<form method="get" action=#>
-									구매 갯수 : <input type="number" value="1" min ="1" name="count"><br>
-									가격 : <%=stock.getStockinfo()[1]%><br>
-									보유 금액 : <br>
-									<input type="submit" value="매도">
-									<input type="button" onclick="closeDiv();return false;" value="취소">
-								</form>
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-primary" data-toggle="modal"
+								data-target="#exampleModalCenter">종목 매수하기</button>
+								
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalCenterTitle"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<form method="post" action=#>
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalCenterTitle">종목 매수하기</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												종목 코드 : <%= stock.getJongCd() %><br>
+												종목명 : <%=company.getName()%><br>
+												구매 개수 : <input id ="n" type="number" value=1 min=1><br>
+												현재 가격 : <span id="v" style="font-weight:bold"><%=stock.getStockinfo()[1]%></span> <span>Credit</span><br>
+												나의 보유 자산 : 
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Close</button>
+												<button type="submit" class="btn btn-primary">매수하기</button>
+											</div>
+										</form>
+									</div>
+								</div>
 							</div>
+							<script>
+										var val =  "<%=stock.getStockinfo()[1]%>";
+										val=val.replace(',','');
+							 			$("#v").text(val);
+										 $("#n").bind('keyup mouseup', function () {
+									          var current = $("#n").val();
+									        $("#v").text(current * val);
+									          
+									      });  
+							 </script>
 							<!-- 매수기능 끝  -->
 							<div class="tab_content">
 								<table id="tradedPrice_day">

@@ -9,4 +9,7 @@
 	<update id="updateCurjuka" parameterType="java.util.HashMap">
 		update companys set curjuka = #{curjuka} where company_id=#{company_id}
 	</update>
+	<select id="selectOne" resultType ="vo.CompanyVO" parameterType="string">
+		select company_id,name,wcimg,curjuka from companys where company_id=#{code}
+	</select>
 </mapper>

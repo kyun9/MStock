@@ -87,9 +87,11 @@ public class StockInfoScheduler {
 		StockInfoVO vo = new StockInfoVO();
 		Gson gson=null;
 		Type voListType =null;
-		
 		try {
 			for (int i = 0; i < stockInfos.length; i++) {
+				if(companyDAO.updateCurjuka(vo.getStockinfo()[1], vo.getJongCd())) {
+					System.out.println("companys 테이블 현재 주가 update");
+				}
 				vo = service.getInfo(stockInfos[i]);
 				gson = new GsonBuilder().setPrettyPrinting().create();
 				// json array 파싱할때 클래스 리터럴을 stockInfoVO로 준다,표시된 형식을 반환(getType())

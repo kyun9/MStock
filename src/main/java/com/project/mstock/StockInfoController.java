@@ -1,22 +1,31 @@
 package com.project.mstock;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.*;
 
-import service.StockInfoService;
+import dao.*;
+import service.*;
+import vo.*;
 
 @Controller
+@SessionAttributes("user")
 public class StockInfoController {
 	@Autowired
+	CompanyDAO dao;
+	@Autowired
 	StockInfoService service;
+	@ModelAttribute("user")
+	public UserVO createUserModel() {
+		return new UserVO();
+	}
 	
 	@RequestMapping(value = "/stockinfo", method = RequestMethod.GET)
-	public ModelAndView home(String code) {
+	public ModelAndView stockinfo(@ModelAttribute("user") UserVO vo,String code) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("info", service.getInfo(code));
+		mav.addObject("comInfo",dao.selectOneCompay(code));
 		mav.setViewName("stockInfo");
 		return mav;
 	}

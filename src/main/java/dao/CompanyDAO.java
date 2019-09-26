@@ -1,15 +1,12 @@
 package dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.session.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
-import vo.CompanyVO;
+import vo.*;
 
 @Repository
 public class CompanyDAO {
@@ -33,5 +30,7 @@ public class CompanyDAO {
 		}
 		return result;
 	}
-	
+	public CompanyVO selectOneCompay(String code) {
+		return  session.selectOne("CompanyMapper.selectOne", code);
+	}
 }
