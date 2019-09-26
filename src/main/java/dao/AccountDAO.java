@@ -24,4 +24,5 @@ public class AccountDAO {
 		result = session.insert(statement, vo) == 0 ? false : true;
 		return result;
 	}
+	
 }

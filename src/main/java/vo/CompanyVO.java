@@ -30,11 +30,6 @@ public class CompanyVO {
 	public void setCurJuka(String curJuka) {
 		this.curJuka = curJuka;
 	}
-	@Override
-	public String toString() {
-		return "CompanyVO [company_id=" + company_id + ", name=" + name + ", wcimg=" + wcimg + ", curJuka=" + curJuka
-				+ "]";
-	}
 	
 	
 }

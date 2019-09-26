@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="vo.StockInfoVO, vo.CompanyVO"%>
+<%@ page import="vo.StockInfoVO, vo.CompanyVO, vo.UserVO, vo.AccountVO"%>
 
 <!DOCTYPE html>
 <html>
@@ -34,11 +34,11 @@
 	<%
 		StockInfoVO stock = (StockInfoVO) request.getAttribute("info");
 		CompanyVO company=(CompanyVO)request.getAttribute("comInfo");
+		UserVO user = (UserVO)request.getAttribute("user");
 	%>
 	
 	<script>
-		var a = ${user.u_id};
-		alert(a);
+		alert(<%=user.getId()%>);
 	</script>
 	
 	<!-- partial:partials/header.jsp -->
@@ -138,9 +138,12 @@
 							</div>
 							<!-- 매수하기 기능 -->
 							<!-- Button trigger modal -->
+							<%
+									if (request.getAttribute("accountInfo") != null) {
+									AccountVO account = (AccountVO) request.getAttribute("accountInfo");
+							%>
 							<button type="button" class="btn btn-primary" data-toggle="modal"
 								data-target="#exampleModalCenter">종목 매수하기</button>
-								
 							<!-- Modal -->
 							<div class="modal fade" id="exampleModalCenter" tabindex="-1"
 								role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -160,7 +163,7 @@
 												종목명 : <%=company.getName()%><br>
 												구매 개수 : <input id ="n" type="number" value=1 min=1><br>
 												현재 가격 : <span id="v" style="font-weight:bold"><%=stock.getStockinfo()[1]%></span> <span>Credit</span><br>
-												나의 보유 자산 : 
+												나의 보유 자산 : <%=account.getCredit()  %><span>Credit</span>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-secondary"
@@ -171,6 +174,7 @@
 									</div>
 								</div>
 							</div>
+							<%} %>
 							<script>
 										var val =  "<%=stock.getStockinfo()[1]%>";
 										val=val.replace(',','');

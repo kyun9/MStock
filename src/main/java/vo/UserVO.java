@@ -57,6 +57,11 @@ public class UserVO {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
+	@Override
+	public String toString() {
+		return "UserVO [u_id=" + u_id + ", id=" + id + ", password=" + password + ", email=" + email + ", nickname="
+				+ nickname + ", join_date=" + join_date + ", img=" + img + ", grade=" + grade + "]";
+	}
 	
 	
 }

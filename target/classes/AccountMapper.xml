@@ -18,4 +18,5 @@
     		VALUES (#{account_id}, 10000000, #{u_id})
 	</insert>
 	
+	
 </mapper>

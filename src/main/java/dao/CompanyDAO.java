@@ -16,7 +16,6 @@ public class CompanyDAO {
 	public List<CompanyVO> listAll() {
 		List<CompanyVO> list = new ArrayList<CompanyVO>();
 		list = session.selectList("CompanyMapper.listall");
-		System.out.println(list);
 		return list;
 	}
 	
