@@ -1,11 +1,11 @@
 for(i in 1:20) {
   titleCSS <- paste('body > div > table.type5 > tbody > tr:nth-child(',i,') > td.title > a', sep='')
   title <- remDr$findElements(using='css', titleCSS)
-  title_text <- sapply(title ,function(x){x$getElementText()}) 
+  title_text <- sapply(title ,function(x){x$getElementText()})
   title2 <- unlist(title_text)
+  
   if(is.null(title2) == FALSE){
     title_url <- unlist(sapply(title,function(x){x$getElementAttribute('href')}))
-    
     title_infoCSS <- paste('body > div > table.type5 > tbody >  tr:nth-child(',i,') > td.info', sep='')
     title_info<-remDr$findElements(using='css', title_infoCSS)
     info <-sapply(title_info,function(x){x$getElementText()})
@@ -21,8 +21,8 @@ for(i in 1:20) {
     newstext <- html_text(nodes)
     newstext<- gsub("\t", "", newstext)
     newstext<- gsub("\n", "", newstext)
-    page <-data.frame(title2, info2, time2)
+    newstext<- gsub("\"", "'", newstext)
+    page <-data.frame(title2, info2, time2,newstext)
     navereco_info <- rbind(navereco_info,page)
-    navereconomic_contents<-rbind( navereconomic_contents,newstext)
   }
 }
