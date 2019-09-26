@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<nav class="t-header">
-  <div class="t-header-brand-wrapper">
-    <a href="index.html">
+<nav class="t-header" style="background-color:#7571f9"> 
+  <div class="t-header-brand-wrapper"> 
+    <a href="#">
       <img class="logo" src="/mstock/resources/images/logo.svg" alt="">
       <img class="logo-mini" src="/mstock/resources/images/logo_mini.svg" alt="">
     </a>

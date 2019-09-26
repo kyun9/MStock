@@ -17,6 +17,7 @@
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+	<task:annotation-driven />
 
 	<!-- hadoop 설정 <hadoop:configuration id="hdConf"> fs.defaultFS=hdfs://192.168.111.120:9000 
 		</hadoop:configuration> -->
@@ -60,7 +61,6 @@
 		<beans:property name="password"
 			value="#{config['password']}" />
 	</beans:bean>
-
 	<beans:bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource" />
@@ -69,7 +69,6 @@
 		<beans:property name="mapperLocations"
 			value="classpath:/*Mapper.xml" />
 	</beans:bean>
-
 	<beans:bean id="sqlSession"
 		class="org.mybatis.spring.SqlSessionTemplate"
 		destroy-method="clearCache">

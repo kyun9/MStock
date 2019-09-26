@@ -1,10 +1,10 @@
 package vo;
 
 public class CompanyVO {
-	String company_id;
-	String name;
-	String wcimg;
-	String curjuka;
+	private String company_id;
+	private String name;
+	private String wcimg;
+	private String curJuka;
 	
 	public String getCompany_id() {
 		return company_id;
@@ -24,10 +24,17 @@ public class CompanyVO {
 	public void setWcimg(String wcimg) {
 		this.wcimg = wcimg;
 	}
-	public String getCurjuka() {
-		return curjuka;
+	public String getCurJuka() {
+		return curJuka;
 	}
-	public void setCurjuka(String curjuka) {
-		this.curjuka = curjuka;
+	public void setCurJuka(String curJuka) {
+		this.curJuka = curJuka;
 	}
+	@Override
+	public String toString() {
+		return "CompanyVO [company_id=" + company_id + ", name=" + name + ", wcimg=" + wcimg + ", curJuka=" + curJuka
+				+ "]";
+	}
+	
+	
 }
