@@ -16,6 +16,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("companyInfo", companyDAO.listAll());
 		mav.setViewName("home");
 		return mav;
 	}
@@ -23,13 +24,6 @@ public class HomeController {
 	public ModelAndView homes() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("default");
-		return mav;
-	}
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ModelAndView test() {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("companyInfo", companyDAO.listAll());
-		mav.setViewName("test");
 		return mav;
 	}
 }
