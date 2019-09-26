@@ -50,9 +50,9 @@
 								기준(<%=stock.getJanggubun()%>)</span>
 						</div>
 						<div class="body-wrap">
-							<!-- chart.js 주식차트 -->
+							<!-- chart.js 주식차트 / 차트부분 파일 분리(./partials/stockchart.jsp)-->
 							<div>
-								<canvas id="myChart"></canvas>
+								<canvas id="myChart" style="border:1px solid #000000;"></canvas>
 								<%@ include file="./partials/stockchart.jsp"%>
 							</div>
 							<!-- <div id="gpDisp"></div> -->
@@ -129,7 +129,26 @@
 									</dd>
 								</dl>
 							</div>
-
+							<!-- 매수하기 기능 -->
+							<button onclick="displayDiv()">매수하기</button>
+							<script>
+								function displayDiv(){
+									document.getElementById("buyStock").style.display="block";
+								}
+								function closeDiv(){
+									document.getElementById("buyStock").style.display="none";
+								}
+							</script> 
+							<div id="buyStock" style="display : none; border:1px solid #000000">
+								<form method="get" action=#>
+									구매 갯수 : <input type="number" value="1" min ="1" name="count"><br>
+									가격 : <%=stock.getStockinfo()[1]%><br>
+									보유 금액 : <br>
+									<input type="submit" value="매도">
+									<input type="button" onclick="closeDiv();return false;" value="취소">
+								</form>
+							</div>
+							<!-- 매수기능 끝  -->
 							<div class="tab_content">
 								<table id="tradedPrice_day">
 									<tr>

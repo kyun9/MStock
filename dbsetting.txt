@@ -33,7 +33,8 @@ CREATE TABLE  purchase_list
    account_id  NUMBER(8,0) NOT NULL,
    company_id  varchar2(20) NOT NULL,
    price NUMBER(8,0) NOT NULL,
-   quantity NUMBER(8,0) NOT NULL
+   quantity NUMBER(8,0) NOT NULL,
+   datetime varchar2(20) NOT NULL default sysdate
 );
 CREATE TABLE  ranks
 (
