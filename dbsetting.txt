@@ -67,7 +67,15 @@ CREATE TABLE  stockinfos
    curjuka  varchar2(20),
    time varchar2(20) NOT NULL
 );
-
+CREATE TABLE HISTORY (
+    HISTORY_ID NUMBER(8,0) PRIMARY KEY,
+    ACCOUNT_ID NUMBER(8,0) NOT NULL,
+    STATUS VARCHAR2(20) NOT NULL,
+    COMPANY_ID VARCHAR2(20) NOT NULL,
+    PRICE NUMBER(8,0) NOT NULL,
+    QUANTITY NUMBER(8,0) NOT NULL,
+    DATETIME VARCHAR2(20) NOT NULL
+);
 
 --//sequence 생성
 create sequence users_seq
@@ -94,6 +102,9 @@ create sequence stockinfos_seq
 start with 1
 increment by 1;
 
+CREATE SEQUENCE HISTORY_SEQ START WITH 1 INCREMENT BY 1;
+
+
 --//sequence 확인
 select * from user_sequences;
 
@@ -104,6 +115,7 @@ update purchase_list set list_id=purchase_seq.nextval;
 update board set bid=board_seq.nextval;
 update comments set cid=comments_seq.nextval;
 update stockinfos set info_id=stockinfos_seq.nextval;
+update HISTORY set HISTORY_ID=HISTORY_SEQ.nextval;
 
 --//제약조건
 ALTER TABLE  accounts  ADD FOREIGN KEY ( u_id ) REFERENCES  users  ( u_id ) 
@@ -121,6 +133,9 @@ ALTER TABLE  comments  ADD FOREIGN KEY ( writer) REFERENCES  users  (
 u_id )on delete cascade;
 ALTER TABLE  users    ADD FOREIGN KEY ( grade) REFERENCES  ranks  ( rank_id 
 );
+ALTER TABLE HISTORY ADD FOREIGN KEY (ACCOUNT_ID) REFERENCES ACCOUNTS (ACCOUNT_ID) ON DELETE CASCADE;
+ALTER TABLE HISTORY ADD FOREIGN KEY (COMPANY_ID) REFERENCES COMPANYS (COMPANY_ID) ON DELETE CASCADE;
+
 
 --//회사 입력
 INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('006400', '삼성SDI')
