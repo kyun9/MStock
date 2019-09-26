@@ -16,14 +16,20 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("companyInfo", companyDAO.listAll());
-		mav.setViewName("test");
+		mav.setViewName("home");
 		return mav;
 	}
 	@RequestMapping(value = "/default", method = RequestMethod.GET)
 	public ModelAndView homes() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("default");
+		return mav;
+	}
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public ModelAndView test() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("companyInfo", companyDAO.listAll());
+		mav.setViewName("test");
 		return mav;
 	}
 }
