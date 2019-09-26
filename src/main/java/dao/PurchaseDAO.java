@@ -40,4 +40,36 @@ public class PurchaseDAO {
 		return purchaseVO;
 	}
 	
+	//구매시점 주식에 대한 개수 get
+	public int getQuantity(int list_id) {
+		int quantity = 0;
+		String statement = "resource.PurchaseMapper.getQuantity";
+		quantity = session.selectOne(statement, list_id);
+		return quantity;
+	}
+	
+	//매도Update Version
+	public boolean sellStockUpdate(PurchaseVO purchaseVO) {
+		int check = 0;
+		String statement = "resource.PurchaseMapper.sellStockUpdate";
+		check = session.update(statement, purchaseVO);
+		if(check != 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	//매도Delete Version
+		public boolean sellStockDelete(PurchaseVO purchaseVO) {
+			int check = 0;
+			String statement = "resource.PurchaseMapper.sellStockDelete";
+			check = session.delete(statement, purchaseVO);
+			if(check != 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	
 }

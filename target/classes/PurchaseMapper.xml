@@ -20,4 +20,19 @@
 		SELECT *  FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{account_id} AND COMPANY_ID = #{company_id}
 	</select>
 	
+	<!-- getQuantity -->
+	<select id="getQuantity" parameterType="int" resultType="int">
+		SELECT QUANTITY FROM PURCHASE_LIST WHERE LIST_ID = #{list_id}
+	</select>
+	
+	<!-- sellStockUpdate -->
+	<update id="sellStockUpdate" parameterType="vo.PurchaseVO">
+		UPDATE PURCHASE_LIST SET QUANTITY = QUANTITY - #{quantity} WHERE LIST_ID = #{list_id}
+	</update>
+	
+	<!-- sellStockDelete -->
+	<delete id="sellStockDelete" parameterType="vo.PurchaseVO">
+		DELETE FROM PURCHASE_LIST WHERE LIST_ID = #{list_id}
+	</delete>
+	
 </mapper>
