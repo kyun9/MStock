@@ -41,7 +41,7 @@
 								<p class="lead">MStock는 ------- 장려하는 서비스입니다.</p>
 								<hr class="my-4">
 								<p> 여러분의 주식 역량을 넓혀 나가세요.</p><br>
-								<a class="btn btn-primary btn-lg" href="#" role="button">로그인 바로가기</a>
+								<a class="btn btn-primary btn-lg" href="/mstock/property" role="button">로그인 바로가기</a>
 							</div>
 							<!-- 기업 정보 출력// 한줄에 4개 내용 출력  -->
 							<% ArrayList<CompanyVO> list = (ArrayList<CompanyVO>) request.getAttribute("companyInfo");
