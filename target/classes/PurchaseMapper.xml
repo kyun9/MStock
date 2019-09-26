@@ -4,6 +4,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="resource.PurchaseMapper">
 
+	<!-- checkStock -->
+	<select id="checkStock" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{account_id}
+	</select>
+
 	<!-- getStockValue-->
 	<select id="getStockValue" parameterType="int" resultType="int">
 		<!-- WITH P AS (SELECT COMPANY_ID, SUM(PRICE*QUANTITY)AS "ESTI_VALUE" FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{u_id} GROUP BY COMPANY_ID) SELECT SUM(P.ESTI_VALUE) AS "STOCK_VALUE" FROM P -->

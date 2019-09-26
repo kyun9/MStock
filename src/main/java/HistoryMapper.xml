@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="resource.HistoryMapper">
+
+	<!--insertHistory-->
+	<insert id="insertHistory"  parameterType="vo.HistoryVO">
+  		<selectKey resultType="int" keyProperty="history_id" order="BEFORE">
+      		SELECT HISTORY_SEQ.NEXTVAL FROM DUAL     
+    	</selectKey>  
+    		INSERT INTO HISTORY 
+    		VALUES (#{history_id}, #{account_id}, #{status}, #{company_id}, #{price}, #{quantity}, SYSDATE)
+	</insert>
+	
+</mapper>

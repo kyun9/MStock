@@ -13,6 +13,14 @@ public class PurchaseDAO {
 	@Autowired
 	SqlSession session = null;
 	
+	//주식 유무 체크
+	public int checkStock(int account_id) {
+		int count = 0;
+		String statement = "resource.PurchaseMapper.checkStock";
+		count = session.selectOne(statement, account_id);
+		return count;
+	}
+	
 	//총 주식 보유액 get
 	public int getStockValue(int account_id) {
 		int stock_value;

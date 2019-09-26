@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
+import org.springframework.web.servlet.view.*;
 
 import dao.*;
 import service.*;
@@ -22,9 +23,14 @@ public class PropertyInfoController {
 	@Autowired
 	CompanyDAO companyDAO;
 	@Autowired
+	HistoryDAO historyDAO;
+	
+	@Autowired
 	PropertyService propertyService;
 	@Autowired
 	MyStockService myStockService;
+	@Autowired
+	HistoryService historyService;
 	
 	@ModelAttribute("user")
 	public UserVO createUserModel() {
@@ -45,8 +51,8 @@ public class PropertyInfoController {
 			AccountVO accountVO = accountDAO.getAccount(userVO.getU_id());
 			if(accountVO == null) {
 				mav.addObject("account", "fail");
-			} else {
 				
+			} else {
 				//계좌를 보유
 				mav.addObject("account", "success");
 				mav.addObject("accountVO", accountVO);
@@ -76,18 +82,26 @@ public class PropertyInfoController {
 		if(accountDAO.updateCredit(purchaseVO.getAccount_id(), credit)) {
 			//보유한 주식 개수와 매도하려는 주식 개수가 같으면 Delete 아니면 Updatge
 			int quantity = purchaseDAO.getQuantity(purchaseVO.getList_id());
+			boolean check = false;
 			if(purchaseVO.getQuantity() == quantity) {
 				if(purchaseDAO.sellStockDelete(purchaseVO)) {
-					//로그 처리
+					check = true;
+					System.out.println("Delete Success");
 				} else {
-					System.out.println("Delete 실패");
+					System.out.println("Delete Fail");
 				}
 			} else {
 				if(purchaseDAO.sellStockUpdate(purchaseVO)) {
-					//로그 처리
+					check = true;
+					System.out.println("Update Success");
 				} else {
-					System.out.println("Update 실패");
+					System.out.println("Update Fail");
 				}
+			}
+			
+			if(check) {
+				HistoryVO historyVO = historyService.getHistory(purchaseVO, curJuka, "매도");
+				historyDAO.insertHistory(historyVO);
 			}
 		}
 		

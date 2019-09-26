@@ -21,7 +21,10 @@ public class PropertyService {
 		propertyVO.setCredit(credit);
 		
 		//stock_value set(전체 주식 가치를 합한 값)
-		int stock_value = purchaseDAO.getStockValue(accountVO.getAccount_id());
+		int stock_value = 0;
+		if(purchaseDAO.checkStock(accountVO.getAccount_id()) != 0) {
+			stock_value = purchaseDAO.getStockValue(accountVO.getAccount_id());
+		}
 		propertyVO.setStock_value(stock_value);
 		
 		//profit_late set(수익률)
