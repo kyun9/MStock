@@ -40,4 +40,13 @@ public class PurchaseDAO {
 		return purchaseVO;
 	}
 	
+	//구매 주식 종목 insert
+	public void insertPurchasesStock(PurchaseVO vo) {
+		if(session.insert("resource.PurchaseMapper.insertPurchasesStock", vo)!=0) {
+			System.out.println("purchasesDAO insert 성공");
+		}else {
+			System.out.println("insert 실패");
+		}
+	}
+	
 }

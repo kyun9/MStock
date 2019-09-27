@@ -36,11 +36,6 @@
 		CompanyVO company=(CompanyVO)request.getAttribute("comInfo");
 		UserVO user = (UserVO)request.getAttribute("user");
 	%>
-	
-	<script>
-		alert(<%=user.getId()%>);
-	</script>
-	
 	<!-- partial:partials/header.jsp -->
 	<%@ include file="./partials/header.jsp"%>
 	<!-- partial -->
@@ -138,10 +133,12 @@
 							</div>
 							<!-- 매수하기 기능 -->
 							<!-- Button trigger modal -->
-							<%
-									if (request.getAttribute("accountInfo") != null) {
+							<%	if(session.getAttribute("user")!=null &&request.getAttribute("accountInfo") != null){
 									AccountVO account = (AccountVO) request.getAttribute("accountInfo");
 							%>
+							<script>
+								alert("<%=user.getId()%>")
+							</script>
 							<button type="button" class="btn btn-primary" data-toggle="modal"
 								data-target="#exampleModalCenter">종목 매수하기</button>
 							<!-- Modal -->
@@ -150,7 +147,11 @@
 								aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered" role="document">
 									<div class="modal-content">
-										<form method="post" action=#>
+									<!-- Form  -->
+										<form method="post" action="/mstock/stockinfo">
+										<input type="hidden"  name="company_id" value= <%= stock.getJongCd() %>>
+										<input type="hidden"  name="price" id="price" >
+										<input type = "hidden" name="account_id" value=<%=account.getAccount_id() %>>
 											<div class="modal-header">
 												<h5 class="modal-title" id="exampleModalCenterTitle">종목 매수하기</h5>
 												<button type="button" class="close" data-dismiss="modal"
@@ -161,9 +162,9 @@
 											<div class="modal-body">
 												종목 코드 : <%= stock.getJongCd() %><br>
 												종목명 : <%=company.getName()%><br>
-												구매 개수 : <input id ="n" type="number" value=1 min=1><br>
-												현재 가격 : <span id="v" style="font-weight:bold"><%=stock.getStockinfo()[1]%></span> <span>Credit</span><br>
-												나의 보유 자산 : <%=account.getCredit()  %><span>Credit</span>
+												구매 개수 : <input id ="a" type="number"  name="quantity" value=1 min=1><br>
+												현재 가격 : <span id="b" style="font-weight:bold"><%=stock.getStockinfo()[1]%></span><br>
+												나의 보유 자산 : <span id="c"><%=account.getCredit()  %></span><span>Credit</span>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-secondary"
@@ -171,6 +172,7 @@
 												<button type="submit" class="btn btn-primary">매수하기</button>
 											</div>
 										</form>
+										<!--Close  Form  -->
 									</div>
 								</div>
 							</div>
@@ -178,10 +180,21 @@
 							<script>
 										var val =  "<%=stock.getStockinfo()[1]%>";
 										val=val.replace(',','');
-							 			$("#v").text(val);
-										 $("#n").bind('keyup mouseup', function () {
-									          var current = $("#n").val();
-									        $("#v").text(current * val);
+							 			$("#b").text(val);
+							 			$("#price").val(val);
+										 $("#a").bind('keyup mouseup', function () {
+									 		  var current =  $("#c").text();
+									          var count = $("#a").val();
+									          var result = count * val;
+									          if(result>current){
+											        $("#b").text("보유 크레딧을 초과하였습니다.");
+											        $("#b").css("color","red");
+									          }
+									          else{
+									        	  $("#b").css("color","black");
+									        	  $("#price").val(result);
+										        $("#b").text(result);
+									          }
 									          
 									      });  
 							 </script>

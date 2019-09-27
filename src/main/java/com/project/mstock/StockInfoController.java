@@ -18,6 +18,8 @@ public class StockInfoController {
 	StockInfoService service;
 	@Autowired
 	AccountDAO accountDAO;
+	@Autowired
+	PurchaseDAO purchasesDAO;
 	
 	@ModelAttribute("user")
 	public UserVO createUserModel() {
@@ -25,7 +27,7 @@ public class StockInfoController {
 	}
 	
 	@RequestMapping(value = "/stockinfo", method = RequestMethod.GET)
-	public ModelAndView stockinfo(@ModelAttribute("user") UserVO userVO,String code) {
+	public ModelAndView stockinfoGet(@ModelAttribute("user") UserVO userVO,String code) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("info", service.getInfo(code));
 		mav.addObject("comInfo",companyDAO.selectOneCompay(code));
@@ -33,6 +35,15 @@ public class StockInfoController {
 			mav.addObject("accountInfo", accountDAO.getAccount(userVO.getU_id()));
 		}
 		mav.setViewName("stockInfo");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/stockinfo", method = RequestMethod.POST)
+	public ModelAndView stockinfoPost(@ModelAttribute("user") UserVO userVO,PurchaseVO purchaseVO) {
+		ModelAndView mav = new ModelAndView();
+		purchasesDAO.insertPurchasesStock(purchaseVO);
+		accountDAO.updateCredit(purchaseVO.getPrice(),purchaseVO.getAccount_id());
+		mav.setViewName("redirect:/stockinfo?code="+purchaseVO.getCompany_id());
 		return mav;
 	}
 	
