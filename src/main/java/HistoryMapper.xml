@@ -13,4 +13,13 @@
     		VALUES (#{history_id}, #{account_id}, #{status}, #{company_id}, #{price}, #{quantity}, SYSDATE)
 	</insert>
 	
+	<!-- getHistoryCnt -->
+	<select id="getHistoryCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM HISTORY WHERE ACCOUNT_ID = #{account_id}
+	</select>
+	
+	<!-- getHistoryList -->
+	<select id="getHistoryList" parameterType="int" resultType="vo.HistoryVO">
+		SELECT S.* FROM(SELECT ROW_NUMBER() OVER(ORDER BY R.HISTORY_ID DESC) NUM, R.* FROM HISTORY R) S WHERE NUM BETWEEN #{startIndex} AND #{startIndex}+10
+	</select>
 </mapper>

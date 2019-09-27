@@ -52,6 +52,7 @@
 							<c:otherwise>
 								<div class="jumbotron container">
 									<h1 class="display-4">안녕하세요, ${user.id}님</h1>
+									<p class="lead">${user.id}님의 자산 관리 페이지입니다</p>
 									<hr class="my-4">
 
 									<div class="row">
@@ -516,6 +517,7 @@
 							}
 							
 							$("#inputQuantity").on("change", function(){
+								
 								if($(this).val() > quantity){
 									alert("보유한 주식보다 많을 수 없습니다");
 									$(this).val(quantity);
