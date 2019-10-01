@@ -1,25 +1,20 @@
 package service;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.lang.reflect.*;
+import java.util.*;
 
-import javax.servlet.ServletContext;
+import javax.servlet.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.scheduling.annotation.*;
+import org.springframework.stereotype.*;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.*;
+import com.google.gson.reflect.*;
 
-import dao.CompanyDAO;
-import dao.StockInfoDAO;
-import vo.StockInfoVO;
+import dao.*;
+import vo.*;
 
 @Service
 public class StockInfoScheduler {
@@ -113,10 +108,10 @@ public class StockInfoScheduler {
 				}
 				//list에 새로운 객체 추가
 				vos.add(vo);
-				FileWriter fw  = new FileWriter(filePath);
+				Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), "utf-8"));
 				//지정된 타입의 데이터를 JSON 형식의 데이터로 변환 , 두번째인자를 filewriter로 주어 file 추가 
-				gson.toJson(vos, fw);
-				fw.close();
+				gson.toJson(vos, writer);
+				writer.close();
 				System.out.println("파일 write 성공 "+stockInfos[i]+vo.getGettime() );
 			}
 			System.out.println("============================");

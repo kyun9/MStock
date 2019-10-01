@@ -37,14 +37,17 @@ function openSocket() {
 	ws.onopen = function(event) {
 		if (event.data === undefined)
 			return;
-
-		writeResponse(event.data);
+		console.log(event.data);
+		writeResponse("ONOPEN : "+event.data);
 	};
 	ws.onmessage = function(event) {
+		console.log("ONMESSAGE data: "+event.data);
+		console.log("ONMESSAGE event: "+event);
 		writeResponse(event.data);
 	};
 	ws.onclose = function(event) {
 		writeResponse("Connection closed");
+		console.log("ONCLOSE : "+event.data);
 		setTimeout(function() {
 			connect();
 		}, 1000); // retry connection!!

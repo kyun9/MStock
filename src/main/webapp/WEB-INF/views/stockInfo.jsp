@@ -278,7 +278,7 @@
 
                                     <div class="media">
                                         <div class="media-body " id="message"  style="overflow:auto; width:500px; height:150px;">
-                                        </div>
+                                        </div> 
                                     </div>
 
                                 </div>

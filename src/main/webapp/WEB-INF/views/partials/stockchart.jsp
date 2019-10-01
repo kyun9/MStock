@@ -2,13 +2,13 @@
 	pageEncoding="UTF-8"%>
 <!-- chart.js 주식 차트 -->
 <script>
-$(document).ready(function(){
+$(document).ready(function() {     
     $("#reloadChart").click(function(){
+    	console.log("reload");
         $("#myChart").load(window.location.href+"#myChart");
         $("#reloadStockInfo").load(window.location.href+"#reloadStockInfo");
+    	console.log("reload a");
     });
-});
-$(document).ready(function() {     
 	$.getJSON('/mstock/resources/json/<%=request.getParameter("code")%>.json', function(data) {
 					console.log(data[data.length-1].Stockinfo[0])
 				/* chart */
