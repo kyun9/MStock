@@ -22,6 +22,7 @@
 	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
 
+
 </head>
 
 
@@ -63,7 +64,7 @@
 }
 
 .naver-login-img {
-	width: 100%;
+	width: 50%;
 	height: auto;
 	margin-top: 10px;
 }
@@ -109,23 +110,27 @@
 											placeholder="비밀번호">
 									</div>
 									<button type="submit" class="btn login-form__btn submit w-100">로그인</button>
+
 								</form>
-								<p class="mt-5 login-form__footer">
+
+
+								<p class="mt-5 login-form__footer text-center">
 									계정이 없으신가요? 지금 <a href="/mstock/register" class="text-primary">회원가입</a>
 									하세요
 								</p>
 							</div>
 						</div>
-						<div>
-							<img class="naver-login-img"
+						<div class="text-center" style="width: 100%">
+							<a href="/mstock/naver/login"><img class="naver-login-img"
 								src="/mstock/resources/images/naver/Naver_Login_White.PNG"
-								alt="naver_login">
+								alt="naver_login"></a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 
 </body>
 </html>

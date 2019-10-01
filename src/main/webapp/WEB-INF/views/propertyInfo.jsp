@@ -40,7 +40,7 @@
 						<c:choose>
 							<c:when test="${account eq 'fail'}">
 								<div class="jumbotron container">
-									<h1 class="display-4">안녕하세요, ${user.id}님</h1>
+									<h1 class="display-4">안녕하세요, ${user.nickname}님</h1>
 									<hr class="my-4">
 									<p class="lead">아직 계좌가 없습니다.</p>
 									<p class="lead">계좌를 생성하고 모의 주식을 즐겨보세요.</p>
@@ -51,7 +51,7 @@
 							</c:when>
 							<c:otherwise>
 								<div class="jumbotron container">
-									<h1 class="display-4">안녕하세요, ${user.id}님</h1>
+									<h1 class="display-4">안녕하세요, ${user.nickname}님</h1>
 									<p class="lead">${user.id}님의 자산 관리 페이지입니다</p>
 									<hr class="my-4">
 
