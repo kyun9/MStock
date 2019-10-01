@@ -40,12 +40,21 @@ public class PurchaseDAO {
 		return purchaseVO;
 	}
 	
-	//구매 주식 종목 insert
-	public void insertPurchasesStock(PurchaseVO vo) {
+	//구매 종목 insert Purchase_List TABLE, Update Account TABLE
+	public void purchaseStock(PurchaseVO vo) {
 		if(session.insert("resource.PurchaseMapper.insertPurchasesStock", vo)!=0) {
-			System.out.println("purchasesDAO insert 성공");
+			System.out.println("Purchase_List TABLE insert 성공");
 		}else {
 			System.out.println("insert 실패");
+		}
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("price", vo.getPrice());
+		map.put("account", vo.getAccount_id());
+		if(session.update("resource.AccountMapper.updateCredit", map)!=0) {
+			System.out.println("Account TABLE update 성공");
+		}
+		else {
+			System.out.println("credit update 실패");
 		}
 	}
 	

@@ -210,6 +210,17 @@
 			<scope>system</scope>
 			<systemPath>C:/Program Files/Java/jdk1.8.0_211/lib/tools.jar</systemPath>
 		</dependency>
+		<!-- Websocket 설정 -->
+		 <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>5.0.6.RELEASE</version>
+        </dependency>
+         <dependency>
+	       <groupId>javax.websocket</groupId>
+	       <artifactId>javax.websocket-api</artifactId>
+	       <version>1.1</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>

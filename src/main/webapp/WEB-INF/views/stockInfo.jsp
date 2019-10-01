@@ -26,6 +26,8 @@
 <link rel="stylesheet" href="/mstock/resources/css/demo_1/style.css">
 <!-- Layout style -->
 <link rel="shortcut icon" href="/mstock/resources/images/favicon.ico" />
+<!-- chatting.js -->
+<script src = "/mstock/resources/js/chatting.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
 <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
@@ -56,8 +58,9 @@
 							<div>
 								<canvas id="myChart" style="border: 1px solid #000000;"></canvas>
 								<%@ include file="./partials/stockchart.jsp"%>
+								<button id="reloadChart">새로고침</button>
 							</div>
-							<!-- <div id="gpDisp"></div> -->
+							
 							<div class="data-lists">
 								<dl>
 									<dt>
@@ -169,7 +172,7 @@
 											<div class="modal-footer">
 												<button type="button" class="btn btn-secondary"
 													data-dismiss="modal">Close</button>
-												<button type="submit" class="btn btn-primary">매수하기</button>
+												<button type="submit" onclick="return check();" class="btn btn-primary">매수하기</button>
 											</div>
 										</form>
 										<!--Close  Form  -->
@@ -178,6 +181,19 @@
 							</div>
 							<%} %>
 							<script>
+									function check(){
+										 var my =  $("#c").text();
+										 var count = $("#a").val();
+								          var result = count * val;
+										 if(my<result){
+											 alert("크레딧이 부족합니다.");
+											 return false;
+										 }
+										 else{
+											 alert("구매하였습니다.");
+										 }
+									}
+							
 										var val =  "<%=stock.getStockinfo()[1]%>";
 										val=val.replace(',','');
 							 			$("#b").text(val);
@@ -261,6 +277,40 @@
 					</div>
 				</div>
 			</div>
+			<!-- chat -->
+			
+			<div class="col-md-10" style="border: 1px solid black ">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        채팅
+                    </div>
+                    <div class="panel-body">
+                        <ul class="media-list">
+
+                            <li class="media">
+
+                                <div class="media-body">
+
+                                    <div class="media">
+                                        <div class="media-body " id="message"  style="overflow:auto; width:500px; height:150px;">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Message"  id="messageinput" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-info" type="button" onclick="send();">SEND</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 			<!-- content viewport ends -->
 			<!-- partial:partials/footer.jsp -->
 			<%@ include file="./partials/footer.jsp"%>

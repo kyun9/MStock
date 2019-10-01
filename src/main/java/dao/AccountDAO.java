@@ -27,19 +27,5 @@ public class AccountDAO {
 		return result;
 	}
 	
-	public void updateCredit(int price,int account) {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		System.out.println(price);
-		System.out.println(account);
-		map.put("price", price);
-		map.put("account", account);
-		System.out.println(map);
-		System.out.println("여기");
-		session.update("resource.AccountMapper.updateCredit", map);
-		System.out.println("here");
-//		if(session.update("resource.AccountMapper.updateCredit", map)==1) {
-//			System.out.println("credit updtate");
-//		}
-	}
 	
 }
