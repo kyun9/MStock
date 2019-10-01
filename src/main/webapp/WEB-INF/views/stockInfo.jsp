@@ -61,7 +61,7 @@
 								<button id="reloadChart">새로고침</button>
 							</div>
 							
-							<div class="data-lists">
+							<div class="data-lists" id="stockTable">
 								<dl>
 									<dt>
 										<span></span>주가정보
@@ -71,40 +71,25 @@
 											<ul>
 												<li>
 													<div class="main_stock_box1_title">
-														<%
-															if (!stock.getStockinfo()[0].equals("")) {
-														%>
 														<ul>
-															<li class="main_stock_box1_title1">A<%=stock.getJongCd()%><span><%=stock.getStockinfo()[0]%></span></li>
+															<li class="main_stock_box1_title1"></li>
 															<li class="main_stock_box1_title2"><span
-																class="CurJuka">현재가</span><%=stock.getStockinfo()[1]%></li>
+																class="CurJuka">현재가</span><span id="1"></span></li>
 														</ul>
 														<ul>
 															<li class="main_stock_box1_contn"><span
-																class="title">전일대비</span> <span> <%
- 	if (stock.getStockinfo()[2].equals("1") || stock.getStockinfo()[2].equals("2")) {
- %> <span class="up"> ▲ </span> <%
- 	}
- %> <%
- 	if (stock.getStockinfo()[2].equals("3")) {
- %> <span class="bohab"> ─ </span> <%
- 	}
- %> <%
- 	if (stock.getStockinfo()[2].equals("4") || stock.getStockinfo()[2].equals("5")) {
- %> <span class="down"> ▼ </span> <%
- 	}
- %> <%=stock.getStockinfo()[3]%>(<%=stock.getDungRakrate_str()%>%)
+																class="title">전일대비</span> <span> 
+																 <span class="up" id="2"> </span> 
+																  <span class="bohab" id="3">  </span>
+																  <span class="down" id="4"> </span>
 															</span></li>
 															<li class="main_stock_box1_contn"><span
-																class="title">거래량</span> <span><%=stock.getStockinfo()[5]%></span>
+																class="title">거래량</span> <span id="5"></span>
 															</li>
 															<li class="main_stock_box1_contn"><span
-																class="title">거래대금</span> <span><%=stock.getStockinfo()[6]%></span>
+																class="title">거래대금</span> <span id="6"></span>
 															</li>
 														</ul>
-														<%
-															}
-														%>
 													</div>
 												</li>
 											</ul>
@@ -113,21 +98,21 @@
 											<table id="stockInfo">
 												<tr>
 													<th>시가</th>
-													<td><%=stock.getStockinfo()[7]%></td>
+													<td id ="7"></td>
 													<th colspan="2">상한가</th>
-													<td><%=stock.getStockinfo()[12]%></td>
+													<td id="8"></td>
 												</tr>
 												<tr>
 													<th>고가</th>
-													<td><%=stock.getStockinfo()[8]%></td>
+													<td id="9"></td>
 													<th colspan="2">하한가</th>
-													<td><%=stock.getStockinfo()[13]%></td>
+													<td id="10"></td>
 												</tr>
 												<tr>
 													<th>저가</th>
-													<td><%=stock.getStockinfo()[9]%></td>
+													<td id="11"></td>
 													<th colspan="2">액면가</th>
-													<td><%=stock.getStockinfo()[16]%></td>
+													<td id="12"></td>
 												</tr>
 											</table>
 										</div>

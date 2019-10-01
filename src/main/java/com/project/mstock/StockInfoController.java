@@ -48,26 +48,5 @@ public class StockInfoController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/stock", method = RequestMethod.POST)
-	@ResponseBody
-	public Object postCheckId(@RequestBody String code) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		StockInfoVO vo = service.getInfo(code);
-		map.put("jongCode", vo.getJongCd());
-		map.put("jongName", vo.getStockinfo()[0]);
-		map.put("currentJuka", vo.getStockinfo()[1]);
-		map.put("preparateYCode", vo.getStockinfo()[2]);
-		map.put("preparateY", vo.getStockinfo()[3]);
-		map.put("dungRakrate", vo.getDungRakrate_str());
-		map.put("transcate", vo.getStockinfo()[5]);
-		map.put("transcateM", vo.getStockinfo()[6]);
-		map.put("timePrice", vo.getStockinfo()[7]);
-		map.put("limitPrice", vo.getStockinfo()[12]);
-		map.put("highPrice", vo.getStockinfo()[8]);
-		map.put("lowerPrice", vo.getStockinfo()[13]);
-		map.put("lowPrice", vo.getStockinfo()[9]);
-		map.put("facePrice", vo.getStockinfo()[16]);
-		return map;
-	}
 
 }
