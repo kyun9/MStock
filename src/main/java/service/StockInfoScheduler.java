@@ -7,7 +7,10 @@ import java.util.*;
 import javax.servlet.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.annotation.*;
 import org.springframework.scheduling.annotation.*;
+import org.springframework.scheduling.concurrent.*;
+import org.springframework.scheduling.config.*;
 import org.springframework.stereotype.*;
 
 import com.google.gson.*;
@@ -77,6 +80,18 @@ public class StockInfoScheduler {
 //		}
 //	}
 
+	@Configuration
+	public class SchedulingConfigurerConfiguration implements SchedulingConfigurer {
+
+	    @Override
+	    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+	        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+	        taskScheduler.setPoolSize(100);
+	        taskScheduler.initialize();
+	        taskRegistrar.setTaskScheduler(taskScheduler);
+	    }
+	}
+	
 	@Scheduled(cron = "0/10 * * * * *") // 10초간격 test
 	public void scaheduleJSON() {
 		StockInfoVO vo = new StockInfoVO();

@@ -262,8 +262,12 @@
 					</div>
 				</div>
 			</div>
-			<!-- chat -->
 			
+			<!-- word Cloud -->
+			<img class=".img-responsive"  src="/mstock/resources/images/data/<%=company.getWcimg()%>"  width=60%>
+			
+			
+			<!-- chat -->
 			<div class="col-md-10" style="border: 1px solid black ">
                 <div class="panel panel-info">
                     <div class="panel-heading">
