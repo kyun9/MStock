@@ -50,7 +50,7 @@
 				<div class="content-viewport">
 					<div class="row">
 						<div class="header-wrap">
-							실시간 시세<span><span class="time_img"></span><%=stock.getGettime()%>
+							실시간 시세<span><span class="time_img"></span><span id="time0"></span>
 								기준(<%=stock.getJanggubun()%>)</span>
 						</div>
 						<div class="body-wrap">
@@ -58,7 +58,7 @@
 							<div>
 								<canvas id="myChart" style="border: 1px solid #000000;"></canvas>
 								<%@ include file="./partials/stockchart.jsp"%>
-								<button id="reloadInfo">새로고침</button>
+								<button id="reloadInfo">새로고침</button> <span>※30초간격 자동갱신※</span>
 							</div>
 							
 							<div class="data-lists">
@@ -151,7 +151,7 @@
 												종목 코드 : <%= stock.getJongCd() %><br>
 												종목명 : <%=company.getName()%><br>
 												구매 개수 : <input id ="a" type="number"  name="quantity" value=1 min=1><br>
-												현재 가격 : <span id="b" style="font-weight:bold"><%=stock.getStockinfo()[1]%></span><br>
+												현재 가격 : <span id="b" style="font-weight:bold"></span><br>
 												나의 보유 자산 : <span id="c"><%=account.getCredit()  %></span><span>Credit</span>
 											</div>
 											<div class="modal-footer">

@@ -7,8 +7,8 @@ $(document).ready(function() {
 			var msg = $('#messageinput').val();
 			ws.send(msg);
 			$('#messageinput').val('');
-			scrollAdjust();
 		}
+		scrollAdjust();
 	});
 	openSocket();  
 })
@@ -39,7 +39,7 @@ function openSocket() {
 			return;
 		console.log(event.data);
 		writeResponse("ONOPEN : "+event.data);
-	};
+	};  
 	ws.onmessage = function(event) {
 		console.log("ONMESSAGE data: "+event.data);
 		console.log("ONMESSAGE event: "+event);
@@ -56,12 +56,12 @@ function openSocket() {
 function send() {
 	var text = document.getElementById("messageinput").value;
 	ws.send(text);
-	text = "";
-	scrollAdjust();
+	$('#messageinput').val('');
 }
 function closeSocket() {
 	ws.close();
 }
 function writeResponse(text) {
 	message.innerHTML += "<br/>" + text;
+	scrollAdjust();
 }

@@ -23,10 +23,13 @@ var drawingStockInfo = function(){$.getJSON('/mstock/resources/json/<%=request.g
 									});
 					
 					
-					
 					var minTime=today+" 09:00:00";
 					var maxTime = today+" 16:00:00";
+					var minJuka = Number(data[data.length-1].Stockinfo[9].replace(/,/gi,''));
+					var maxJuka = Number(data[data.length-1].Stockinfo[8].replace(/,/gi,''));
+					var stepJuka =(maxJuka-minJuka)/10;
 					var ctx = document.getElementById('myChart');
+					
 					var myChart = new Chart(ctx,{
 								type : 'line',
 								data : {
@@ -58,14 +61,26 @@ var drawingStockInfo = function(){$.getJSON('/mstock/resources/json/<%=request.g
 													'hour' : 'H:mm'
 												}
 											}
-										} ]
+										} ],
+										yAxes : [ {
+											 display: true,
+					                         ticks: {
+					                        	stepSize: stepJuka,
+												min : minJuka,
+												max :maxJuka,
+					                          }
+										}]
 									}
 								}
 							});
 					
 					/* stock 랜더링 */
+					
+					$("#time0").text(data[data.length-1].gettime);
 					$(".main_stock_box1_title1").text('A'+data[data.length-1].JongCd+" "+data[data.length-1].Stockinfo[0]);
 					$("#1").text(data[data.length-1].Stockinfo[1]);
+					var modalCurjuka=(data[data.length-1].Stockinfo[1]).replace(',','');
+					$("#b").text(modalCurjuka);
 					
 					if(data[data.length-1].Stockinfo[2]=="1"||data[data.length-1].Stockinfo[2]=="2"){
 						$("#2").text("▲"+data[data.length-1].Stockinfo[3] + '('+data[data.length-1].DungRakrate_str+')');
@@ -87,10 +102,10 @@ var drawingStockInfo = function(){$.getJSON('/mstock/resources/json/<%=request.g
 					$("#12").text(data[data.length-1].Stockinfo[16]); 
 				});
 };
-	/* 1분마다 자동 reload */
+	/* 30초마다 자동 reload */
 	var reloadTimer = setInterval(function() {
 		drawingStockInfo();
-	}, 60000);
+	}, 30000);
 	
 	
 	$(document).ready(function() {

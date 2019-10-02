@@ -77,7 +77,7 @@ public class StockInfoScheduler {
 //		}
 //	}
 
-	@Scheduled(cron = "0 0/1 * * * *") // 1분간격 test
+	@Scheduled(cron = "0/10 * * * * *") // 10초간격 test
 	public void scaheduleJSON() {
 		StockInfoVO vo = new StockInfoVO();
 		Gson gson=null;
