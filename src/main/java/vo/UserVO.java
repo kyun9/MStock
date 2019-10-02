@@ -9,6 +9,14 @@ public class UserVO {
 	String join_date;
 	String img;
 	String grade;
+	String status;
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public int getU_id() {
 		return u_id;
 	}

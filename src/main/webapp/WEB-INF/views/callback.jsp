@@ -6,6 +6,8 @@
 <%@ page import="org.json.simple.JSONObject"%>
 <%@ page import="org.json.simple.JSONValue"%>
 <%@ page import="org.json.simple.JSONArray"%>
+<%@ page import="java.util.Properties"%>
+<%@ page import="java.io.InputStream"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
 <!DOCTYPE html>
@@ -18,8 +20,14 @@
 </head>
 <body>
 	<%
-		String clientId = "cMPxJ8MC1bTMtzux5znf";//애플리케이션 클라이언트 아이디값";
-		String clientSecret = "NQBXNQqFZI";//애플리케이션 클라이언트 시크릿값";
+		Properties properties = new Properties();
+		String path = "/config/config.properties";
+
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(path);
+		properties.load(inputStream);
+		
+		String clientId = properties.getProperty("naver.client_id");//애플리케이션 클라이언트 아이디값";
+		String clientSecret = properties.getProperty("naver.client_secret");//애플리케이션 클라이언트 시크릿값";
 		String code = request.getParameter("code");
 		String state = request.getParameter("state");
 		String redirectURI = URLEncoder.encode("http://localhost:8000/mstock/naver/callback", "UTF-8");
@@ -31,10 +39,10 @@
 		apiURL += "&code=" + code;
 		apiURL += "&state=" + state;
 		//System.out.println("apiURL=" + apiURL);
-		
+
 		String access_token = "";
 		String refresh_token = "";
-		
+
 		try {
 			URL url = new URL(apiURL);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -56,19 +64,19 @@
 			if (responseCode == 200) {
 				//out.println(res.toString());
 				Object obj = JSONValue.parse(res.toString());
-				JSONObject jsonObj = (JSONObject)obj;
-				access_token = (String)jsonObj.get("access_token");
-				refresh_token = (String)jsonObj.get("refresh_token");
+				JSONObject jsonObj = (JSONObject) obj;
+				access_token = (String) jsonObj.get("access_token");
+				refresh_token = (String) jsonObj.get("refresh_token");
 			}
 		} catch (Exception e) {
 			//System.out.println(e);
 		}
 	%>
-	
+
 	<script>
 	 $(function(){
 		 location.href = "/mstock/naver/profile?access_token=<%=access_token%>";
-	});
+		});
 	</script>
 </body>
 </html>

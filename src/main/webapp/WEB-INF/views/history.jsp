@@ -35,66 +35,73 @@
 		<div class="page-content-wrapper">
 			<div class="page-content-wrapper-inner">
 				<div class="content-viewport">
-					<div class="row">
-						<div class="jumbotron container">
-							<h1 class="display-4">안녕하세요, ${user.id}님</h1>
-							<p class="lead">${user.id}님의매도/매수내역을확인할 수 있습니다</p>
+					<div class="row" style="height:1000px">
+						<div class="jumbotron container h-75 d-inline-block">
+							<h1 class="display-4">History</h1>
+							<p class="lead">${user.nickname}님의 매도 및 매수 내역을 확인할 수 있습니다</p>
 							<hr class="my-4">
-
-							<table class="table table-striped">
-								<thead>
-									<tr>
-										<th scope="col">상태</th>
-										<th scope="col">종목번호</th>
-										<th scope="col">종목명</th>
-										<th scope="col">가격</th>
-										<th scope="col">수량</th>
-										<th scope="col">날짜</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="list" items="${historyList}">
+							
+							<!-- Table -->
+							<div class="w-100 p-3 h-75 d-inline-block">
+								<table class="table">
+									<thead>
 										<tr>
-											<td>${list.status}</td>
-											<td>${list.company_id}</td>
-											<td>Name</td>
-											<td>${list.price}</td>
-											<td>${list.quantity}</td>
-											<td>${list.datetime}</td>
+											<th scope="col">상태</th>
+											<th scope="col">종목번호</th>
+											<th scope="col">종목명</th>
+											<th scope="col">가격</th>
+											<th scope="col">수량</th>
+											<th scope="col">날짜</th>
 										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+									</thead>
+									<tbody>
+										<c:forEach var="list" items="${historyList}">
+											<tr>
+												<td>${list.status}</td>
+												<td>${list.company_id}</td>
+												<td>Name</td>
+												<td>${list.price}</td>
+												<td>${list.quantity}</td>
+												<td>${list.datetime}</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
 
 							<!-- Paging -->
-							<ul class="pagination justify-content-center">
-								<c:if test="${pagination.curPage ne 1}">
-									<li class="page-item"><a class="page-link" href="#"
-										aria-label="Previous"
-										onClick="paging('${pagination.prevPage}')"> <span
-											aria-hidden="true">&laquo;</span> <span class="sr-only">Previous</span>
-									</a></li>
-								</c:if>
-								<c:forEach var="pageNum" begin="${pagination.startPage}"
-									end="${pagination.endPage}">
-									<c:choose>
-										<c:when test="${pageNum eq pagination.curPage}">
-											<li class="page-item" style="font-weight: bold;"><a
-												class="page-link" href="#" onclick="paging('${pageNum}')">${pageNum}</a></li>
-										</c:when>
-										<c:otherwise>
-											<li class="page-item"><a class="page-link" href="#"
-												onclick="paging('${pageNum}')">${pageNum}</a></li>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-								<c:if test="${pagination.curPage ne pagination.pageCnt}">
-									<li class="page-item"><a class="page-link" href="#"
-										aria-label="Next" onClick="paging('${pagination.nextPage }')">
-											<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
-									</a></li>
-								</c:if>
-							</ul>
+							<hr class="my-4">
+							<div>
+								<ul class="pagination justify-content-center">
+									<c:if test="${pagination.curPage ne 1}">
+										<li class="page-item"><a class="page-link" href="#"
+											aria-label="Previous"
+											onClick="paging('${pagination.prevPage}')"> <span
+												aria-hidden="true">&laquo;</span> <span class="sr-only">Previous</span>
+										</a></li>
+									</c:if>
+									<c:forEach var="pageNum" begin="${pagination.startPage}"
+										end="${pagination.endPage}">
+										<c:choose>
+											<c:when test="${pageNum eq pagination.curPage}">
+												<li class="page-item" style="font-weight: bold;"><a
+													class="page-link" href="#" onclick="paging('${pageNum}')">${pageNum}</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a class="page-link" href="#"
+													onclick="paging('${pageNum}')">${pageNum}</a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+									<c:if test="${pagination.curPage ne pagination.pageCnt}">
+										<li class="page-item"><a class="page-link" href="#"
+											aria-label="Next" onClick="paging('${pagination.nextPage }')">
+												<span aria-hidden="true">&raquo;</span> <span
+												class="sr-only">Next</span>
+										</a></li>
+									</c:if>
+								</ul>
+							</div>
 
 						</div>
 					</div>
@@ -121,16 +128,15 @@
 	<script src="/mstock/resources/js/template.js"></script>
 	<script src="/mstock/resources/js/dashboard.js"></script>
 	<!-- endbuild -->
-	
+
 	<script>
-	function paging(page){
-		location.href = "/mstock/history?page="+page;	
-	}
-		$(function(){
-			
+		function paging(page) {
+			location.href = "/mstock/history?page=" + page;
+		}
+		$(function() {
+
 		});
-			
 	</script>
-	
+
 </body>
 </html>

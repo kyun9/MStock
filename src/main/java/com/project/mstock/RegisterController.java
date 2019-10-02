@@ -32,6 +32,7 @@ public class RegisterController {
 		} else if(!dao.checkEmail(vo.getEmail())) {
 			mav.addObject("msg", "중복된 이메일입니다");
 		} else {
+			vo.setStatus("local");
 			if(dao.insert(vo)) {
 				mav.addObject("msg", "회원가입에 성공하였습니다");
 				mav.addObject("result", "success");

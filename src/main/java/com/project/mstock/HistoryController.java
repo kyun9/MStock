@@ -35,11 +35,12 @@ public class HistoryController {
 		} else {
 			
 			//페이징 작업
-			int historyCnt = historyDAO.getHistoryCnt(accountDAO.getAccount(userVO.getU_id()).getAccount_id());
+			int account_id = accountDAO.getAccount(userVO.getU_id()).getAccount_id();
+			int historyCnt = historyDAO.getHistoryCnt(account_id);
 			Pagination pagination = new Pagination(historyCnt, page);
 			int startIndex = pagination.getStartIndex();
 			
-			List<HistoryVO> historyList = historyDAO.getHistoryList(startIndex);
+			List<HistoryVO> historyList = historyDAO.getHistoryList(account_id, startIndex);
 			mav.addObject("historyList", historyList);
 			mav.addObject("pagination", pagination);
 			

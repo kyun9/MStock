@@ -19,7 +19,7 @@
 	</select>
 	
 	<!-- getHistoryList -->
-	<select id="getHistoryList" parameterType="int" resultType="vo.HistoryVO">
-		SELECT S.* FROM(SELECT ROW_NUMBER() OVER(ORDER BY R.HISTORY_ID DESC) NUM, R.* FROM HISTORY R) S WHERE NUM BETWEEN #{startIndex} AND #{startIndex}+10
+	<select id="getHistoryList" parameterType="java.util.HashMap" resultType="vo.HistoryVO">
+		SELECT S.* FROM(SELECT ROW_NUMBER() OVER(ORDER BY R.HISTORY_ID DESC) NUM, R.* FROM HISTORY R WHERE ACCOUNT_ID = #{account_id}) S WHERE NUM BETWEEN #{startIndex} AND #{startIndex}+10
 	</select>
 </mapper>

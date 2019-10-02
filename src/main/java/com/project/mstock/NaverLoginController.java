@@ -20,14 +20,20 @@ public class NaverLoginController {
 	@Autowired
 	NaverLoginService service;
 	
+	/*
+	 * @Value("${naver.client_id}") private String client_id;
+	 * @Value("${naver.client_secret}") private String client_secret;
+	 */
+	
 	@ModelAttribute("user")
 	public UserVO createUserModel() {
 		return new UserVO();
 	}
 	
 	@RequestMapping(value="/naver/login", method=RequestMethod.GET)
-	public String postNaverLogin() {
-			return "naverlogin";
+	public String postNaverLogin(Model model) {
+		//model.addAttribute("client_id", client_id);
+		return "naverlogin";
 	}
 	
 	@RequestMapping(value="/naver/callback", method = RequestMethod.GET)

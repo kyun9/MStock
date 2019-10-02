@@ -27,10 +27,13 @@ public class HistoryDAO {
 		return cnt;
 	}
 	
-	public List<HistoryVO> getHistoryList(int startIndex){
+	public List<HistoryVO> getHistoryList(int account_id, int startIndex){
 		List<HistoryVO> list = null;
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("account_id", account_id);
+		map.put("startIndex", startIndex);
 		String statement = "resource.HistoryMapper.getHistoryList";
-		list = session.selectList(statement, startIndex);
+		list = session.selectList(statement, map);
 		return list;
 	}
 	

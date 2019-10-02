@@ -26,6 +26,9 @@ public class Pagination {
 	
 	public void setPageCnt(int listCnt) {
 		this.pageCnt = (int)Math.ceil(listCnt*1.0/pageSize);
+		if(getPageCnt() == 0) {
+			setPageCnt(1);
+		}
 	}
 	
 	public void setRangeCnt(int pageCnt) {

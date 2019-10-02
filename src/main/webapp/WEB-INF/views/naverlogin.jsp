@@ -1,6 +1,8 @@
 <%@ page import="java.net.URLEncoder"%>
 <%@ page import="java.security.SecureRandom"%>
 <%@ page import="java.math.BigInteger"%>
+<%@ page import="java.util.Properties"%>
+<%@ page import="java.io.InputStream"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
 <!DOCTYPE html>
@@ -12,7 +14,13 @@
 </head>
 <body>
 	<%
-		String clientId = "${config.CLIENT_ID}";//애플리케이션 클라이언트 아이디값";
+		Properties properties = new Properties();
+		String path = "/config/config.properties";
+		
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(path);
+		properties.load(inputStream);
+		
+		String clientId = properties.getProperty("naver.client_id");//애플리케이션 클라이언트 아이디값";
 		String redirectURI = URLEncoder.encode("http://localhost:8000/mstock/naver/callback", "UTF-8");
 		SecureRandom random = new SecureRandom();
 		String state = new BigInteger(130, random).toString();

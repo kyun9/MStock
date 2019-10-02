@@ -47,6 +47,7 @@ public class NaverLoginService {
 				vo.setNickname(jsonObjRes.get("nickname").toString());
 				vo.setEmail(jsonObjRes.get("email").toString());
 				vo.setPassword(jsonObjRes.get("id").toString());
+				vo.setStatus("naver");
 				return vo;
 			} else {
 				System.out.println("fail naver login");
