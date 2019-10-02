@@ -58,10 +58,10 @@
 							<div>
 								<canvas id="myChart" style="border: 1px solid #000000;"></canvas>
 								<%@ include file="./partials/stockchart.jsp"%>
-								<button id="reloadChart">새로고침</button>
+								<button id="reloadInfo">새로고침</button>
 							</div>
 							
-							<div class="data-lists" id="stockTable">
+							<div class="data-lists">
 								<dl>
 									<dt>
 										<span></span>주가정보

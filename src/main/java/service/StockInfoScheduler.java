@@ -77,7 +77,7 @@ public class StockInfoScheduler {
 //		}
 //	}
 
-	@Scheduled(cron = "0 0/1 * * * *") // 10초간격 test
+	@Scheduled(cron = "0 0/1 * * * *") // 1분간격 test
 	public void scaheduleJSON() {
 		StockInfoVO vo = new StockInfoVO();
 		Gson gson=null;
@@ -96,10 +96,10 @@ public class StockInfoScheduler {
 				File f = new File(filePath);
 				List<StockInfoVO> vos =null;
 				if(f.exists()) {   //파일 존재 시
-					FileReader fr = new FileReader(filePath);
+					BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath),"UTF8"));
 					//JSON 형식의 데이터를 지정한 타입의 데이터로 변환한걸 list에 저장
-					vos = gson.fromJson(fr, voListType);
-					fr.close();
+					vos = gson.fromJson(reader, voListType);
+					reader.close();
 					System.out.println("파일있음");
 				}
 				else{   //파일 없을 시

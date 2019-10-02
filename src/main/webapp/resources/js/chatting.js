@@ -49,7 +49,7 @@ function openSocket() {
 		writeResponse("Connection closed");
 		console.log("ONCLOSE : "+event.data);
 		setTimeout(function() {
-			connect();
+			//openSocket();
 		}, 1000); // retry connection!!
 	}
 }
