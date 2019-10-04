@@ -2,6 +2,8 @@ package service;
 
 import java.io.*;
 
+import javax.servlet.*;
+
 import org.rosuda.REngine.Rserve.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.scheduling.annotation.*;
@@ -13,7 +15,8 @@ public class NewCloudScheduler {
 	String rsource_location;
 	@Value("#{config['wordcloud.location']}")
 	String wordcloud_location;
-
+	@Autowired
+	ServletContext context;
 	
 	//hadoop 연동시
 	//company : 주식 종목 12개
@@ -28,8 +31,10 @@ public class NewCloudScheduler {
 		//R코드를 source 하여 클라우드 저장 및 뉴스 기사 텍스트로 저장
 		//뉴스 기사는 언론사 3개 별 주식 종목 관련
 		//ex)파이낸셜_삼성SDI.txt 로 저장
+		String path = context.getRealPath("/").replaceAll("\\\\","/")+"resources/images/data";
+		System.out.println("mod "+path);
 		RConnection rc = new RConnection();
-		rc.eval("setwd("+wordcloud_location+")");
+		rc.eval("setwd('"+path+"')");
 		rc.eval("source("+rsource_location+")");
 		rc.close();
 

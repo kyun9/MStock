@@ -8,6 +8,8 @@ library(httr)
 library(htmltools)
 library(webshot)
 library(htmlwidgets)
+#install.packages("webshot")
+#webshot::install_phantomjs()
 
 company <- c('삼성SDI','현대모비스','SK하이닉스','네이버','LG전자'
              ,'셀트리온','아모레퍼시픽','신세계','신한은행','카카오'
@@ -79,7 +81,7 @@ repeat{
     tag <- html_nodes(site,paste0('div.search_news_box > dl:nth-child(',i,') > dt > a'))
     url <- html_attr(tag, 'href')  
     
-    gotonews <- read_html(url,encoding="UTF-8")
+    gotonews <- read_html(url)
     nodes <- html_nodes(gotonews, "#news_body_id > div.par")
     content <- html_text(nodes)
     
@@ -107,10 +109,10 @@ repeat{
   text_df <- data.frame(sort(table(text_data),decreasing = T))
   text_df <- text_df %>% filter(!text_data %in% filterword)
   text_cloud <- wordcloud2(text_df[1:100,],rotateRatio=0
-            ,size = 0.5 ,color = "random-dark",backgroundColor = "#ecb")
+            ,size = 1 ,color = "random-dark")
   
   saveWidget(text_cloud,"cloud.html",selfcontained = F)
-  webshot("cloud.html",paste0("cloud_",com_num,".png")
+  webshot("cloud.html",paste0(company[com_num],".png")
           , delay = 5, vwidth = 800, vheight=500)
   
   com_num <- com_num+1
