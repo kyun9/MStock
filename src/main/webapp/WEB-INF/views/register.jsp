@@ -104,6 +104,19 @@
 										<p id="checkId"></p>
 									</div>
 									
+									<div class="form-group">
+										<input id="password" name="password" type="password" class="form-control"
+											placeholder="비밀번호" required>
+									</div>
+									<div class="form-group">
+										<input id="repassword" type="password" class="form-control"
+											placeholder="비밀번호 확인" required>
+									</div>
+
+									<div class="form-label-group">
+										<p id="checkpassword"></p>
+									</div>
+									
 									<div class="form-group input-group mb-3">
 										<input id="nickname" name="nickname" type="text" class="form-control" placeholder="닉네임"  required>
 										<div class="input-group-append">
@@ -125,21 +138,8 @@
 									<div class="form-label-group">
 										<p id="checkEmail"></p>
 									</div>
-									
-									<div class="form-group">
-										<input id="password" name="password" type="password" class="form-control"
-											placeholder="비밀번호" required>
-									</div>
-									<div class="form-group">
-										<input id="repassword" type="password" class="form-control"
-											placeholder="비밀번호 확인" required>
-									</div>
 
-									<div class="form-label-group">
-										<p id="checkpassword"></p>
-									</div>
-
-									<button type="submit" class="btn login-form__btn submit w-100">회원가입</button>
+									<button type="submit" id="registerBtn" class="btn login-form__btn submit w-100" disabled>회원가입</button>
 								</form>
 								<p class="mt-5 login-form__footer">
 									이미 계정이 있으신가요? 그렇다면 <a href="/mstock/login" class="text-primary">로그인</a>
@@ -156,6 +156,21 @@
 
 	<script>
 		$(document).ready(function() {
+			
+			/* 회원가입 Disable 해제 */
+			var checkPassword = false;
+			var checkID = false;
+			var checkEmail = false;
+			var checkNickname = false;
+			
+			var checkRegisterBtn = function(){
+				if(checkPassword && checkID && checkEmail && checkNickname){
+					$("#registerBtn").removeAttr("disabled");
+				} else {
+					$("#registerBtn").attr("disabled", "disabled");
+				}
+			}
+		
 					
 			/* 비밀번호 확인 */
 			$('#repassword').on("blur",function() {
@@ -164,10 +179,13 @@
 				} else {
 					if ($('#repassword').val() != $('#password').val()) {
 						$('#checkpassword').text("비밀번호가 다릅니다").css("color", "red");
+						checkPassword = false;
 					} else {
 						$('#checkpassword').text("비밀번호가 같습니다").css("color", "blue");
+						checkPassword = true;
 					}
 				}
+				checkRegisterBtn();
 			});
 					
 			/* 아이디 중복확인 */
@@ -181,10 +199,12 @@
 					success: function(data){
 						if(data.result != "success"){
 							$("#checkId").text(data.msg).css("color", "red");
+							checkID = false;
 						} else {
 							$("#checkId").text(data.msg).css("color", "blue");
+							checkID = true;
 						}
-						
+						checkRegisterBtn();
 					}
 				})
 			});
@@ -200,10 +220,12 @@
 					success: function(data){
 						if(data.result != "success"){
 							$("#checkNickname").text(data.msg).css("color", "red");
+							checkNickname = false;
 						} else {
 							$("#checkNickname").text(data.msg).css("color", "blue");
+							checkNickname = true;
 						}
-						
+						checkRegisterBtn();
 					}
 				})
 			});
@@ -219,14 +241,16 @@
 					success: function(data){
 						if(data.result != "success"){
 							$("#checkEmail").text(data.msg).css("color", "red");
+							checkEmail = false;
 						} else {
 							$("#checkEmail").text(data.msg).css("color", "blue");
+							checkEmail = true;
 						}
-						
+						checkRegisterBtn();
 					}
 				})
 			});
-		
+
 		});
 	</script>
 

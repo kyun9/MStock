@@ -36,7 +36,7 @@
 			<div class="page-content-wrapper-inner">
 				<div class="content-viewport">
 					<div class="row" style="height:1000px">
-						<div class="jumbotron container h-75 d-inline-block">
+						<div class="jumbotron container h-75 d-inline-block text-center">
 							<h1 class="display-4">History</h1>
 							<p class="lead">${user.nickname}님의 매도 및 매수 내역을 확인할 수 있습니다</p>
 							<hr class="my-4">

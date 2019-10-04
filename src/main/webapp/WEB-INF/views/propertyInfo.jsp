@@ -39,7 +39,7 @@
 						<!-- 내용 -->
 						<c:choose>
 							<c:when test="${account eq 'fail'}">
-								<div class="jumbotron container">
+								<div class="jumbotron container text-center">
 									<h1 class="display-4">Property Management</h1>
 									<p class="lead">${user.nickname}님의 자산 관리 페이지입니다</p>
 									<hr class="my-4">
@@ -51,7 +51,7 @@
 								</div>
 							</c:when>
 							<c:otherwise>
-								<div class="jumbotron container">
+								<div class="jumbotron container text-center">
 									<h1 class="display-4">Property Management</h1>
 									<p class="lead">${user.nickname}님의 자산 관리 페이지입니다</p>
 									<hr class="my-4">
@@ -149,6 +149,8 @@
 										</div>
 
 									</div>
+									
+									<hr class="my-4">
 
 								</div>
 
@@ -223,7 +225,8 @@
 										</form>
 									</div>
 								</div>
-
+								
+								
 
 							</c:otherwise>
 						</c:choose>
