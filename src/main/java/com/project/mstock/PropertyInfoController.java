@@ -80,7 +80,7 @@ public class PropertyInfoController {
 		int credit = curJuka * purchaseVO.getQuantity();
 		
 		if(accountDAO.updateCredit(purchaseVO.getAccount_id(), credit)) {
-			//보유한 주식 개수와 매도하려는 주식 개수가 같으면 Delete 아니면 Updatge
+			//보유한 주식 개수와 매도하려는 주식 개수가 같으면 Delete 아니면 Update
 			int quantity = purchaseDAO.getQuantity(purchaseVO.getList_id());
 			boolean check = false;
 			if(purchaseVO.getQuantity() == quantity) {

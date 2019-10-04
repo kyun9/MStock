@@ -34,17 +34,25 @@ public class HistoryController {
 			return mav;
 		} else {
 			
-			//페이징 작업
-			int account_id = accountDAO.getAccount(userVO.getU_id()).getAccount_id();
-			int historyCnt = historyDAO.getHistoryCnt(account_id);
-			Pagination pagination = new Pagination(historyCnt, page);
-			int startIndex = pagination.getStartIndex();
+			//Account 생성 전이면 property로 보냄
+			AccountVO accountVO = accountDAO.getAccount(userVO.getU_id());
+			if(accountVO == null) {
+				mav.setViewName("redirect:/property");
+			} else {
+				
+				//페이징 작업
+				int account_id = accountDAO.getAccount(userVO.getU_id()).getAccount_id();
+				int historyCnt = historyDAO.getHistoryCnt(account_id);
+				Pagination pagination = new Pagination(historyCnt, page);
+				int startIndex = pagination.getStartIndex();
+				
+				List<HistoryVO> historyList = historyDAO.getHistoryList(account_id, startIndex);
+				mav.addObject("historyList", historyList);
+				mav.addObject("pagination", pagination);
+				
+				mav.setViewName("history");				
+			}
 			
-			List<HistoryVO> historyList = historyDAO.getHistoryList(account_id, startIndex);
-			mav.addObject("historyList", historyList);
-			mav.addObject("pagination", pagination);
-			
-			mav.setViewName("history");
 		}
 
 		return mav;

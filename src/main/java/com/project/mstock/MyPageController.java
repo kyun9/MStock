@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 
 import dao.*;
+import service.*;
 import vo.*;
 
 @Controller
@@ -14,6 +15,9 @@ public class MyPageController {
 	
 	@Autowired
 	RegisterDAO registerDAO;
+	
+	@Autowired
+	PasswordService passwordService;
 	
 	@ModelAttribute("user")
 	public UserVO createUserModel() {
@@ -37,7 +41,7 @@ public class MyPageController {
 	@RequestMapping(value="/mypage", method = RequestMethod.POST)
 	public String postUpdateInfo(@ModelAttribute("user") UserVO userVO, String password) {
 		
-		if(registerDAO.updatePassword(userVO.getId(), password)) {
+		if(registerDAO.updatePassword(userVO.getId(), passwordService.getEncodedPassword(password))) {
 			System.out.println("success update password");
 		} else {
 			System.out.println("fail update password");

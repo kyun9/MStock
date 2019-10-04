@@ -263,7 +263,7 @@
 	        labels: ["Credit", "Stock"],
 	        datasets: [{
 	            data: [${propertyVO.credit}, ${propertyVO.stock_value}],
-	            backgroundColor: ["#71c016", "#8caaff"],
+	            backgroundColor: ["#ff944d", "#8caaff"],
 	            borderColor: "rgba(0,0,0,0)"
 	          }]
 	      };

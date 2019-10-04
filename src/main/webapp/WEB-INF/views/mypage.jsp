@@ -35,7 +35,7 @@
 			<div class="page-content-wrapper-inner">
 				<div class="content-viewport">
 					<div class="row" style="height: 700px">
-						<div class="jumbotron container h-75 d-inline-block  text-center">
+						<div class="jumbotron container h-75 d-inline-block text-center">
 							<h1 class="display-4">My Page</h1>
 							<p class="lead">${user.nickname}님의개인정보를 수정할 수 있습니다</p>
 							<hr class="my-4">
