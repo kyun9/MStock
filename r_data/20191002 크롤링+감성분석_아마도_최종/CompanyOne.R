@@ -119,6 +119,8 @@ repeat{
           , delay = 5, vwidth = 800, vheight=500)
   
   #5.감성분석
+  
+  #5-1.초기 클래스(긍정,부정) 분류를 위한 데이터 프레임 생성 및 클래스 분류
   w_class <- data.frame(matrix(nrow=15, ncol=2))
   names(w_class) <- c("class","news_num")
   
@@ -143,12 +145,17 @@ repeat{
     }
   }
   
+  #5-2.긍정 부정 분류한 뒤 계산
+  #p_pos , p_neg : 15개 기사 중 긍정,부정으로 나뉜 기사의 비율
   pos_matchsum <- sum(!is.na(match(w_class[,1],'pos')))
   neg_matchsum <- sum(!is.na(match(w_class[,1],'neg')))
   
   p_pos <- pos_matchsum/length(w_class[,1])
   p_neg <- neg_matchsum/length(w_class[,1])
   
+  #5-3.각 기사 별 존재하는 단어 체크를 위한 데이터 프레임 생성 및 분류
+  #기사에 존재하는 단어는 1, 없는 단어는 0으로 지정
+  #위에서 분류한 긍,부정 클래스를 weight_df 에 붙여줌
   unique_vec <- unique(unlist(news_word_list))
   weight_df <- data.frame(matrix(nrow=15, ncol=length(unique_vec),data = 0))
   names(weight_df) <- unique_vec
@@ -159,6 +166,9 @@ repeat{
                              unlist(news_word_list[[df_num]]))] <- 1
   }
   
+  #5-4.각 기사 별 tf 값을 구하기 위한 데이터 프레임 생성 및 계산
+  #idf = log(전체기사/단어 존재기사) 값을 데이터 프레임으로 생성 및 계산
+  #이후 두 프레임의 값에 대해 곱 계산
   tf_idf_df <- data.frame(matrix(nrow=15, ncol=length(unique_vec),data = 0))
   names(tf_idf_df) <- unique_vec
   
@@ -188,6 +198,8 @@ repeat{
     }
   }
   
+  #5-5.tf_idf_df 를 클래스별로 구분하기 위해 클래스를 붙인 뒤 2개로 나눔
+  #긍정,부정일때 각각의 평균 값을 넣어주는 과정 실행
   tf_idf_df <- cbind(tf_idf_df,w_class)
   df_pos <- tf_idf_df %>% filter(class=='pos')
   df_neg <- tf_idf_df %>% filter(class=='neg')
@@ -207,6 +219,9 @@ repeat{
     }
   }
   
+  #5-6.mean_w_df(긍,부정 각각의 가중치 평균을 넣어준 데이터 프레임)
+  #이를 이용해 다시 클래스별로 분류 후 긍,부정 별 열별 합과 전체합을 구함
+  #이는 나이브 베이즈 분류기 적용을 위한 절차
   tf_idf_pos <- mean_w_df[which(tf_idf_df$class=='pos'),]
   tf_idf_neg <- mean_w_df[which(tf_idf_df$class=='neg'),]
   
@@ -215,6 +230,9 @@ repeat{
   tf_idf_pos_allsum <- sum(tf_idf_pos_sum)
   tf_idf_neg_allsum <- sum(tf_idf_neg_sum)
   
+  #5-7.결과값을 저장하기 위한 벡터 및 데이터 프레임 생성
+  #벡터에는 단순 긍정,부정을 넣어줌 @@(필요한지 잘 모르겠음)@@
+  #데이터 프레임에는 나이브 베이즈 분류기 값을 저장
   result_vec <- c()
   result_df <- data.frame(matrix(nrow=15,ncol=2))
   
@@ -247,6 +265,10 @@ repeat{
     }
   }
   
+  #5-8.결과 값을 도출한 result_df에서 평균값과 비율을 구함
+  #per_df에 per1과 per2를 넣어줌
+  # = 주식 종목12개에 대해서 각각의 15개의 기사에 대한
+  #   긍,부정에 대한 비율을 넣어줌
   mean1 <- mean(result_df$X1)
   mean2 <- mean(result_df$X2)
   
