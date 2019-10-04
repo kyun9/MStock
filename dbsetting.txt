@@ -6,12 +6,13 @@ CREATE TABLE  users
 (
    u_id  NUMBER(8,0) PRIMARY KEY,
    id varchar2(20) UNIQUE,
-   password  varchar2(20) NOT NULL,
+   password  varchar2(100) NOT NULL,
    email  varchar2(40) NOT NULL,
    nickname varchar2(20) NOT NULL,
    join_date  date,
    img  varchar2(100),
    grade NUMBER(8,0)
+   status varchar2(20)
 );
 
 CREATE TABLE  accounts 

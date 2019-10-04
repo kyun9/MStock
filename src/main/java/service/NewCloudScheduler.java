@@ -1,19 +1,19 @@
 package service;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.*;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
-import org.rosuda.REngine.Rserve.RConnection;
-import org.rosuda.REngine.Rserve.RserveException;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.rosuda.REngine.Rserve.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.scheduling.annotation.*;
+import org.springframework.stereotype.*;
 
 @Service
 public class NewCloudScheduler {
+	@Value("#{config['rsource.location']}")
+	String rsource_location;
+	@Value("#{config['wordcloud.location']}")
+	String wordcloud_location;
+
 	
 	//hadoop 연동시
 	//company : 주식 종목 12개
@@ -23,14 +23,14 @@ public class NewCloudScheduler {
 //            						,"S-Oil","한국콜마"};
 //	public static String[] news = {"파이낸셜","한겨레","조선일보"};
 //	
-	@Scheduled(fixedRate=300000)
-	public static void cloud() throws RserveException, IOException{
+	@Scheduled(fixedRate=6000000)
+	public void cloud() throws RserveException, IOException{
 		//R코드를 source 하여 클라우드 저장 및 뉴스 기사 텍스트로 저장
 		//뉴스 기사는 언론사 3개 별 주식 종목 관련
 		//ex)파이낸셜_삼성SDI.txt 로 저장
 		RConnection rc = new RConnection();
-		rc.eval("setwd('C:/Users/student/Desktop/MStock/MStock/src/main/webapp/resources/images/data')");
-		rc.eval("source('C:/Rstudy/CompanyOne.R' , encoding = 'UTF-8')");
+		rc.eval("setwd("+wordcloud_location+")");
+		rc.eval("source("+rsource_location+")");
 		rc.close();
 
 //		//******************************하둡 연동 시작

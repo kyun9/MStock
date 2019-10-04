@@ -271,7 +271,7 @@
 			<div class="col-md-10" style="border: 1px solid black ">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        채팅
+                        채팅방
                     </div>
                     <div class="panel-body">
                         <ul class="media-list">
