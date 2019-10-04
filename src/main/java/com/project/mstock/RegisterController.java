@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 
 import dao.*;
+import service.*;
 import vo.*;
 
 @Controller
@@ -15,6 +16,9 @@ public class RegisterController {
 	
 	@Autowired
 	RegisterDAO dao;
+	
+	@Autowired
+	PasswordService service;
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public String getRegister() {
@@ -32,6 +36,7 @@ public class RegisterController {
 		} else if(!dao.checkEmail(vo.getEmail())) {
 			mav.addObject("msg", "중복된 이메일입니다");
 		} else {
+			vo.setPassword(service.getEncodedPassword(vo.getPassword()));
 			vo.setStatus("local");
 			if(dao.insert(vo)) {
 				mav.addObject("msg", "회원가입에 성공하였습니다");

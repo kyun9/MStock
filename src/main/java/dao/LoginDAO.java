@@ -38,6 +38,12 @@ public class LoginDAO {
 		return true;
 	}
 	
+	public String getPassword(String id) {
+		String statement = "resource.LoginMapper.getPassword";
+		String encodedPassword = session.selectOne(statement, id);
+		return encodedPassword;
+	}
+	
 	/*
 	public boolean insertNaverUser(UserVO vo) {
 		String statement = "resource.RegisterMapper.insertNaverUser";

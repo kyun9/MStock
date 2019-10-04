@@ -30,7 +30,7 @@ public class HistoryController {
 		
 		//session이 없으면 login으로 보냄
 		if(userVO == null) {
-			mav.setViewName("login");
+			mav.setViewName("redirect:/login");
 			return mav;
 		} else {
 			

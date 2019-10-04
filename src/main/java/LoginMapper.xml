@@ -19,4 +19,9 @@
 		SELECT COUNT(*) FROM USERS WHERE ID = #{id} 
 	</select>
 	
+	<!-- getPassword -->
+	<select id="getPassword" parameterType="string" resultType="string">
+		SELECT PASSWORD FROM USERS WHERE ID = #{id} 
+	</select>
+	
 </mapper>
