@@ -112,10 +112,10 @@ repeat{
   text_df <- data.frame(sort(table(unlist_text_data),decreasing = T))
   text_df <- text_df %>% filter(!unlist_text_data %in% filterword)
   text_cloud <- wordcloud2(text_df[1:100,],rotateRatio=0
-            ,size = 1 ,color = "random-dark",backgroundColor = "#ecb")
+            ,size = 1 ,color = "random-dark")
   
   saveWidget(text_cloud,"cloud.html",selfcontained = F)
-  webshot("cloud.html",paste0("cloud_",com_num,".png")
+  webshot("cloud.html",paste0(company[com_num],".png")
           , delay = 5, vwidth = 800, vheight=500)
   
   #5.감성분석
