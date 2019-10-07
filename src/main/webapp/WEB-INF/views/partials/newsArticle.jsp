@@ -10,7 +10,7 @@ day = day >= 10 ? day : '0' + day;
 /* 오늘 yyyy-mm-dd  */
 var today = d.getFullYear()+ "-"+ month+ "-" + day;
 
-var drawingStockInfo = function(){$.getJSON('/mstock/resources/json/'+today+'.json', function(data) {
+var crawlingNews = function(){$.getJSON('/mstock/resources/json/'+today+'.json', function(data) {
 
 				var news = [];
 					

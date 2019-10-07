@@ -114,6 +114,7 @@ var drawingStockInfo = function(){$.getJSON('/mstock/resources/json/<%=request.g
 			drawingStockInfo();
 		});
 		drawingStockInfo();
+		crawlingNews();
 		reloadTimer;
 	});
 </script>
