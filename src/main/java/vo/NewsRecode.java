@@ -1,4 +1,4 @@
-package com.project.mstock;
+package vo;
 
 import java.util.List;
 

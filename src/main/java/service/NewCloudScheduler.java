@@ -11,10 +11,8 @@ import org.springframework.stereotype.*;
 
 @Service
 public class NewCloudScheduler {
-	@Value("#{config['rsource.location']}")
+	@Value("#{config['rsource.companyOne']}")
 	String rsource_location;
-	@Value("#{config['wordcloud.location']}")
-	String wordcloud_location;
 	@Autowired
 	ServletContext context;
 	
@@ -26,7 +24,7 @@ public class NewCloudScheduler {
 //            						,"S-Oil","한국콜마"};
 //	public static String[] news = {"파이낸셜","한겨레","조선일보"};
 //	
-	@Scheduled(fixedRate=6000000)
+	@Scheduled(fixedRate=600000)
 	public void cloud() throws RserveException, IOException{
 		//R코드를 source 하여 클라우드 저장 및 뉴스 기사 텍스트로 저장
 		//뉴스 기사는 언론사 3개 별 주식 종목 관련

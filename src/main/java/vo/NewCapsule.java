@@ -1,6 +1,8 @@
-package com.project.mstock;
+package vo;
 
 import java.util.List;
+
+import vo.*;
 
 public class NewCapsule {
 	
