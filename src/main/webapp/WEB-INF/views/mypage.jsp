@@ -34,23 +34,68 @@
 		<div class="page-content-wrapper">
 			<div class="page-content-wrapper-inner">
 				<div class="content-viewport">
-					<div class="row" style="height: 700px">
+					<div class="row" style="height: 1000px">
 						<div class="jumbotron container h-75 d-inline-block text-center">
 							<h1 class="display-4">My Page</h1>
-							<p class="lead">${user.nickname}님의개인정보를 수정할 수 있습니다</p>
+							<p class="lead">${user.nickname}님의개인정보를수정할수있습니다</p>
 							<hr class="my-4">
 
 							<c:choose>
 								<c:when test="${user.status eq 'naver'}">
-									<div
-										class="w-100 p-3 h-75 d-inline-block p-3 mb-2 bg-white rounded-lg text-center">
-										<h2 class="align-middle">Naver 로그인은 정보 수정이 불가능 합니다</h2>
+
+									<div class="text-center w-auto p-3">
+										<form action="/mstock/mypage" method="post"
+											enctype="multipart/form-data">
+
+											<div class="form-group row">
+												<label for="staticStatus" class="col-sm-2 col-form-label">상태</label>
+												<div class="col-sm-10">
+													<input type="text" readonly class="form-control-plaintext"
+														id="staticStatus" name="status" value="${user.status} 로그인">
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label for="staticNickname" class="col-sm-2 col-form-label">닉네임</label>
+												<div class="col-sm-10">
+													<input type="text" readonly class="form-control-plaintext"
+														id="staticNickname" value="${user.nickname}">
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label for="staticEmail" class="col-sm-2 col-form-label">이메일</label>
+												<div class="col-sm-10">
+													<input type="text" readonly class="form-control-plaintext"
+														id="staticEmail" value="${user.email}">
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-sm-2 col-form-label">프로필 사진</label>
+												<div class="col-sm-10">
+													<input type="file" class="form-control-file"
+														accept=".gif, .jpg, .png" name="profileImg">
+												</div>
+											</div>
+
+											<button id="updateBtn" type="submit"
+												class="btn btn-secondary">수정하기</button>
+											<button id="cancleBtn" type="button"
+												class="btn btn-secondary">취소하기</button>
+
+										</form>
 									</div>
+
+
 								</c:when>
 								<c:otherwise>
 
 									<div class="text-center w-auto p-3">
-										<form action="/mstock/mypage" method="post">
+										<form action="/mstock/mypage" method="post"
+											enctype="multipart/form-data">
+											
+											<input type="hidden" name="status" value="local">
 
 											<div class="form-group row">
 												<label for="staticID" class="col-sm-2 col-form-label">아이디</label>
@@ -77,6 +122,14 @@
 											</div>
 
 											<div class="form-group row">
+												<label class="col-sm-2 col-form-label">프로필 사진</label>
+												<div class="col-sm-10">
+													<input type="file" class="form-control-file"
+														accept=".gif, .jpg, .png" name="profileImg">
+												</div>
+											</div>
+
+											<div class="form-group row">
 												<label for="inputPassword" class="col-sm-2 col-form-label">비밀번호</label>
 												<div class="col-sm-10">
 													<input type="password" class="form-control"
@@ -89,16 +142,21 @@
 													확인</label>
 												<div class="col-sm-10">
 													<input type="password" class="form-control"
-														id="inputPasswordRe" placeholder="Password">
+														id="inputPasswordRe" placeholder="Confirm Password">
 												</div>
 											</div>
 
-											<div class="form-label-group">
-												<p id="checkpassword"></p>
+											<div class="form-group row">
+												<label for="checkpassword" class="col-sm-2 col-form-label"></label>
+												<div class="col-sm-10 text-left">
+													<p id="checkpassword"></p>
+												</div>
 											</div>
 
-											<button type="submit" class="btn btn-secondary">수정하기</button>
-											<button type="button" class="btn btn-secondary">취소하기</button>
+											<button id="updateBtn" type="submit"
+												class="btn btn-secondary" disabled>수정하기</button>
+											<button id="cancleBtn" type="button"
+												class="btn btn-secondary">취소하기</button>
 
 										</form>
 									</div>
@@ -138,7 +196,6 @@
 	<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script>
 		/* 비밀번호 확인 */
-		/*
 		$(function() {
 			$('#inputPasswordRe').on(
 					"blur",
@@ -152,14 +209,16 @@
 									'#inputPassword').val()) {
 								$('#checkpassword').text("비밀번호가 다릅니다").css(
 										"color", "red");
+								$("#registerBtn").attr("disabled", "disabled");
 							} else {
 								$('#checkpassword').text("비밀번호가 같습니다").css(
 										"color", "blue");
+								$('#updateBtn').removeAttr('disabled');
 							}
 						}
 					});
+
 		});
-		*/
 	</script>
 </body>
 </html>

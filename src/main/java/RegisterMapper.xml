@@ -33,4 +33,9 @@
 		UPDATE USERS SET PASSWORD = #{password} WHERE ID = #{id}
 	</update>
 	
+	<!-- Update Img -->
+	<update id="updateImg" parameterType="java.util.HashMap">
+		UPDATE USERS SET IMG = #{img} WHERE ID = #{id}
+	</update>
+	
 </mapper>

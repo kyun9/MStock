@@ -36,4 +36,5 @@ public class AccountDAO {
 		result = session.insert(statement, map) == 0 ? false : true;
 		return result;
 	}
+	
 }

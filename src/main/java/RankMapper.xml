@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="resource.RankMapper">
+	
+	<!-- getGrade -->
+	<select id="getGrade" parameterType="int" resultType="string">
+		SELECT GRADE FROM RANKS WHERE #{property} BETWEEN MIN_VALUE AND MAX_VALUE
+	</select>
+	
+</mapper>

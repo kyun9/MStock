@@ -11,6 +11,8 @@ public class PropertyService {
 
 	@Autowired
 	PurchaseDAO purchaseDAO;
+	@Autowired
+	RankDAO rankDAO;
 	
 	//현재 자산정보 get
 	public PropertyVO getProperty(UserVO userVO, AccountVO accountVO) {
@@ -31,6 +33,10 @@ public class PropertyService {
 		double total_value = credit+stock_value;
 		double profit_rate = (total_value - 10000000) / 10000000 * 100;
 		propertyVO.setProfit_rate(profit_rate);
+		
+		//grade set(등급)
+		String grade = rankDAO.getGrade(credit+stock_value);
+		propertyVO.setGrade(grade);
 		
 		return propertyVO;
 	}

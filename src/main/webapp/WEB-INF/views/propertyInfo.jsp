@@ -65,9 +65,12 @@
 														<div
 															class="col-md-12 col-xl-3 d-flex flex-column justify-content-center">
 															<div class="ml-xl-4 text-center">
-																<p class="h1">총 자산</p>
-																<p class="h2" id="total_property"></p>
-																<p class="h2" id="profit_rate"></p>
+																<p class="h3">총 자산</p>
+																<p class="h3" id="total_property"></p>
+																<p class="h3">수익률</p>
+																<p class="h3" id="profit_rate"></p>
+																<p class="h3">등급</p>
+																<p class="h3">${propertyVO.grade}</p>
 															</div>
 														</div>
 

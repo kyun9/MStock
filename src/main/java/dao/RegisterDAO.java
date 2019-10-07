@@ -66,4 +66,13 @@ public class RegisterDAO {
 		return true;
 	}
 	
+	public boolean updateImg(String id, String img) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("id", id);
+		map.put("img", img);
+		String statement = "resource.RegisterMapper.updateImg";
+		if (session.update(statement, map) != 1)
+			return false;
+		return true;
+	}
 }

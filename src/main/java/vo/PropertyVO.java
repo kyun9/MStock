@@ -4,6 +4,15 @@ public class PropertyVO {
 	int credit;
 	int stock_value;
 	double profit_rate;
+	String grade;
+	
+	
+	public String getGrade() {
+		return grade;
+	}
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
 	public int getCredit() {
 		return credit;
 	}

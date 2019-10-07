@@ -41,7 +41,6 @@ public class LoginController {
 			mav.addObject("msg", "로그인에 성공하였습니다");
 			mav.addObject("result", "success");
 			model.addAttribute("user", dao.getUserInfo(vo.getId()));
-			
 		} else {
 			mav.addObject("msg", "아이디와 비밀번호를 확인해주세요");
 			mav.addObject("result", "fail");
