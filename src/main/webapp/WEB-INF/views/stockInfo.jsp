@@ -266,6 +266,19 @@
 			<!-- word Cloud -->
 			<img class=".img-responsive"  src="/mstock/resources/images/data/<%=company.getWcimg()%>"  width=60%>
 			
+			<!-- Article List -->
+				<table id="article" style="border : 1px solid black">
+					  <thead>
+					        <tr>
+					          <th>제목</th>
+					          <th>언론사</th>
+					          <th>시간</th>
+					        </tr>
+					     </thead>
+					     <tbody id="appendArticle">
+					     </tbody>
+				</table>
+			<%@ include file="./partials/newsArticle.jsp"%>
 			
 			<!-- chat -->
 			<div class="col-md-10" style="border: 1px solid black ">
