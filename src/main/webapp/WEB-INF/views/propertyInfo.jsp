@@ -65,12 +65,27 @@
 														<div
 															class="col-md-12 col-xl-3 d-flex flex-column justify-content-center">
 															<div class="ml-xl-4 text-center">
-																<p class="h3">총 자산</p>
-																<p class="h3" id="total_property"></p>
-																<p class="h3">수익률</p>
-																<p class="h3" id="profit_rate"></p>
-																<p class="h3">등급</p>
-																<p class="h3">${propertyVO.grade}</p>
+																<table class="table table-bordered">
+
+																	<tbody>
+																		<tr>
+																			<th>총 자산</th>
+																			<td id="total_property"></td>
+																		</tr>
+																		<tr>
+																			<th>매입 금액</th>
+																			<td>0</td>
+																		</tr>
+																		<tr>
+																			<th>평가 손익</th>
+																			<td id="profit_rate"></td>
+																		</tr>
+																		<tr>
+																			<th>등급</th>
+																			<td>${propertyVO.grade}</td>
+																		</tr>
+																	</tbody>
+																</table>
 															</div>
 														</div>
 
@@ -102,60 +117,60 @@
 											</div>
 										</div>
 									</div>
+								</div>
 
-
-									<hr class="my-4">
-									<div class="row">
-										<div class="col-md-12 grid-margin stretch-card">
-											<div class="card">
-												<div class="card-body">
-													<!-- <p class="card-title mb-0">Top Products</p> -->
-													<div class="table-responsive text-center">
-														<table class="table table-hover">
-															<thead>
+								<hr class="my-4">
+								<div class="row container text-center">
+									<div class="col-md-12 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<!-- <p class="card-title mb-0">Top Products</p> -->
+												<div class="table-responsive text-center">
+													<table class="table table-hover">
+														<thead>
+															<tr>
+																<th>종목코드</th>
+																<th>종목명</th>
+																<th>현재가</th>
+																<th>전일대비</th>
+																<th>등락률</th>
+																<th>구매가</th>
+																<th>수량</th>
+																<th>손익</th>
+																<th>수익률</th>
+																<th>매도</th>
+															</tr>
+														</thead>
+														<tbody>
+															<c:forEach var="list" items="${myStockList}">
 																<tr>
-																	<th>종목코드</th>
-																	<th>종목명</th>
-																	<th>현재가</th>
-																	<th>전일대비</th>
-																	<th>등락률</th>
-																	<th>구매가</th>
-																	<th>수량</th>
-																	<th>손익</th>
-																	<th>수익률</th>
-																	<th>매도</th>
+																	<td>${list.company_id}</td>
+																	<td>${list.name}</td>
+																	<td>${list.curjuka}</td>
+																	<td>${list.debi}</td>
+																	<td>${list.dongrak}</td>
+																	<td>${list.price}</td>
+																	<td>${list.quantity}</td>
+																	<td>${list.profit}</td>
+																	<td>${list.profit_rate}</td>
+																	<td><button type="button"
+																			class="btn btn-secondary btn-sm" data-toggle="modal"
+																			data-target="#modal">매도</button></td>
 																</tr>
-															</thead>
-															<tbody>
-																<c:forEach var="list" items="${myStockList}">
-																	<tr>
-																		<td>${list.company_id}</td>
-																		<td>${list.name}</td>
-																		<td>${list.curjuka}</td>
-																		<td>${list.debi}</td>
-																		<td>${list.dongrak}</td>
-																		<td>${list.price}</td>
-																		<td>${list.quantity}</td>
-																		<td>${list.profit}</td>
-																		<td>${list.profit_rate}</td>
-																		<td><button type="button"
-																				class="btn btn-secondary btn-sm" data-toggle="modal"
-																				data-target="#modal">매도</button></td>
-																	</tr>
-																</c:forEach>
-															</tbody>
-														</table>
+															</c:forEach>
+														</tbody>
+													</table>
 
-													</div>
 												</div>
 											</div>
 										</div>
-
 									</div>
-									
-									<hr class="my-4">
 
 								</div>
+
+								<hr class="my-4">
+
+
 
 								<!-- Modal -->
 								<div class="modal fade" id="modal" tabindex="-1" role="dialog"
@@ -228,8 +243,8 @@
 										</form>
 									</div>
 								</div>
-								
-								
+
+
 
 							</c:otherwise>
 						</c:choose>

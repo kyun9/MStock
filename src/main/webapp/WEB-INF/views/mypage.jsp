@@ -34,7 +34,7 @@
 		<div class="page-content-wrapper">
 			<div class="page-content-wrapper-inner">
 				<div class="content-viewport">
-					<div class="row" style="height: 1000px">
+					<div class="row">
 						<div class="jumbotron container h-75 d-inline-block text-center">
 							<h1 class="display-4">My Page</h1>
 							<p class="lead">${user.nickname}님의개인정보를수정할수있습니다</p>

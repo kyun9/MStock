@@ -9,6 +9,16 @@
 		SELECT * FROM ACCOUNTS WHERE U_ID = #{u_id} 
 	</select>
 	
+	<!-- getAccountList-->
+	<select id="getAccountList" resultType="vo.AccountVO">
+		SELECT * FROM ACCOUNTS 
+	</select>
+	
+	<!-- getU_id -->
+	<select id="getU_id" parameterType="int" resultType="int">
+		SELECT U_ID FROM ACCOUNTS WHERE ACCOUNT_ID = #{account_id} 
+	</select>
+	
 	<!-- insertAccount-->
 	<insert id="insertAccount"  parameterType="vo.AccountVO">
   		<selectKey resultType="int" keyProperty="account_id" order="BEFORE">

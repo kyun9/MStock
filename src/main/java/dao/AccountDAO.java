@@ -20,6 +20,20 @@ public class AccountDAO {
 		return vo;
 	}
 	
+	public List<AccountVO> getAccountList(){
+		List<AccountVO> list = null;
+		String statement = "resource.AccountMapper.getAccountList";
+		list = session.selectList(statement);
+		return list;
+	}
+	
+	public int getU_id(int account_id) {
+		int u_id = 0;
+		String statement = "resource.AccountMapper.getU_id";
+		u_id = session.selectOne(statement, account_id);
+		return u_id;
+	}
+	
 	public boolean insertAccount(AccountVO vo) {
 		boolean result = false;
 		String statement = "resource.AccountMapper.insertAccount";

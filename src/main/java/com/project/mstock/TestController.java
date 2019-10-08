@@ -15,17 +15,20 @@ public class TestController {
 	
 	@Autowired
 	RSourceService service;
+	@Autowired
+	RankScheduler rankService;
 	
 	@RequestMapping(value="/rsource", method = RequestMethod.GET)
 	public String getRsource() throws RserveException, REXPMismatchException, IOException {
 		service.rdata();
 		//service.temp();
-		
+
 		return "temp";
 	}
 	
 	@RequestMapping(value="/temp", method = RequestMethod.GET)
 	public String getTemp(){
+		rankService.updateRank();
 		return "temp";
 	}
 	
