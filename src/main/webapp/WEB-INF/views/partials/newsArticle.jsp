@@ -22,12 +22,19 @@ var crawlingNews = function(){$.getJSON('/mstock/resources/json/'+today+'.json',
 					   
 				var article;
 				for(var i=0;i<10;i++){
-					article = "<tr><td>"+news[0][i].title+"</td><td>"+news[0][i].press+"</td><td>"+news[0][i].time+"</td></tr>";
+					article = "<tr class='check' data-toggle='modal' data-id='"+i+"' data-target='#newsInfo'><td>"+news[0][i].title+"</td><td>"+news[0][i].press+"</td><td>"+news[0][i].time+"</td></tr>";
+					
 					$("#appendArticle").append(article);
 				}
-				console.log("hello");
-										
-					
+				
+				$(document).ready(function(){
+					$("#article").on("click",".check",function () {
+					    var index=$(this).attr('data-id');
+					    $("#NewsTitle").text(news[0][index].title);
+					    $("#NewsContent").text(news[0][index].content);
+					    $("#newsInfo").modal("show");
+					});
+				});
 				});
 };
 </script>

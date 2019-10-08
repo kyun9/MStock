@@ -12,7 +12,6 @@ $(document).ready(function() {
 	});
 	openSocket();  
 })
-
 function scrollAdjust() {
 	$("#message").scrollTop($("#message")[0].scrollHeight);
 }

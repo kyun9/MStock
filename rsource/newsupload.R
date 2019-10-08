@@ -1,9 +1,5 @@
-library(dplyr)
-library(XML)
-library(RCurl)
+
 library(rvest)
-library(httr)
-library(Rserve)
 library(stringr)
 
 ##Rserve(args="--RS-encoding utf8")
@@ -44,4 +40,3 @@ navereco_info<-NULL
       navereco_info <- rbind(navereco_info,page)
     }
   }
-  

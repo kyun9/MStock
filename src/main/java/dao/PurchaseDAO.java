@@ -56,6 +56,12 @@ public class PurchaseDAO {
 		else {
 			System.out.println("credit update 실패");
 		}
+		if(session.insert("resource.HistoryMapper.insertHistory", vo)!=0) {
+			System.out.println("History insert 성공");
+		}else{
+			System.out.println("History insert 실패");
+		}
+		
 	}
 	
 }

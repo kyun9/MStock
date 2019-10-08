@@ -60,7 +60,7 @@ public class NewsScrapingScheduler {
 					r.eval("code = '" + code[h] + "'");
 					r.eval("source("+rsource_location+")");
 					RList list = r.eval("navereco_info").asList();
-
+					
 					// 크롤링 결과인 dataframe을 받아 놓을 articleItem 2차원 배열
 					String[][] articleItem = new String[4][10];
 
@@ -72,6 +72,10 @@ public class NewsScrapingScheduler {
 					// 종목 코드별 10개 기사 객체리스트에 추가
 					for (int j = 0; j < 10; j++) {
 						// map에 추가
+						System.out.println(articleItem[0][j]);
+						System.out.println(articleItem[1][j]);
+						System.out.println(articleItem[2][j]);
+						System.out.println(articleItem[3][j]);
 						map.put(articleItem[0][j], 1);
 						newsRecode.add(new NewsRecode(articleItem[0][j], articleItem[1][j], articleItem[2][j],
 								articleItem[3][j]));
@@ -105,6 +109,7 @@ public class NewsScrapingScheduler {
 					// 항목 개수 4개 (title/press/time/content) 배열에 추가
 					for (int i = 0; i < 4; i++) {
 						articleItem[i] = list.at(i).asStrings();
+						System.out.println(articleItem[i][0]);
 					}
 
 					// 종목 코드별 10개 기사 객체리스트에 추가
@@ -139,5 +144,5 @@ public class NewsScrapingScheduler {
 			r.close();
 		}
 	}
-
+	
 }

@@ -263,8 +263,9 @@
 				</div>
 			</div>
 			
-			<!-- word Cloud -->
+			<!-- wordCloud -->
 			<img class=".img-responsive"  src="/mstock/resources/images/data/<%=company.getWcimg()%>"  width=60%>
+			<!-- end wordCloud -->
 			
 			<!-- Article List -->
 				<table id="article" style="border : 1px solid black">
@@ -279,46 +280,74 @@
 					     </tbody>
 				</table>
 			<%@ include file="./partials/newsArticle.jsp"%>
-			
-			<!-- chat -->
-			<div class="col-md-10" style="border: 1px solid black ">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        채팅방
-                    </div>
-                    <div class="panel-body">
-                        <ul class="media-list">
 
-                            <li class="media">
+			<div class="modal fade" id="newsInfo" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalCenterTitle"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+									<!-- Form  -->
+											<div class="modal-header">
+												<h5 class="modal-title" id="NewsTitle"></h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body" id="NewsContent">
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-primary"
+													data-dismiss="modal">Close</button>
+											</div>
+										<!--Close  Form  -->
+									</div>
+								</div>
+							</div>
+				<!-- end Article LIst -->
 
-                                <div class="media-body">
+				<!-- chat -->
+				<div class="col-md-10" style="border: 1px solid black">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<%= company.getName()%>
+							채팅방
+						</div>
+						<div class="panel-body">
+							<ul class="media-list">
 
-                                    <div class="media">
-                                        <div class="media-body " id="message"  style="overflow:auto; width:500px; height:150px;">
-                                        </div> 
-                                    </div>
+								<li class="media">
 
-                                </div>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Enter Message"  id="messageinput" />
-                            <span class="input-group-btn">
-                                <button class="btn btn-info" type="button" onclick="send();">SEND</button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-			<!-- content viewport ends -->
-			<!-- partial:partials/footer.jsp -->
-			<%@ include file="./partials/footer.jsp"%>
-			<!-- partial -->
-		</div>
-		<!-- page content ends -->
+									<div class="media-body">
+
+										<div class="media">
+											<div class="media-body " id="message"
+												style="overflow: auto; width: 500px; height: 150px;">
+											</div>
+										</div>
+
+									</div>
+								</li>
+
+							</ul>
+						</div>
+						<div class="panel-footer">
+							<div class="input-group">
+								<input type="text" class="form-control"
+									placeholder="Enter Message" id="messageinput" /> <span
+									class="input-group-btn">
+									<button class="btn btn-info" type="button" onclick="send();">SEND</button>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- content viewport ends -->
+				<!-- partial:partials/footer.jsp -->
+				<%@ include file="./partials/footer.jsp"%>
+				<!-- partial -->
+			</div>
+			<!-- page content ends -->
 	</div>
 	<!--page body ends -->
 	<!-- SCRIPT LOADING START FORM HERE /////////////-->
@@ -331,7 +360,7 @@
 	<!-- Vendor Js For This Page Ends-->
 	<!-- build:js -->
 	<script src="/mstock/resources/js/template.js"></script>
-	<script src="/mstock/resources/js/dashboard.js"></script>
+	<script src="/mstock/resources/js/clickNews.js"></script>
 	<!-- endbuild -->
 </body>
 </html>
