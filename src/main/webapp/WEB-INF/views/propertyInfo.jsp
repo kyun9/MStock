@@ -41,7 +41,7 @@
 							<c:when test="${account eq 'fail'}">
 								<div class="jumbotron container text-center">
 									<h1 class="display-4">Property Management</h1>
-									<p class="lead">${user.nickname}님의 자산 관리 페이지입니다</p>
+									<p class="lead">${user.nickname}님의자산관리페이지입니다</p>
 									<hr class="my-4">
 									<p class="lead">아직 계좌가 없습니다.</p>
 									<p class="lead">계좌를 생성하고 모의 주식을 즐겨보세요.</p>
@@ -53,68 +53,44 @@
 							<c:otherwise>
 								<div class="jumbotron container text-center">
 									<h1 class="display-4">Property Management</h1>
-									<p class="lead">${user.nickname}님의 자산 관리 페이지입니다</p>
+									<p class="lead">${user.nickname}님의자산관리페이지입니다</p>
 									<hr class="my-4">
 
 									<div class="row">
-										<div class="col-md-12 grid-margin stretch-card">
-											<div class="card position-relative">
-												<div class="card-body">
-
-													<div class="row">
-														<div
-															class="col-md-12 col-xl-3 d-flex flex-column justify-content-center">
-															<div class="ml-xl-4 text-center">
-																<table class="table table-bordered">
-
-																	<tbody>
-																		<tr>
-																			<th>총 자산</th>
-																			<td id="total_property"></td>
-																		</tr>
-																		<tr>
-																			<th>매입 금액</th>
-																			<td>0</td>
-																		</tr>
-																		<tr>
-																			<th>평가 손익</th>
-																			<td id="profit_rate"></td>
-																		</tr>
-																		<tr>
-																			<th>등급</th>
-																			<td>${propertyVO.grade}</td>
-																		</tr>
-																	</tbody>
-																</table>
-															</div>
-														</div>
-
-														<div class="col-md-12 col-xl-9">
-															<div class="row">
-																<div class="col-md-6 mt-3 col-xl-5">
-																	<canvas id="north-america-chart"></canvas>
-																	<div id="north-america-legend"></div>
-																</div>
-																<div class="col-md-6 col-xl-7">
-																	<div class="table-responsive mb-3 mb-md-0">
-
-																		<div class="card">
-																			<div class="card-body">
-																				<p class="card-title">Cash deposits</p>
-
-																				<div id="cash-deposits-chart-legend"
-																					class="d-flex justify-content-center pt-3"></div>
-																				<canvas id="cash-deposits-chart"></canvas>
-																			</div>
-																		</div>
-
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
+										<div class="card container">
+											<div class="row align-items-center">
+											
+												<div class="col-6 col-md-4">
+													<table class="table table-bordered">
+														<tbody>
+															<tr>
+																<th>총 자산</th>
+																<td id="total_property"></td>
+															</tr>
+															<tr>
+																<th>매입 금액</th>
+																<td>0</td>
+															</tr>
+															<tr>
+																<th>평가 손익</th>
+																<td id="profit_rate"></td>
+															</tr>
+														</tbody>
+													</table>
 												</div>
+
+												<div class="col-6 col-md-4">
+													<canvas id="north-america-chart"></canvas>
+													<div id="north-america-legend"></div>
+												</div>
+
+												<div class="col-6 col-md-4">
+													<h1>${propertyVO.grade}</h1>
+												</div>
+
 											</div>
+
+
 										</div>
 									</div>
 								</div>
@@ -324,89 +300,6 @@
 	        
 	      });
 	      document.getElementById('north-america-legend').innerHTML = northAmericaChart.generateLegend();
-	    }
-	</script>
-
-	<script>
-		if ($('#cash-deposits-chart').length) {
-	      var cashDepositsCanvas = $("#cash-deposits-chart").get(0).getContext("2d");
-	      var data = {
-	        labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8"],
-	        datasets: [
-	          {
-	            
-	            data: [27, 35, 30, 40, 52, 48, 54, 46, 70],
-	            borderColor: [
-	              '#ff4747'
-	            ],
-	            borderWidth: 2,
-	            fill: false,
-	            pointBackgroundColor: "#fff"
-	          }
-	        ]	
-	      };
-	      var options = {
-	        scales: {
-	          yAxes: [{
-	            display: true,
-	            gridLines: {
-	              drawBorder: false,
-	              lineWidth: 1,
-	              color: "#e9e9e9",
-	              zeroLineColor: "#e9e9e9",
-	            },
-	            ticks: {
-	              min: 0,
-	              max: 100,
-	              stepSize: 20,
-	              fontColor: "#6c7383",
-	              fontSize: 16,
-	              fontStyle: 300,
-	              padding: 15
-	            }
-	          }],
-	          xAxes: [{
-	            display: true,
-	            gridLines: {
-	              drawBorder: false,
-	              lineWidth: 1,
-	              color: "#e9e9e9",
-	            },
-	            ticks : {
-	              fontColor: "#6c7383",
-	              fontSize: 16,
-	              fontStyle: 300,
-	              padding: 15
-	            }
-	          }]
-	        },
-	        legend: {
-	          display: false
-	        },
-	        elements: {
-	          point: {
-	            radius: 3
-	          },
-	          line :{
-	            tension: 0
-	          }
-	        },
-	        stepsize: 1,
-	        layout : {
-	          padding : {
-	            top: 0,
-	            bottom : -10,
-	            left : -10,
-	            right: 0
-	          }
-	        }
-	      };
-	      var cashDeposits = new Chart(cashDepositsCanvas, {
-	        type: 'line',
-	        data: data,
-	        options: options
-	      });
-	      document.getElementById('cash-deposits-chart-legend').innerHTML = cashDeposits.generateLegend();
 	    }
 	</script>
 

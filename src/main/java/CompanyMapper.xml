@@ -6,7 +6,7 @@
 
 	<!-- getCurJuka-->
 	<select id="getCurJuka" parameterType="string" resultType="int">
-		SELECT CURJUKA FROM COMPANYS WHERE COMPANY_ID = #{company_id} 
+		SELECT REPLACE(CURJUKA, ',', '') FROM COMPANYS WHERE COMPANY_ID = #{company_id} 
 	</select>
 	
 </mapper>
