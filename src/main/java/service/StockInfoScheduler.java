@@ -47,8 +47,8 @@ public class StockInfoScheduler {
 	    }
 	}
 	
-//	@Scheduled(cron="0/10 0 9-16 ? * MON-FRI")  // 월요일~금, 9시에서 16시,10초간격
 	@Scheduled(cron = "0/10 * * * * *") // 10초간격 test
+//	@Scheduled(cron="0/10 * 9-16 ? * MON-FRI")  // 월요일~금, 9시에서 16시,10초간격
 	public void scaheduleJSON() {
 		StockInfoVO vo = new StockInfoVO();
 		Gson gson=null;
@@ -62,10 +62,16 @@ public class StockInfoScheduler {
 				gson = new GsonBuilder().setPrettyPrinting().create();
 				// json array 파싱할때 클래스 리터럴을 stockInfoVO로 준다,표시된 형식을 반환(getType())
 				voListType = new TypeToken<List<StockInfoVO>>(){}.getType();
+				String folderPath = context.getRealPath("/")+"/resources/json";
 				String filePath = context.getRealPath("/")+"/resources/json/" + vo.getJongCd() + ".json";
 				System.out.println(filePath);
 				File f = new File(filePath);
+				File folder = new File(folderPath);
 				List<StockInfoVO> vos =null;
+				if(!folder.exists()) {
+					folder.mkdir(); //폴더 생성합니다.
+					System.out.println("폴더가 생성되었습니다.");
+				}
 				if(f.exists()) {   //파일 존재 시
 					BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath),"UTF8"));
 					//JSON 형식의 데이터를 지정한 타입의 데이터로 변환한걸 list에 저장

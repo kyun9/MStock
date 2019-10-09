@@ -43,11 +43,17 @@ public class NewsScrapingScheduler {
 		// 파일명 지정 및 생성
 		String FileName = format1.format(System.currentTimeMillis());
 		String path = context.getRealPath("/").replaceAll("\\\\","/")+"resources/json/";
+		String folderPath = context.getRealPath("/")+"/resources/json";
 		File filePath = new File(path + FileName + ".json");
+		File folder = new File(folderPath);
+		if(!folder.exists()) {
+			folder.mkdir(); //폴더 생성합니다.
+			System.out.println("폴더가 생성되었습니다.");
+		}
 		try {
 			r = new RConnection();
 			gson = new GsonBuilder().setPrettyPrinting().create();
-
+			
 			// 만일 파일이 존재하지 않으면
 			if (!filePath.exists()) {
 				System.out.println("파일 없음");
