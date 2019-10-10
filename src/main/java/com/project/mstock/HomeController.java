@@ -35,10 +35,4 @@ public class HomeController {
 		mav.setViewName("default");
 		return mav;
 	}
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ModelAndView test(@ModelAttribute("user") UserVO userVO) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("test");
-		return mav;
-	}
 }

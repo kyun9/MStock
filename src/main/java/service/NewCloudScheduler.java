@@ -11,7 +11,7 @@ import org.springframework.stereotype.*;
 
 @Service
 public class NewCloudScheduler {
-	@Value("#{config['rsource.companyOne']}")
+	@Value("#{config['rsource.AnalyzeCompanies']}")
 	String rsource_location;
 	@Autowired
 	ServletContext context;
@@ -29,7 +29,13 @@ public class NewCloudScheduler {
 		//R코드를 source 하여 클라우드 저장 및 뉴스 기사 텍스트로 저장
 		//뉴스 기사는 언론사 3개 별 주식 종목 관련
 		//ex)파이낸셜_삼성SDI.txt 로 저장
-		String path = context.getRealPath("/").replaceAll("\\\\","/")+"resources/images/data";
+		String path = context.getRealPath("/").replaceAll("\\\\","/")+"resources/rdata";
+		File folder = new File(path);
+		if(!folder.exists()) {
+			folder.mkdir();
+		}else {
+			System.out.println("이미 폴더 있음");
+		}
 		System.out.println("mod "+path);
 		RConnection rc = new RConnection();
 		rc.eval("setwd('"+path+"')");
