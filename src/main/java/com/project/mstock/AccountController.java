@@ -21,19 +21,16 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value="/account/insert", method = RequestMethod.GET)
-	public ModelAndView getAccountInsert(@ModelAttribute("user") UserVO user) {
-		ModelAndView mav = new ModelAndView();
+	public String getAccountInsert(@ModelAttribute("user") UserVO user) {
 		AccountVO vo = new AccountVO();
 		vo.setU_id(user.getU_id());
 		if(accountDAO.insertAccount(vo)) {
-			mav.addObject("account", "success");
+			System.out.println("계정을 생성하였습니다");
 		} else {
-			mav.addObject("account", "fail");
+			System.out.println("계정 생성에 실패하였습니다");
 		}
 		
-		mav.setViewName("propertyInfo");
-		
-		return mav;
+		return "redirect:/property";
 	}
 	
 }

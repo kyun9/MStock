@@ -4,15 +4,20 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="resource.PurchaseMapper">
 
+	<!-- checkStock -->
+	<select id="checkStock" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{account_id}
+	</select>
+
 	<!-- getStockValue-->
 	<select id="getStockValue" parameterType="int" resultType="int">
 		<!-- WITH P AS (SELECT COMPANY_ID, SUM(PRICE*QUANTITY)AS "ESTI_VALUE" FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{u_id} GROUP BY COMPANY_ID) SELECT SUM(P.ESTI_VALUE) AS "STOCK_VALUE" FROM P -->
-		WITH T AS (SELECT P.COMPANY_ID, SUM(CURJUKA*QUANTITY)AS "ESTI_VALUE" FROM PURCHASE_LIST P, COMPANYS C WHERE P.COMPANY_ID = C.COMPANY_ID AND ACCOUNT_ID = #{account_id} GROUP BY P.COMPANY_ID) SELECT SUM(T.ESTI_VALUE) AS "SUM_STOCK_VALUE" FROM T
+		WITH T AS (SELECT P.COMPANY_ID, SUM(REPLACE(CURJUKA, ',', '')*QUANTITY)AS "ESTI_VALUE" FROM PURCHASE_LIST P, COMPANYS C WHERE P.COMPANY_ID = C.COMPANY_ID AND ACCOUNT_ID = #{account_id} GROUP BY P.COMPANY_ID) SELECT SUM(T.ESTI_VALUE) AS "SUM_STOCK_VALUE" FROM T
 	</select>
 	
 	<!-- getMyStock -->
 	<select id="getMyStock" parameterType="int" resultType="vo.MyStockVO">
-		WITH P AS (SELECT COMPANY_ID, SUM(PRICE*QUANTITY) AS "SUM_PRICE", SUM(QUANTITY) AS "QUANTITY" FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{account_id} GROUP BY COMPANY_ID) SELECT P.COMPANY_ID, NAME, P.SUM_PRICE/P.QUANTITY AS "PRICE", CURJUKA, P.QUANTITY FROM P, COMPANYS C WHERE p.COMPANY_ID = C.COMPANY_ID
+		WITH P AS (SELECT COMPANY_ID, SUM(PRICE*QUANTITY) AS "SUM_PRICE", SUM(QUANTITY) AS "QUANTITY" FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{account_id} GROUP BY COMPANY_ID) SELECT P.COMPANY_ID, NAME, P.SUM_PRICE/P.QUANTITY AS "PRICE", REPLACE(CURJUKA, ',', ''), P.QUANTITY FROM P, COMPANYS C WHERE p.COMPANY_ID = C.COMPANY_ID
 	</select>
 	
 	<!-- getOneComapnyStock -->
@@ -28,5 +33,20 @@
     		INSERT INTO PURCHASE_LIST 
     		VALUES (#{list_id}, #{account_id}, #{company_id}, #{price}, #{quantity}, SYSDATE)
 	</insert>
+	
+	<!-- getQuantity -->
+	<select id="getQuantity" parameterType="int" resultType="int">
+		SELECT QUANTITY FROM PURCHASE_LIST WHERE LIST_ID = #{list_id}
+	</select>
+	
+	<!-- sellStockUpdate -->
+	<update id="sellStockUpdate" parameterType="vo.PurchaseVO">
+		UPDATE PURCHASE_LIST SET QUANTITY = QUANTITY - #{quantity} WHERE LIST_ID = #{list_id}
+	</update>
+	
+	<!-- sellStockDelete -->
+	<delete id="sellStockDelete" parameterType="vo.PurchaseVO">
+		DELETE FROM PURCHASE_LIST WHERE LIST_ID = #{list_id}
+	</delete>
 	
 </mapper>

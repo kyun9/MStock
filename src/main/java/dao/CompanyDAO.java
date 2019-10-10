@@ -1,11 +1,9 @@
 package dao;
 
 import java.util.*;
-
 import org.apache.ibatis.session.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
-
 import vo.*;
 
 @Repository
@@ -31,5 +29,12 @@ public class CompanyDAO {
 	}
 	public CompanyVO selectOneCompay(String code) {
 		return  session.selectOne("CompanyMapper.selectOne", code);
+	}
+
+	public int getCurJuka(String company_id) {
+		int curJuka = 0;		
+		String statement = "CompanyMapper.getCurJuka";
+		curJuka = session.selectOne(statement, company_id);
+		return curJuka;
 	}
 }

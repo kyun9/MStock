@@ -13,4 +13,15 @@
 	<select id="getUserInfo" parameterType="string" resultType="vo.UserVO">
 		SELECT * FROM USERS WHERE ID = #{id} 
 	</select>
+	
+	<!-- checkUser -->
+	<select id="checkUser" parameterType="string" resultType="int">
+		SELECT COUNT(*) FROM USERS WHERE ID = #{id} 
+	</select>
+	
+	<!-- getPassword -->
+	<select id="getPassword" parameterType="string" resultType="string">
+		SELECT PASSWORD FROM USERS WHERE ID = #{id} 
+	</select>
+	
 </mapper>

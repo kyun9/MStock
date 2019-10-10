@@ -18,8 +18,7 @@ public class LoginDAO {
 		temp = session.selectOne(statement, vo);
 		if(temp != null) {
 			check = true;
-		}
-		
+		}		
 		return check;
 	}
 
@@ -29,5 +28,29 @@ public class LoginDAO {
 		vo = session.selectOne(statement, id);
 		return vo;
 	}
+	
+	public boolean checkUser(String id) {
+		String statement = "resource.LoginMapper.checkUser";
+		int count = session.selectOne(statement, id);
+		if(count != 1) {
+			return false;
+		}
+		return true;
+	}
+	
+	public String getPassword(String id) {
+		String statement = "resource.LoginMapper.getPassword";
+		String encodedPassword = session.selectOne(statement, id);
+		return encodedPassword;
+	}
+	
+	/*
+	public boolean insertNaverUser(UserVO vo) {
+		String statement = "resource.RegisterMapper.insertNaverUser";
+		if (session.insert(statement, vo) != 1)
+			return false;
+		return true;
+	}
+	*/
 
 }

@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.*;
+
 import org.apache.ibatis.session.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -54,4 +56,23 @@ public class RegisterDAO {
 		return check;
 	}
 	
+	public boolean updatePassword(String id, String password) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("password", password);
+		String statement = "resource.RegisterMapper.updatePassword";
+		if (session.update(statement, map) != 1)
+			return false;
+		return true;
+	}
+	
+	public boolean updateImg(String id, String img) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("img", img);
+		String statement = "resource.RegisterMapper.updateImg";
+		if (session.update(statement, map) != 1)
+			return false;
+		return true;
+	}
 }

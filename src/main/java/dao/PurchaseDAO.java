@@ -13,6 +13,14 @@ public class PurchaseDAO {
 	@Autowired
 	SqlSession session = null;
 	
+	//주식 유무 체크
+	public int checkStock(int account_id) {
+		int count = 0;
+		String statement = "resource.PurchaseMapper.checkStock";
+		count = session.selectOne(statement, account_id);
+		return count;
+	}
+	
 	//총 주식 보유액 get
 	public int getStockValue(int account_id) {
 		int stock_value;
@@ -62,6 +70,38 @@ public class PurchaseDAO {
 			System.out.println("History insert 실패");
 		}
 		
+	}
+	
+	//구매시점 주식에 대한 개수 get
+	public int getQuantity(int list_id) {
+		int quantity = 0;
+		String statement = "resource.PurchaseMapper.getQuantity";
+		quantity = session.selectOne(statement, list_id);
+		return quantity;
+	}
+	
+	//매도Update Version
+	public boolean sellStockUpdate(PurchaseVO purchaseVO) {
+		int check = 0;
+		String statement = "resource.PurchaseMapper.sellStockUpdate";
+		check = session.update(statement, purchaseVO);
+		if(check != 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	//매도Delete Version
+	public boolean sellStockDelete(PurchaseVO purchaseVO) {
+		int check = 0;
+		String statement = "resource.PurchaseMapper.sellStockDelete";
+		check = session.delete(statement, purchaseVO);
+		if(check != 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }

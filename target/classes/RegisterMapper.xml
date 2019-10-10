@@ -10,7 +10,7 @@
       		SELECT USERS_SEQ.NEXTVAL FROM DUAL     
     	</selectKey>  
     		INSERT INTO USERS 
-    		VALUES (#{u_id}, #{id}, #{password}, #{email}, #{nickname}, SYSDATE, NULL, NULL)
+    		VALUES (#{u_id}, #{id}, #{password}, #{email}, #{nickname}, SYSDATE, NULL, NULL, #{status})
 	</insert>
 	
 	<!-- id 중복 확인 -->
@@ -27,5 +27,15 @@
 	<select id="checkEmail" parameterType="string" resultType="vo.UserVO">
 		SELECT * FROM USERS WHERE EMAIL = #{email}
 	</select>
+	
+	<!-- Update Password -->
+	<update id="updatePassword" parameterType="java.util.HashMap">
+		UPDATE USERS SET PASSWORD = #{password} WHERE ID = #{id}
+	</update>
+	
+	<!-- Update Img -->
+	<update id="updateImg" parameterType="java.util.HashMap">
+		UPDATE USERS SET IMG = #{img} WHERE ID = #{id}
+	</update>
 	
 </mapper>

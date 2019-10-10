@@ -12,4 +12,10 @@
 	<select id="selectOne" resultType ="vo.CompanyVO" parameterType="string">
 		select company_id,name,wcimg,curjuka from companys where company_id=#{code}
 	</select>
+
+	<!-- getCurJuka-->
+	<select id="getCurJuka" parameterType="string" resultType="int">
+		SELECT REPLACE(CURJUKA, ',', '') FROM COMPANYS WHERE COMPANY_ID = #{company_id} 
+	</select>
+	
 </mapper>
