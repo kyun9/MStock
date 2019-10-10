@@ -56,13 +56,13 @@
 						text
 								.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: '
 										+ chart.data.datasets[0].backgroundColor[0]
-										+ '"></div><p class="mb-0">보유 Credit</p></div>');
+										+ '"></div><p class="mb-0">긍정</p></div>');
 						text.push('<p class="mb-0" id="chart_credit">pos</p>');
 						text.push('</div>');
 						text
 								.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: '
 										+ chart.data.datasets[0].backgroundColor[1]
-										+ '"></div><p class="mb-0">보유 주식</p></div>');
+										+ '"></div><p class="mb-0">부정</p></div>');
 						text
 								.push('<p class="mb-0" id="chart_stock_value">neg</p>');
 						text.push('</div>');
@@ -85,7 +85,7 @@
 		}
 
 		var code = '000660';
-		var jsonLocation = '/mstock/resources/rdata/json/emotion000660.json';
+		var jsonLocation = '/mstock/resources/rdata/json/emotion+'code'+.json';
 		$.getJSON(jsonLocation, function(data) {
 			$.each(data, function(n, arr) {
 				//alert(name);

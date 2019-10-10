@@ -30,7 +30,7 @@ public class RSourceService {
 		 
 		RList list = x.asList();
 		int rows = list.size();
-		int cols = list.at(0).length();
+		//int cols = list.at(0).length();
 		
 		String[][] value = new String[rows][];
 		for(int i=0; i<rows; i++) {
@@ -38,7 +38,7 @@ public class RSourceService {
 		}
 		
 		//JSON화
-		emotionService.setEmotionJSON(value);
+		//emotionService.setEmotionJSON(value);
 		
 		/* 감정분석결과 출력
 		 * for(int i=0; i<rows; i++) { for(int j=0; j<cols; j++) {

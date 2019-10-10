@@ -36,13 +36,14 @@
 				<div class="content-viewport">
 					<div class="row">  
 						<div class="col-12">
+						
 							<div class="jumbotron" style="background-image: url(/mstock/resources/images/main3.jpg); background-repeat: no-repeat; background-size:100%;">
-								<h1 class="display-4">청소년을 위한 모의주식 MStock!!</h1>
-								<p class="lead">MStock는 ------- 장려하는 서비스입니다.</p>
-								<hr class="my-4">
-								<p> 여러분의 주식 역량을 넓혀 나가세요.</p><br>
-								<a class="btn btn-primary btn-lg" href="/mstock/login" role="button">로그인 바로가기</a>
+								<div class="w-50 p-3" style="background-color: #fff; opacity: 0.5; margin-bottom: 100px;">
+									<h1 class="display-4">MStock</h1>
+									<p class="lead">모의 주식 서비스 & 실시간 데이터 분석</p>
+								</div>
 							</div>
+							
 							<!-- 기업 정보 출력// 한줄에 4개 내용 출력  -->  
 							<% ArrayList<CompanyVO> list = (ArrayList<CompanyVO>) request.getAttribute("companyInfo");
 								if(!list.isEmpty()){
@@ -54,12 +55,11 @@
 							<div class="card-deck">
 								<% int val=4*t;
 								for(int i=val;i<val+4;i++){ %>
-								<div class="card text-center" style="width: 18rem;">
+								<div class="card text-center shadow p-3 mb-5 bg-white rounded" style="width: 18rem;">
 									<div class="card-body">
-										<h5 class="card-title"><%=list.get(i).getName() %></h5>
-										<p class="card-text">종목 코드<%=list.get(i).getCompany_id() %></p>
-										<p class="card-text">현재 주가<%=list.get(i).getCurJuka() %></p>
-										<a href="/mstock/stockinfo?code=<%=list.get(i).getCompany_id() %>" class="btn btn-primary">종목 상세보기</a>
+										<h2 class="card-title"><a href="/mstock/stockinfo?code=<%=list.get(i).getCompany_id() %>"><%=list.get(i).getName() %></a></h2>
+										<p class="card-text">종목 코드 <%=list.get(i).getCompany_id() %></p>
+										<p class="card-text">현재 주가 <%=list.get(i).getCurJuka() %></p>
 									</div>
 								</div>
 								<%} %>

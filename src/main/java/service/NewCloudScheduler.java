@@ -4,6 +4,7 @@ import java.io.*;
 
 import javax.servlet.*;
 
+import org.rosuda.REngine.*;
 import org.rosuda.REngine.Rserve.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.scheduling.annotation.*;
@@ -11,36 +12,66 @@ import org.springframework.stereotype.*;
 
 @Service
 public class NewCloudScheduler {
+
 	@Value("#{config['rsource.AnalyzeCompanies']}")
 	String rsource_location;
+
+	@Autowired
+	EmotionService emotionService;
 	@Autowired
 	ServletContext context;
-	
-	//hadoop 연동시
-	//company : 주식 종목 12개
-	//news : 뉴스 언론사 3개
+
+	// hadoop 연동시
+	// company : 주식 종목 12개
+	// news : 뉴스 언론사 3개
 //	public static String[] company = {"삼성SDI","현대모비스","SK하이닉스","네이버","LG전자"
 //            						,"셀트리온","아모레퍼시픽","신세계","신한은행","카카오"
 //            						,"S-Oil","한국콜마"};
 //	public static String[] news = {"파이낸셜","한겨레","조선일보"};
 //	
-	@Scheduled(fixedRate=600000)
-	public void cloud() throws RserveException, IOException{
-		//R코드를 source 하여 클라우드 저장 및 뉴스 기사 텍스트로 저장
-		//뉴스 기사는 언론사 3개 별 주식 종목 관련
-		//ex)파이낸셜_삼성SDI.txt 로 저장
-		String path = context.getRealPath("/").replaceAll("\\\\","/")+"resources/rdata";
+	@Scheduled(fixedRate = 600000)
+	public void cloud() throws RserveException, IOException, Exception {
+		// R코드를 source 하여 클라우드 저장 및 뉴스 기사 텍스트로 저장
+		// 뉴스 기사는 언론사 3개 별 주식 종목 관련
+		// ex)파이낸셜_삼성SDI.txt 로 저장
+		String path = context.getRealPath("/").replaceAll("\\\\", "/") + "resources/rdata";
 		File folder = new File(path);
-		if(!folder.exists()) {
+		if (!folder.exists()) {
 			folder.mkdir();
-		}else {
+		} else {
 			System.out.println("이미 폴더 있음");
 		}
-		System.out.println("mod "+path);
+		// System.out.println("mod "+path);
+
+		// R 실행
 		RConnection rc = new RConnection();
-		rc.eval("setwd('"+path+"')");
-		rc.eval("source("+rsource_location+")");
+		rc.eval("setwd('" + path + "')");
+		REXP x = rc.eval("rdata<-source(" + rsource_location + "); rdata$value");
 		rc.close();
+
+		// 감정 분석
+		RList list = x.asList();
+		int rows = list.size();
+		int cols = list.at(0).length();
+
+		System.out.println("감정분석 rows : " + rows);
+
+		String[][] value = new String[rows][];
+		for (int i = 0; i < rows; i++) {
+			value[i] = list.at(i).asStrings();
+		}
+
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				System.out.println(value[i][j] + " ");
+			}
+			System.out.println();
+		}
+
+		// JSON화
+		emotionService.setEmotionJSON(value, path);
+
+		System.out.println("감정분석 json 이후");
 
 //		//******************************하둡 연동 시작
 //	    Configuration conf = new Configuration();
@@ -90,8 +121,8 @@ public class NewCloudScheduler {
 //
 //	    //하둡 연동 닫기
 //	    fileSystem.close();	    
-		System.out.println("@@@@@@@@@@@@@@@@@@@@R수행 성공");
-		
+//		System.out.println("@@@@@@@@@@@@@@@@@@@@R수행 성공");
+
 	}
-	
+
 }
