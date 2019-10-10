@@ -20,4 +20,13 @@
 		SELECT *  FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{account_id} AND COMPANY_ID = #{company_id}
 	</select>
 	
+	<!-- insertPurchasesStock -->
+	<insert id="insertPurchasesStock"  parameterType="vo.PurchaseVO">
+  		<selectKey resultType="int" keyProperty="list_id" order="BEFORE">
+      		SELECT PURCHASE_SEQ.NEXTVAL FROM DUAL     
+    	</selectKey>  
+    		INSERT INTO PURCHASE_LIST 
+    		VALUES (#{list_id}, #{account_id}, #{company_id}, #{price}, #{quantity}, SYSDATE)
+	</insert>
+	
 </mapper>

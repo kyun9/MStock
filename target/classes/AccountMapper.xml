@@ -18,4 +18,9 @@
     		VALUES (#{account_id}, 10000000, #{u_id})
 	</insert>
 	
+	<!--updateCredit  -->
+	<update id="updateCredit" parameterType="java.util.HashMap">
+		UPDATE ACCOUNTS SET CREDIT = CREDIT - #{price} WHERE ACCOUNT_ID = #{account}
+	</update>
+	
 </mapper>

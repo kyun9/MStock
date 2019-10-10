@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="vo.StockInfoVO"%>
+<%@ page import="vo.StockInfoVO, vo.CompanyVO, vo.UserVO, vo.AccountVO"%>
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,7 @@
 <script src="http://asp1.krx.co.kr/inc/js/asp_chart.js"></script>
 <!-- <script type="text/javascript" src="resources/js/common.js"></script> -->
 <link rel="stylesheet" type="text/css"
-	href="resources/css/stockinfo.css" />  
+	href="resources/css/stockinfo.css" />
 <title>MStock</title>
 <!-- plugins:css -->
 <link rel="stylesheet"
@@ -26,6 +26,8 @@
 <link rel="stylesheet" href="/mstock/resources/css/demo_1/style.css">
 <!-- Layout style -->
 <link rel="shortcut icon" href="/mstock/resources/images/favicon.ico" />
+<!-- chatting.js -->
+<script src = "/mstock/resources/js/chatting.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
 <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
@@ -33,6 +35,8 @@
 <body class="header-fixed">
 	<%
 		StockInfoVO stock = (StockInfoVO) request.getAttribute("info");
+		CompanyVO company=(CompanyVO)request.getAttribute("comInfo");
+		UserVO user = (UserVO)request.getAttribute("user");
 	%>
 	<!-- partial:partials/header.jsp -->
 	<%@ include file="./partials/header.jsp"%>
@@ -46,16 +50,17 @@
 				<div class="content-viewport">
 					<div class="row">
 						<div class="header-wrap">
-							실시간 시세<span><span class="time_img"></span><%=stock.getGettime()%>
+							실시간 시세<span><span class="time_img"></span><span id="time0"></span>
 								기준(<%=stock.getJanggubun()%>)</span>
 						</div>
 						<div class="body-wrap">
 							<!-- chart.js 주식차트 / 차트부분 파일 분리(./partials/stockchart.jsp)-->
 							<div>
-								<canvas id="myChart" style="border:1px solid #000000;"></canvas>
+								<canvas id="myChart" style="border: 1px solid #000000;"></canvas>
 								<%@ include file="./partials/stockchart.jsp"%>
+								<button id="reloadInfo">새로고침</button> <span>※30초간격 자동갱신※</span>
 							</div>
-							<!-- <div id="gpDisp"></div> -->
+							
 							<div class="data-lists">
 								<dl>
 									<dt>
@@ -66,40 +71,25 @@
 											<ul>
 												<li>
 													<div class="main_stock_box1_title">
-														<%
-															if (!stock.getStockinfo()[0].equals("")) {
-														%>
 														<ul>
-															<li class="main_stock_box1_title1">A<%=stock.getJongCd()%><span><%=stock.getStockinfo()[0]%></span></li>
+															<li class="main_stock_box1_title1"></li>
 															<li class="main_stock_box1_title2"><span
-																class="CurJuka">현재가</span><%=stock.getStockinfo()[1]%></li>
+																class="CurJuka">현재가</span><span id="1"></span></li>
 														</ul>
 														<ul>
 															<li class="main_stock_box1_contn"><span
-																class="title">전일대비</span> <span> <%
- 	if (stock.getStockinfo()[2].equals("1") || stock.getStockinfo()[2].equals("2")) {
- %> <span class="up"> ▲ </span> <%
- 	}
- %> <%
- 	if (stock.getStockinfo()[2].equals("3")) {
- %> <span class="bohab"> ─ </span> <%
- 	}
- %> <%
- 	if (stock.getStockinfo()[2].equals("4") || stock.getStockinfo()[2].equals("5")) {
- %> <span class="down"> ▼ </span> <%
- 	}
- %> <%=stock.getStockinfo()[3]%>(<%=stock.getDungRakrate_str()%>%)
+																class="title">전일대비</span> <span> 
+																 <span class="up" id="2"> </span> 
+																  <span class="bohab" id="3">  </span>
+																  <span class="down" id="4"> </span>
 															</span></li>
 															<li class="main_stock_box1_contn"><span
-																class="title">거래량</span> <span><%=stock.getStockinfo()[5]%></span>
+																class="title">거래량</span> <span id="5"></span>
 															</li>
 															<li class="main_stock_box1_contn"><span
-																class="title">거래대금</span> <span><%=stock.getStockinfo()[6]%></span>
+																class="title">거래대금</span> <span id="6"></span>
 															</li>
 														</ul>
-														<%
-															}
-														%>
 													</div>
 												</li>
 											</ul>
@@ -108,21 +98,21 @@
 											<table id="stockInfo">
 												<tr>
 													<th>시가</th>
-													<td><%=stock.getStockinfo()[7]%></td>
+													<td id ="7"></td>
 													<th colspan="2">상한가</th>
-													<td><%=stock.getStockinfo()[12]%></td>
+													<td id="8"></td>
 												</tr>
 												<tr>
 													<th>고가</th>
-													<td><%=stock.getStockinfo()[8]%></td>
+													<td id="9"></td>
 													<th colspan="2">하한가</th>
-													<td><%=stock.getStockinfo()[13]%></td>
+													<td id="10"></td>
 												</tr>
 												<tr>
 													<th>저가</th>
-													<td><%=stock.getStockinfo()[9]%></td>
+													<td id="11"></td>
 													<th colspan="2">액면가</th>
-													<td><%=stock.getStockinfo()[16]%></td>
+													<td id="12"></td>
 												</tr>
 											</table>
 										</div>
@@ -130,24 +120,85 @@
 								</dl>
 							</div>
 							<!-- 매수하기 기능 -->
-							<button onclick="displayDiv()">매수하기</button>
+							<!-- Button trigger modal -->
+							<%	if(session.getAttribute("user")!=null &&request.getAttribute("accountInfo") != null){
+									AccountVO account = (AccountVO) request.getAttribute("accountInfo");
+							%>
 							<script>
-								function displayDiv(){
-									document.getElementById("buyStock").style.display="block";
-								}
-								function closeDiv(){
-									document.getElementById("buyStock").style.display="none";
-								}
-							</script> 
-							<div id="buyStock" style="display : none; border:1px solid #000000">
-								<form method="get" action=#>
-									구매 갯수 : <input type="number" value="1" min ="1" name="count"><br>
-									가격 : <%=stock.getStockinfo()[1]%><br>
-									보유 금액 : <br>
-									<input type="submit" value="매도">
-									<input type="button" onclick="closeDiv();return false;" value="취소">
-								</form>
+								alert("<%=user.getId()%>")
+							</script>
+							<button type="button" class="btn btn-primary" data-toggle="modal"
+								data-target="#exampleModalCenter">종목 매수하기</button>
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalCenterTitle"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+									<!-- Form  -->
+										<form method="post" action="/mstock/stockinfo">
+										<input type="hidden"  name="company_id" value= <%= stock.getJongCd() %>>
+										<input type="hidden"  name="price" id="price" >
+										<input type = "hidden" name="account_id" value=<%=account.getAccount_id() %>>
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalCenterTitle">종목 매수하기</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												종목 코드 : <%= stock.getJongCd() %><br>
+												종목명 : <%=company.getName()%><br>
+												구매 개수 : <input id ="a" type="number"  name="quantity" value=1 min=1><br>
+												현재 가격 : <span id="b" style="font-weight:bold"></span><br>
+												나의 보유 자산 : <span id="c"><%=account.getCredit()  %></span><span>Credit</span>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Close</button>
+												<button type="submit" onclick="return check();" class="btn btn-primary">매수하기</button>
+											</div>
+										</form>
+										<!--Close  Form  -->
+									</div>
+								</div>
 							</div>
+							<%} %>
+							<script>
+									function check(){
+										 var my =  $("#c").text();
+										 var count = $("#a").val();
+								          var result = count * val;
+										 if(my<result){
+											 alert("크레딧이 부족합니다.");
+											 return false;
+										 }
+										 else{
+											 alert("구매하였습니다.");
+										 }
+									}
+							
+										var val =  "<%=stock.getStockinfo()[1]%>";
+										val=val.replace(',','');
+							 			$("#b").text(val);
+							 			$("#price").val(val);
+										 $("#a").bind('keyup mouseup', function () {
+									 		  var current =  $("#c").text();
+									          var count = $("#a").val();
+									          var result = count * val;
+									          if(result>current){
+											        $("#b").text("보유 크레딧을 초과하였습니다.");
+											        $("#b").css("color","red");
+									          }
+									          else{
+									        	  $("#b").css("color","black");
+									        	  $("#price").val(result);
+										        $("#b").text(result);
+									          }
+									          
+									      });  
+							 </script>
 							<!-- 매수기능 끝  -->
 							<div class="tab_content">
 								<table id="tradedPrice_day">
@@ -211,12 +262,92 @@
 					</div>
 				</div>
 			</div>
-			<!-- content viewport ends -->
-			<!-- partial:partials/footer.jsp -->
-			<%@ include file="./partials/footer.jsp"%>
-			<!-- partial -->
-		</div>
-		<!-- page content ends -->
+			
+			<!-- wordCloud -->
+			<img class=".img-responsive"  src="/mstock/resources/images/data/<%=company.getWcimg()%>"  width=60%>
+			<!-- end wordCloud -->
+			
+			<!-- Article List -->
+				<table id="article" style="border : 1px solid black">
+					  <thead>
+					        <tr>
+					          <th>제목</th>
+					          <th>언론사</th>
+					          <th>시간</th>
+					        </tr>
+					     </thead>
+					     <tbody id="appendArticle">
+					     </tbody>
+				</table>
+			<%@ include file="./partials/newsArticle.jsp"%>
+
+			<div class="modal fade" id="newsInfo" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalCenterTitle"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+									<!-- Form  -->
+											<div class="modal-header">
+												<h5 class="modal-title" id="NewsTitle"></h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body" id="NewsContent">
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-primary"
+													data-dismiss="modal">Close</button>
+											</div>
+										<!--Close  Form  -->
+									</div>
+								</div>
+							</div>
+				<!-- end Article LIst -->
+
+				<!-- chat -->
+				<div class="col-md-10" style="border: 1px solid black">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<%= company.getName()%>
+							채팅방
+						</div>
+						<div class="panel-body">
+							<ul class="media-list">
+
+								<li class="media">
+
+									<div class="media-body">
+
+										<div class="media">
+											<div class="media-body " id="message"
+												style="overflow: auto; width: 500px; height: 150px;">
+											</div>
+										</div>
+
+									</div>
+								</li>
+
+							</ul>
+						</div>
+						<div class="panel-footer">
+							<div class="input-group">
+								<input type="text" class="form-control"
+									placeholder="Enter Message" id="messageinput" /> <span
+									class="input-group-btn">
+									<button class="btn btn-info" type="button" onclick="send();">SEND</button>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- content viewport ends -->
+				<!-- partial:partials/footer.jsp -->
+				<%@ include file="./partials/footer.jsp"%>
+				<!-- partial -->
+			</div>
+			<!-- page content ends -->
 	</div>
 	<!--page body ends -->
 	<!-- SCRIPT LOADING START FORM HERE /////////////-->
@@ -229,7 +360,7 @@
 	<!-- Vendor Js For This Page Ends-->
 	<!-- build:js -->
 	<script src="/mstock/resources/js/template.js"></script>
-	<script src="/mstock/resources/js/dashboard.js"></script>
+	<script src="/mstock/resources/js/clickNews.js"></script>
 	<!-- endbuild -->
 </body>
 </html>
