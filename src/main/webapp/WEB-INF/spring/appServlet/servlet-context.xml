@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans
-	xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:task="http://www.springframework.org/schema/task"
 	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
@@ -17,6 +18,7 @@
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+	<task:annotation-driven />
 
 	<!-- hadoop 설정 <hadoop:configuration id="hdConf"> fs.defaultFS=hdfs://192.168.111.120:9000 
 		</hadoop:configuration> -->
@@ -46,6 +48,7 @@
 	<context:component-scan base-package="service" />
 	<context:component-scan base-package="dao" />
 	<context:component-scan base-package="vo" />
+	<context:component-scan base-package="handler" />
 
 	<!-- oracle db연동/ mybatis 설정 -->
 
@@ -60,7 +63,6 @@
 		<beans:property name="password"
 			value="#{config['password']}" />
 	</beans:bean>
-
 	<beans:bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource" />
@@ -69,13 +71,24 @@
 		<beans:property name="mapperLocations"
 			value="classpath:/*Mapper.xml" />
 	</beans:bean>
-
 	<beans:bean id="sqlSession"
 		class="org.mybatis.spring.SqlSessionTemplate"
 		destroy-method="clearCache">
 		<beans:constructor-arg index="0"
 			ref="sqlSessionFactory"></beans:constructor-arg>
 	</beans:bean>
+	
+	<!-- websocket handler -->
+    <beans:bean id="EchochoHandler" class="handler.EchoHandler" />
+
+    <websocket:handlers>
+        <websocket:mapping handler="EchochoHandler" path="/Echo" />
+        <websocket:handshake-interceptors>
+            <beans:bean
+                class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+        </websocket:handshake-interceptors>
+    </websocket:handlers>
+	
 
 
 </beans:beans>

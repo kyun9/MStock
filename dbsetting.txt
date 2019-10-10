@@ -1,0 +1,155 @@
+create user mstock identified by mstock;
+grant connect, resource to mstock;
+
+--//테이블생성
+CREATE TABLE  users 
+(
+   u_id  NUMBER(8,0) PRIMARY KEY,
+   id varchar2(20) UNIQUE,
+   password  varchar2(100) NOT NULL,
+   email  varchar2(40) NOT NULL,
+   nickname varchar2(20) NOT NULL,
+   join_date  date,
+   img  varchar2(300),
+   grade NUMBER(8,0)
+   status varchar2(20)
+);
+
+CREATE TABLE  accounts 
+(
+   account_id  NUMBER(8,0) PRIMARY KEY,
+   credit  NUMBER(8,0) NOT NULL,
+   u_id  NUMBER(8,0)
+);
+CREATE TABLE  companys
+(
+   company_id  varchar2(20) PRIMARY KEY,
+   name  varchar2(20) NOT NULL,
+   wcimg  varchar2(500),
+   curjuka varchar2(20)
+);
+CREATE TABLE  purchase_list 
+(
+   list_id  NUMBER(8,0) PRIMARY KEY,
+   account_id  NUMBER(8,0) NOT NULL,
+   company_id  varchar2(20) NOT NULL,
+   price NUMBER(8,0) NOT NULL,
+   quantity NUMBER(8,0) NOT NULL,
+   datetime varchar2(20) NOT NULL default sysdate
+);
+CREATE TABLE  ranks
+(
+ rank_id NUMBER(8,0) PRIMARY KEY,
+ grade varchar2(20) NOT NULL,
+ val NUMBER(20,5) NOT NULL
+);
+CREATE TABLE  board 
+(
+   bid  NUMBER(8,0) PRIMARY KEY,
+   writer  NUMBER(8,0) NOT NULL,
+   title  varchar2(120) NOT NULL,
+   content  varchar2(900),
+   writedate  date,
+   cnt  NUMBER(8,0)
+);
+
+CREATE TABLE  comments
+(
+   cid  NUMBER(8,0) PRIMARY KEY,
+   bid  NUMBER(8,0) NOT NULL,
+   writer   NUMBER(8,0) NOT NULL,
+   content  varchar2(500),
+   writedate  date
+);
+CREATE TABLE  stockinfos
+(
+   info_id NUMBER(8,0) PRIMARY KEY,
+   company_id  varchar2(20) NOT NULL, 
+   curjuka  varchar2(20),
+   time varchar2(20) NOT NULL
+);
+CREATE TABLE HISTORY (
+    HISTORY_ID NUMBER(8,0) PRIMARY KEY,
+    ACCOUNT_ID NUMBER(8,0) NOT NULL,
+    STATUS VARCHAR2(20) NOT NULL,
+    COMPANY_ID VARCHAR2(20) NOT NULL,
+    PRICE NUMBER(8,0) NOT NULL,
+    QUANTITY NUMBER(8,0) NOT NULL,
+    DATETIME VARCHAR2(20) NOT NULL
+);
+
+--//sequence 생성
+create sequence users_seq
+start with 1
+increment by 1;
+
+create sequence accounts_seq
+start with 1
+increment by 1;
+
+create sequence purchase_seq
+start with 1
+increment by 1;
+
+create sequence board_seq
+start with 1
+increment by 1;
+
+create sequence comments_seq
+start with 1
+increment by 1;
+
+create sequence stockinfos_seq
+start with 1
+increment by 1;
+
+CREATE SEQUENCE HISTORY_SEQ START WITH 1 INCREMENT BY 1;
+
+
+--//sequence 확인
+select * from user_sequences;
+
+--//sequence 설정
+update users set u_id=users_seq.nextval;
+update accounts set account_id =accounts_seq.nextval;
+update purchase_list set list_id=purchase_seq.nextval;
+update board set bid=board_seq.nextval;
+update comments set cid=comments_seq.nextval;
+update stockinfos set info_id=stockinfos_seq.nextval;
+update HISTORY set HISTORY_ID=HISTORY_SEQ.nextval;
+
+--//제약조건
+ALTER TABLE  accounts  ADD FOREIGN KEY ( u_id ) REFERENCES  users  ( u_id ) 
+on delete cascade;
+ALTER TABLE  purchase_list  ADD FOREIGN KEY (account_id) REFERENCES  
+accounts  ( account_id  ) on delete cascade;
+ALTER TABLE  purchase_list  ADD FOREIGN KEY (company_id) REFERENCES  
+companys (company_id ) on delete cascade;
+ALTER TABLE  stockinfos  ADD FOREIGN KEY ( company_id ) REFERENCES  
+companys (company_id ) on delete cascade;
+ALTER TABLE  board  ADD FOREIGN KEY ( writer ) REFERENCES  users  ( u_id)on delete cascade;
+ALTER TABLE  comments  ADD FOREIGN KEY ( bid ) REFERENCES  board  ( bid 
+)on delete cascade;
+ALTER TABLE  comments  ADD FOREIGN KEY ( writer) REFERENCES  users  ( 
+u_id )on delete cascade;
+ALTER TABLE  users    ADD FOREIGN KEY ( grade) REFERENCES  ranks  ( rank_id 
+);
+ALTER TABLE HISTORY ADD FOREIGN KEY (ACCOUNT_ID) REFERENCES ACCOUNTS (ACCOUNT_ID) ON DELETE CASCADE;
+ALTER TABLE HISTORY ADD FOREIGN KEY (COMPANY_ID) REFERENCES COMPANYS (COMPANY_ID) ON DELETE CASCADE;
+
+
+--//회사 입력
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('006400', '삼성SDI')
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('000660', 'SK하이닉스')
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('012330', '현대모비스')
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('035420', 'NAVER')
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('066570', 'LG전자')
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('068270', '셀트리온')
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('090430', '아모레퍼시픽')
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('004170', '신세계')
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('033780', 'KT&G')
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('035720', '카카오')
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('010950', 'S-Oil')
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('161890', '한국콜마')
+
+commit;

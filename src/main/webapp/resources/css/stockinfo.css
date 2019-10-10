@@ -7,8 +7,7 @@
     top: 10;
     max-width: 700px;
     height: 150px;
-    clear: both;
-    background-image: url(../images/img02.png);
+    clear: both; 
     background-repeat: no-repeat;
     background-size: 110px;
     background-position: 97% 100%;
@@ -175,6 +174,7 @@
 	float: none;
 	color: #2478FF;
 }
+
 
 table, .tab_content table{
 	position: relative;
