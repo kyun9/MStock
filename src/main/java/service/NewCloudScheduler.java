@@ -30,6 +30,12 @@ public class NewCloudScheduler {
 		//뉴스 기사는 언론사 3개 별 주식 종목 관련
 		//ex)파이낸셜_삼성SDI.txt 로 저장
 		String path = context.getRealPath("/").replaceAll("\\\\","/")+"resources/images/data";
+		File folder = new File(path);
+		if(!folder.exists()) {
+			folder.mkdir();
+		}else {
+			System.out.println("이미 폴더 있음");
+		}
 		System.out.println("mod "+path);
 		RConnection rc = new RConnection();
 		rc.eval("setwd('"+path+"')");
