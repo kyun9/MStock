@@ -30,10 +30,12 @@
 	
 	<!-- Merge 수정 -->
 	<!--updateCredit  -->
-	<update id="updateCredit" parameterType="java.util.HashMap">
+	<update id="updateBuyCredit" parameterType="java.util.HashMap">
 		UPDATE ACCOUNTS SET CREDIT = CREDIT - #{price} WHERE ACCOUNT_ID = #{account}
+	</update>
+	
 	<!-- updateCredit -->
-	<update id="updateCredit" parameterType="java.util.HashMap">
+	<update id="updateSellCredit" parameterType="java.util.HashMap">
 		UPDATE ACCOUNTS SET CREDIT = CREDIT + #{credit} WHERE ACCOUNT_ID = #{account_id}
 	</update>
 	

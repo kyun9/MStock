@@ -12,7 +12,7 @@ public class HistoryDAO {
 	SqlSession session = null;
 	
 	public boolean insertHistory(HistoryVO vo) {
-		String statement = "resource.HistoryMapper.insertHistory";
+		String statement = "resource.HistoryMapper.insertSellHistory";
 		if (session.insert(statement, vo) != 1)
 			return false;
 		return true;

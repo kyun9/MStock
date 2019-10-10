@@ -41,12 +41,12 @@ public class AccountDAO {
 		return result;
 	}
 	
-	public boolean updateCredit(int account_id, int credit) {
+	public boolean updateSellCredit(int account_id, int credit) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();	
 		map.put("account_id", account_id);
 		map.put("credit", credit);
 		boolean result = false;
-		String statement = "resource.AccountMapper.updateCredit";
+		String statement = "resource.AccountMapper.updateSellCredit";
 		result = session.insert(statement, map) == 0 ? false : true;
 		return result;
 	}
