@@ -25,7 +25,7 @@ public class NewsScrapingScheduler {
 	@Autowired
 	ServletContext context;
 	
-	static HashMap<String, Integer> map = new HashMap<>();
+	static HashMap<String, Integer> map = new HashMap<String, Integer>();
 	// 회사 종목 코드 배열
 	static String[] code = { "006400", "000660", "012330", "035420", "066570", "068270", "090430", "004170", "055550",
 			"035720", "010950", "161890" };
