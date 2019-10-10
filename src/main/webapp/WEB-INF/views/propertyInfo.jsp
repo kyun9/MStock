@@ -41,7 +41,7 @@
 							<c:when test="${account eq 'fail'}">
 								<div class="jumbotron container text-center">
 									<h1 class="display-4">Property Management</h1>
-									<p class="lead">${user.nickname}님의자산관리페이지입니다</p>
+									<p class="lead">${user.nickname}님의 자산 관리 페이지입니다</p>
 									<hr class="my-4">
 									<p class="lead">아직 계좌가 없습니다.</p>
 									<p class="lead">계좌를 생성하고 모의 주식을 즐겨보세요.</p>
@@ -53,7 +53,7 @@
 							<c:otherwise>
 								<div class="jumbotron container text-center">
 									<h1 class="display-4">Property Management</h1>
-									<p class="lead">${user.nickname}님의자산관리페이지입니다</p>
+									<p class="lead">${user.nickname}님의 자산 관리 페이지입니다</p>
 									<hr class="my-4">
 
 									<div class="row">
@@ -316,11 +316,38 @@
 				return parseFloat(x.replace(/,/gi, ""));
 			}
 			
+			//특수문자 제거 func
+			function removeSpecial(x) {
+				return x.toString().replace(/[▲▼]/gi, "");
+			}
+			
+			//부호 제거 func
+			function removeSign(x) {
+				return x.toString().replace(/-/gi, "");
+			}
+			
+			//
+			
 			//보유 주식 테이블에 대한 func
 			function updateTable(){
 				$("tr > td:nth-child(3)").each(function(i){
 					var curjuka = $(this).text();
 					$(this).text(numberWithCommas(curjuka));
+				});
+				
+				$("tr > td:nth-child(4)").each(function(i){
+					var debi = $(this).text();
+					$(this).text(removeSign(debi));
+					debi = removeSpecial(debi);
+					debi = removeCommas(debi);
+					//alert(debi);
+					$(this).addClass(debi >= 0 ? "text-primary" : "text-danger");
+				});
+				
+				$("tr > td:nth-child(5)").each(function(i){
+					var dongrak = $(this).text();
+					$(this).text(dongrak + "%");
+					$(this).addClass(dongrak >= 0 ? "text-primary" : "text-danger");
 				});
 				
 				$("tr > td:nth-child(6)").each(function(i){
@@ -330,12 +357,12 @@
 				
 				$("tr > td:nth-child(8)").each(function(i){
 					var profit = $(this).text();
-					$(this).text(numberWithCommas(profit)).addClass(profit > 0 ? "text-primary" : "text-danger");
+					$(this).text(numberWithCommas(profit)).addClass(profit >= 0 ? "text-primary" : "text-danger");
 				});
 				
 				$("tr > td:nth-child(9)").each(function(i){
 					var price_rate = $(this).text()*1;
-					$(this).text(price_rate.toFixed(1)+"%").addClass(price_rate > 0 ? "text-primary" : "text-danger");
+					$(this).text(price_rate.toFixed(1)+"%").addClass(price_rate >= 0 ? "text-primary" : "text-danger");
 				});
 				
 				$("tr > td:nth-child(10)").each(function(i){

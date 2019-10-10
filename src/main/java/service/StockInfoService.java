@@ -32,7 +32,6 @@ public class StockInfoService {
 		String DungRakrate_str = "";
 		
 		int dailystock_length = 0;
-		
 		int CurJuka = 0;
 		int Debi = 0;
 		float StandardPrice = 0;

@@ -33,6 +33,7 @@ public class PropertyService {
 		double total_value = credit+stock_value;
 		double profit_rate = (total_value - 10000000) / 10000000 * 100;
 		propertyVO.setProfit_rate(profit_rate);
+		//System.out.println("수익률 : " + profit_rate);
 		
 		//grade set(등급)
 		String grade = rankDAO.getGrade(credit+stock_value);

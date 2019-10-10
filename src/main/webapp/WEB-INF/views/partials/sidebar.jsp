@@ -3,7 +3,7 @@
 <div class="sidebar">
   <div class="user-profile">
     <div class="display-avatar animated-avatar">
-      <img class="profile-img img-lg rounded-circle" src="/mstock/resources/images/profile/male/image_1.png" alt="profile image">
+      <img class="profile-img img-lg rounded-circle" src="/mstock/resources/images/profile/male/image_7.png" alt="profile image">
     </div>
     <div class="info-wrapper">
       <p class="user-name">Allen Clerk</p>
@@ -75,8 +75,5 @@
       </a>
     </li>
   </ul>
-  <div class="sidebar-upgrade-banner">
-    <p class="text-gray">Upgrade to <b class="text-primary">PRO</b> for more exciting features</p>
-    <a class="btn upgrade-btn" target="_blank" href="http://www.uxcandy.co/product/label-pro-admin-template/">Upgrade to PRO</a>
-  </div>
+
 </div>
