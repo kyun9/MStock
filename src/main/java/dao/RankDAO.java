@@ -20,7 +20,7 @@ public class RankDAO {
 	}
 	
 	public boolean updateGrade(int u_id, int account_id) {
-		HashMap<String, Integer> map = new HashMap<>();
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("u_id", u_id);
 		map.put("account_id", account_id);
 		String statement = "resource.RankMapper.updateGrade";

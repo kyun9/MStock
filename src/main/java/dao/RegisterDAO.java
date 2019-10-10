@@ -57,7 +57,7 @@ public class RegisterDAO {
 	}
 	
 	public boolean updatePassword(String id, String password) {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("id", id);
 		map.put("password", password);
 		String statement = "resource.RegisterMapper.updatePassword";
@@ -67,7 +67,7 @@ public class RegisterDAO {
 	}
 	
 	public boolean updateImg(String id, String img) {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("id", id);
 		map.put("img", img);
 		String statement = "resource.RegisterMapper.updateImg";
