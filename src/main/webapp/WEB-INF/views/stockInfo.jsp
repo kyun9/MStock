@@ -264,7 +264,7 @@
 			</div>
 			
 			<!-- wordCloud -->
-			<img class=".img-responsive"  src="/mstock/resources/images/data/<%=company.getWcimg()%>"  width=60%>
+			<img class=".img-responsive"  src="/mstock/resources/rdata/<%=company.getWcimg()%>"  width=60%>
 			<!-- end wordCloud -->
 			
 			<!-- Article List -->
@@ -360,7 +360,6 @@
 	<!-- Vendor Js For This Page Ends-->
 	<!-- build:js -->
 	<script src="/mstock/resources/js/template.js"></script>
-	<script src="/mstock/resources/js/clickNews.js"></script>
 	<!-- endbuild -->
 </body>
 </html>
