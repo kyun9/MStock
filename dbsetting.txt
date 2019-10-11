@@ -1,4 +1,4 @@
-create user mstock identified by mstock;
+﻿create user mstock identified by mstock;
 grant connect, resource to mstock;
 
 --//테이블생성
@@ -11,7 +11,7 @@ CREATE TABLE  users
    nickname varchar2(20) NOT NULL,
    join_date  date,
    img  varchar2(300),
-   grade NUMBER(8,0)
+   grade NUMBER(8,0),
    status varchar2(20)
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE  purchase_list
    company_id  varchar2(20) NOT NULL,
    price NUMBER(8,0) NOT NULL,
    quantity NUMBER(8,0) NOT NULL,
-   datetime varchar2(20) NOT NULL default sysdate
+   datetime varchar2(20) NOT NULL 
 );
 CREATE TABLE  board 
 (
@@ -136,18 +136,18 @@ ALTER TABLE  ranks  ADD FOREIGN KEY (grade) REFERENCES
 grades (grade) on delete cascade;
 
 --//회사 입력
-INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('006400', '삼성SDI','삼성SDI.png');
-INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('000660', 'SK하이닉스','SK하이닉스.png');
-INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('012330', '현대모비스','현대모비스.png');
-INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('035420', 'NAVER','네이버.png');
-INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('066570', 'LG전자','LG전자.png');
-INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('068270', '셀트리온','셀트리온.png');
-INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('090430', '아모레퍼시픽','아모레퍼시픽.png');
-INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('004170', '신세계','신세계.png');
-INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('055550', '신한은행','신한은행.png');
-INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('035720', '카카오','카카오.png');
-INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('010950', 'S-Oil','S-Oil.png');
-INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME) VALUES ('161890', '한국콜마','한국콜마.png');
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME,wcimg) VALUES ('006400', '삼성SDI','삼성SDI.png');
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME,wcimg) VALUES ('000660', 'SK하이닉스','SK하이닉스.png');
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME,wcimg) VALUES ('012330', '현대모비스','현대모비스.png');
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME,wcimg) VALUES ('035420', 'NAVER','네이버.png');
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME,wcimg) VALUES ('066570', 'LG전자','LG전자.png');
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME,wcimg) VALUES ('068270', '셀트리온','셀트리온.png');
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME,wcimg) VALUES ('090430', '아모레퍼시픽','아모레퍼시픽.png');
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME,wcimg) VALUES ('004170', '신세계','신세계.png');
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME,wcimg) VALUES ('055550', '신한은행','신한은행.png');
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME,wcimg) VALUES ('035720', '카카오','카카오.png');
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME,wcimg) VALUES ('010950', 'S-Oil','S-Oil.png');
+INSERT INTO "MSTOCK"."COMPANYS" (COMPANY_ID, NAME,wcimg) VALUES ('161890', '한국콜마','한국콜마.png');
 
 --//등급
 INSERT INTO GRADES VALUES (1, '브론즈', 0, 9000000);
