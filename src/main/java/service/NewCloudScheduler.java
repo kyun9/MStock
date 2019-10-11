@@ -15,7 +15,8 @@ public class NewCloudScheduler {
 
 	@Value("#{config['rsource.AnalyzeCompanies']}")
 	String rsource_location;
-
+	@Value("#{config['rsource.regressionAnalysis']}")
+	String regression_rsource_location;
 	@Autowired
 	EmotionService emotionService;
 	@Autowired
@@ -67,9 +68,19 @@ public class NewCloudScheduler {
 			System.out.println();
 		}
 
+		String regressionpath = context.getRealPath("/").replaceAll("\\\\", "/") + "resources/json/";
+		rc.eval("path = '" + regressionpath + "'");
+		rc.eval("source(" + regression_rsource_location + ")");
+		list = rc.eval("result").asList();
+		rows = list.size();
+		cols = list.at(0).length();
+		String[][] reg_value = new String[rows][];
+		for (int i = 0; i < rows; i++) {
+			reg_value[i] = list.at(i).asStrings();
+		}
 		// JSON화
-		emotionService.setEmotionJSON(value, path);
-
+		emotionService.setEmotionJSON(value, path,reg_value);
+		
 		rc.close();
 		System.out.println("감정분석 json 이후");
 //		//******************************하둡 연동 시작

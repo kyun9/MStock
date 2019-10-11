@@ -24,8 +24,6 @@ public class StockInfoController {
 	AccountDAO accountDAO;
 	@Autowired
 	PurchaseDAO purchasesDAO;
-	@Autowired
-	RegressionService regressionService;
 	
 	@ModelAttribute("user")
 	public UserVO createUserModel() {
@@ -38,7 +36,6 @@ public class StockInfoController {
 		mav.addObject("info", service.getInfo(code));
 		mav.addObject("comInfo", companyDAO.selectOneCompay(code));
 		System.out.println("여기까지");
-//		mav.addObject("regression",regressionService.getStockRegression(code));
 		if (userVO.getU_id() != 0) {
 			mav.addObject("accountInfo", accountDAO.getAccount(userVO.getU_id()));
 		}

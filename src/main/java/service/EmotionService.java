@@ -9,7 +9,7 @@ import org.springframework.stereotype.*;
 public class EmotionService {
 	
 	@SuppressWarnings("unchecked")
-	public void setEmotionJSON(String[][] value, String path) throws IOException {
+	public void setEmotionJSON(String[][] value, String path,String[][] reg_value) throws IOException {
 		
 		for(int i=0; i<value.length; i++) {
 			JSONObject jsonObject = new JSONObject();
@@ -18,6 +18,8 @@ public class EmotionService {
 			info.put("code", value[i][0]);
 			info.put("pos", value[i][1]);
 			info.put("neg", value[i][2]);
+			info.put("predictValue",reg_value[i][0]);
+			info.put("predictPercent",reg_value[i][1]);
 			arr.add(info);
 			jsonObject.put("emotion", arr);
 			saveEmotionJSON(jsonObject, value[i][0], path);
