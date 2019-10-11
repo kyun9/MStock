@@ -25,8 +25,8 @@ public class EmotionService {
 		
 	}
 	
-	public void saveEmotionJSON(JSONObject jsonObject, String code, String path) throws IOException {
-		BufferedWriter bw = new BufferedWriter(new FileWriter(path+"/emotion"+code+".json"));
+	public void saveEmotionJSON(JSONObject jsonObject, String company, String path) throws IOException {
+		BufferedWriter bw = new BufferedWriter(new FileWriter(path+"/emotion"+company+".json"));
 		System.out.println("감정분석 저장");
 		//FileWriter file = new FileWriter("/resources/rdata/json/emotion"+code+".json");
 		bw.write(jsonObject.toJSONString()); 

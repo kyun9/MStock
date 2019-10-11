@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="vo.StockInfoVO, vo.CompanyVO, vo.UserVO, vo.AccountVO"%>
+<%@ page import="vo.StockInfoVO, vo.CompanyVO, vo.UserVO, vo.AccountVO, java.util.HashMap"%>
 
 <!DOCTYPE html>
 <html>
@@ -72,8 +72,8 @@
 								<div>
 									<canvas id="myChart" style="border: 1px solid #000000;"></canvas>
 									<%@ include file="../partials/stockchart.jsp"%>
-									<!-- <button id="reloadInfo">새로고침</button>
-									<span>※30초간격 자동갱신※</span> -->
+									<button id="reloadInfo">새로고침</button>
+									<span>※30초간격 자동갱신※</span>
 								</div>
 
 								<div class="row text-center"></div>
@@ -450,7 +450,7 @@
 			}
 		}
 
-		var code = '<%=request.getParameter("code")%>';
+		var code = '<%=company.getName()%>';
 		var jsonLocation = '/mstock/resources/rdata/emotion'+code+'.json';
 		//alert(code);
 		//alert(jsonLocation);

@@ -8,17 +8,15 @@ library(httr)
 library(htmltools)
 library(webshot)
 library(htmlwidgets)
-#webshot::install_phantomjs()
+library(Rserve)
+library(RColorBrewer)
 
 company <- c('삼성SDI','현대모비스','SK하이닉스','네이버','LG전자'
              ,'셀트리온','아모레퍼시픽','신세계','신한은행','카카오'
              ,'S-Oil','한국콜마')
-
-code <- c('006400','012330','000660','035420','066570','068270','090430','004170','055550','035720','010950','161890')
-
 com_num <- 1
 
-per_df <- data.frame(matrix(nrow=3,ncol=length(code)),row.names=c('code','pos','neg'))
+per_df <- data.frame(matrix(nrow=3,ncol=12),row.names=c('name','pos','neg'))
 
 #필터링 할 단어 사전
 filterword <- c('삼성','SDI','현대','모비스','SK','하이닉스','네이버'
@@ -52,7 +50,7 @@ repeat{
           > div.section_list > div.bd > ul > li:nth-child(',i,') > span > a'))
     content <- html_text(tag)
     content <- str_trim(unlist(str_split(content
-                                         ,'[-_.+a-zA-Z0-9]+[@].+[.][[a-zA-Z0-9]+|[a-zA-Z0-9]+[.][a-zA-Z0-9]+]'))[1])
+    ,'[-_.+a-zA-Z0-9]+[@].+[.][[a-zA-Z0-9]+|[a-zA-Z0-9]+[.][a-zA-Z0-9]+]'))[1])
     cloudlist <- c(cloudlist,content)
     savelist <- c(savelist,content)
   }
@@ -83,7 +81,7 @@ repeat{
   
   #3.조선일보 뉴스에서 해당 종목 관련 기사 5개 크롤링
   site <- read_html(paste0('http://nsearch.chosun.com/search/total.search?query='
-                           ,company[com_num],'&cs_search=gnbtotal'),encoding="UTF-8")
+                    ,company[com_num],'&cs_search=gnbtotal'),encoding="UTF-8")
   for(i in 4:8){
     tag <- html_nodes(site,paste0('div.search_news_box > dl:nth-child(',i,') > dt > a'))
     url <- html_attr(tag, 'href')  
@@ -106,29 +104,41 @@ repeat{
   filename <- file(paste0('조선일보_',company[com_num],'.txt'),encoding='UTF-8')
   writeLines(str_trim(savelist),filename)
   close(filename)
-  
+
   #4.위 3개 언론사에서 받은 기사들을 정제 후 워드클라우딩
   newstext <- gsub('[0-9]',' ',gsub('[[:punct:]]',' ',cloudlist))
-  
+  if(com_num==11){
+    newstext <- str_trim(gsub('[^가-힣]',' ',newstext))
+    newstext <- Filter(function(x){nchar(x)!=0},newstext)
+  }
+  newstext <- Filter(function(x){nchar(x)<10000},newstext)
   text_data <- sapply(newstext,extractNoun,USE.NAMES = F)
   unlist_text_data <- Filter(function(x){nchar(x)>=2 & nchar(x)<6},unlist(text_data))
   
   text_df <- data.frame(sort(table(unlist_text_data),decreasing = T))
   text_df <- text_df %>% filter(!unlist_text_data %in% filterword)
+  
+  size_num <- text_df[1,2]/text_df[100,2]/15
+  if(size_num < 0.4){
+    size_num <- size_num+0.1
+  }
   text_cloud <- wordcloud2(text_df[1:100,],rotateRatio=0
-                           ,size = 1 ,color = "random-dark")
+                           ,fontFamily = '나눔스퀘어라운드'
+                           ,size = size_num
+                           ,color = rep_len(brewer.pal(9,"Blues")[9:5]
+                           ,nrow(text_df[1:100,])))
   
   saveWidget(text_cloud,"cloud.html",selfcontained = F)
   webshot("cloud.html",paste0(company[com_num],".png")
           , delay = 5, vwidth = 800, vheight=500)
-  
+
   #5.감성분석
-  
+
   #5-1.초기 클래스(긍정,부정) 분류를 위한 데이터 프레임 생성 및 클래스 분류
-  w_class <- data.frame(matrix(nrow=15, ncol=2))
+  w_class <- data.frame(matrix(nrow=length(text_data), ncol=2))
   names(w_class) <- c("class","news_num")
   
-  w_class[,2] <- seq(1,15,1)
+  w_class[,2] <- seq(1,length(text_data),1)
   
   pos_vec <- c()
   neg_vec <- c()
@@ -161,7 +171,8 @@ repeat{
   #기사에 존재하는 단어는 1, 없는 단어는 0으로 지정
   #위에서 분류한 긍,부정 클래스를 weight_df 에 붙여줌
   unique_vec <- unique(unlist(news_word_list))
-  weight_df <- data.frame(matrix(nrow=15, ncol=length(unique_vec),data = 0))
+  weight_df <- data.frame(matrix(nrow=length(text_data)
+                                 , ncol=length(unique_vec),data = 0))
   names(weight_df) <- unique_vec
   weight_df <- cbind(weight_df,w_class)
   
@@ -173,7 +184,8 @@ repeat{
   #5-4.각 기사 별 tf 값을 구하기 위한 데이터 프레임 생성 및 계산
   #idf = log(전체기사/단어 존재기사) 값을 데이터 프레임으로 생성 및 계산
   #이후 두 프레임의 값에 대해 곱 계산
-  tf_idf_df <- data.frame(matrix(nrow=15, ncol=length(unique_vec),data = 0))
+  tf_idf_df <- data.frame(matrix(nrow=length(text_data)
+                                 , ncol=length(unique_vec),data = 0))
   names(tf_idf_df) <- unique_vec
   
   log_df <- data.frame(matrix(nrow=1,ncol=length(unique_vec)))
@@ -208,7 +220,8 @@ repeat{
   df_pos <- tf_idf_df %>% filter(class=='pos')
   df_neg <- tf_idf_df %>% filter(class=='neg')
   
-  mean_w_df <- data.frame(matrix(nrow=15, ncol=length(unique_vec),data = 0))
+  mean_w_df <- data.frame(matrix(nrow=length(text_data)
+                                 ,ncol=length(unique_vec),data = 0))
   names(mean_w_df) <- unique_vec
   
   for(i in 1:length(tf_idf_df[,1])){
@@ -238,7 +251,7 @@ repeat{
   #벡터에는 단순 긍정,부정을 넣어줌 @@(필요한지 잘 모르겠음)@@
   #데이터 프레임에는 나이브 베이즈 분류기 값을 저장
   result_vec <- c()
-  result_df <- data.frame(matrix(nrow=15,ncol=2))
+  result_df <- data.frame(matrix(nrow=length(text_data),ncol=2))
   
   for(k in 1:length(news_word_list)){
     pos_doc <- p_pos
@@ -279,11 +292,12 @@ repeat{
   per1 <- 100*mean1/(mean1+mean2)
   per2 <- 100*mean2/(mean1+mean2)
   
-  per_df[,com_num] <- c(code[com_num],round(per1,1),round(per2,1))
-  
+  per_df[,com_num] <- c(company[com_num],round(per1,1),round(per2,1))
+
   if(com_num==length(company)){
     break
   }
   com_num <- com_num+1
 }
+
 per_df

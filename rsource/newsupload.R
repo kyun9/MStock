@@ -1,8 +1,7 @@
 
 library(rvest)
 library(stringr)
-
-##Rserve(args="--RS-encoding utf8")
+library(Rserve)
 
 navereco_info<-NULL
 
