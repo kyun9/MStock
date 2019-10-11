@@ -22,7 +22,7 @@ public class RegisterController {
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public String getRegister() {
-		return "register";
+		return "auth/register";
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.POST)
@@ -45,9 +45,9 @@ public class RegisterController {
 				mav.addObject("msg", "회원가입에 성공하였습니다");
 				mav.addObject("result", "fail");
 			}
-		}
+		} 
 		
-		mav.setViewName("register");
+		mav.setViewName("auth/register");  
 		
 		return mav;
 	}

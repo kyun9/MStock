@@ -24,11 +24,11 @@
 </head>
 <body class="header-fixed">
 	<!-- partial:partials/header.jsp -->
-	<%@ include file="./partials/header.jsp"%>
+	<%@ include file="../partials/header.jsp"%>
 	<!-- partial -->
 	<div class="page-body">
 		<!-- partial:partials/sidebar.jsp -->
-		<%@ include file="./partials/sidebar.jsp"%>
+		<%@ include file="../partials/sidebar.jsp"%>
 		<!-- partial -->
 		<!-- content viewport start -->
 		<div class="page-content-wrapper">
@@ -79,8 +79,7 @@
 												</div>
 											</div>
 
-											<button id="updateBtn" type="submit"
-												class="btn btn-secondary">수정하기</button>
+											<button id="updateBtn"  type="submit" class="btn btn-secondary">수정하기</button>
 											<button id="cancleBtn" type="button"
 												class="btn btn-secondary">취소하기</button>
 
@@ -154,7 +153,7 @@
 											</div>
 
 											<button id="updateBtn" type="submit"
-												class="btn btn-secondary" disabled>수정하기</button>
+												class="btn btn-secondary">수정하기</button>
 											<button id="cancleBtn" type="button"
 												class="btn btn-secondary">취소하기</button>
 
@@ -172,7 +171,7 @@
 			</div>
 			<!-- content viewport ends -->
 			<!-- partial:partials/footer.jsp -->
-			<%@ include file="./partials/footer.jsp"%>
+			<%@ include file="../partials/footer.jsp"%>
 			<!-- partial -->
 		</div>
 		<!-- page content ends -->
@@ -194,31 +193,7 @@
 
 	<!-- jQuery -->
 	<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-	<script>
-		/* 비밀번호 확인 */
-		$(function() {
-			$('#inputPasswordRe').on(
-					"blur",
-					function() {
-						if ($('#inputPasswordRe').val().length < 8
-								|| $('#inputPassword').val() < 8) {
-							$('#checkpassword').text("비밀번호를 8자 이상 입력해주세요").css(
-									"color", "red");
-						} else {
-							if ($('#inputPasswordRe').val() != $(
-									'#inputPassword').val()) {
-								$('#checkpassword').text("비밀번호가 다릅니다").css(
-										"color", "red");
-								$("#registerBtn").attr("disabled", "disabled");
-							} else {
-								$('#checkpassword').text("비밀번호가 같습니다").css(
-										"color", "blue");
-								$('#updateBtn').removeAttr('disabled');
-							}
-						}
-					});
-
-		});
-	</script>
+	<!-- passwordConfirm.js -->
+	<script src="/mstock/resources/js/passwordConfirm.js"></script>
 </body>
 </html>

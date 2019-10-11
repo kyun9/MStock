@@ -36,7 +36,7 @@ public class MyPageController {
 		if(userVO == null) {
 			mav.setViewName("redirect:/login");
 		} else {
-			mav.setViewName("mypage");			
+			mav.setViewName("manage/mypage");			
 		}
 		
 		//System.out.println(userVO.getId());

@@ -43,9 +43,9 @@ public class PropertyInfoController {
 		
 		//session이 없으면 login으로 보냄
 		if(userVO == null) {
-			mav.setViewName("login");
+			mav.setViewName("auth/login");
 		} else {
-			mav.setViewName("propertyInfo");
+			mav.setViewName("manage/propertyInfo");
 			
 			//계좌를 보유 중인지 확인함
 			AccountVO accountVO = accountDAO.getAccount(userVO.getU_id());

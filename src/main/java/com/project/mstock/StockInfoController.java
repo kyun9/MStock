@@ -36,7 +36,7 @@ public class StockInfoController {
 		if (userVO.getU_id() != 0) {
 			mav.addObject("accountInfo", accountDAO.getAccount(userVO.getU_id()));
 		}
-		mav.setViewName("stockInfo");
+		mav.setViewName("stockinfo/stockInfo");
 		return mav;
 	}
 

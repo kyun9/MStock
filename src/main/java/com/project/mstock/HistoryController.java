@@ -50,7 +50,7 @@ public class HistoryController {
 				mav.addObject("historyList", historyList);
 				mav.addObject("pagination", pagination);
 				
-				mav.setViewName("history");				
+				mav.setViewName("manage/history");				
 			}
 			
 		}

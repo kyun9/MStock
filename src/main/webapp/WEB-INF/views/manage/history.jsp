@@ -25,11 +25,11 @@
 <body class="header-fixed">
 
 	<!-- partial:partials/header.jsp -->
-	<%@ include file="./partials/header.jsp"%>
+	<%@ include file="../partials/header.jsp"%>
 	<!-- partial -->
 	<div class="page-body">
 		<!-- partial:partials/sidebar.jsp -->
-		<%@ include file="./partials/sidebar.jsp"%>
+		<%@ include file="../partials/sidebar.jsp"%>
 		<!-- partial -->
 		<!-- content viewport start -->
 		<div class="page-content-wrapper">
@@ -111,7 +111,7 @@
 			</div>
 			<!-- content viewport ends -->
 			<!-- partial:partials/footer.jsp -->
-			<%@ include file="./partials/footer.jsp"%>
+			<%@ include file="../partials/footer.jsp"%>
 			<!-- partial -->
 		</div>
 		<!-- page content ends -->

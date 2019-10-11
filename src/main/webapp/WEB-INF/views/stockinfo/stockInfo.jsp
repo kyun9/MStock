@@ -40,11 +40,11 @@
 	%>
 
 	<!-- partial:partials/header.jsp -->
-	<%@ include file="./partials/header.jsp"%>
+	<%@ include file="../partials/header.jsp"%>
 	<!-- partial -->
 	<div class="page-body">
 		<!-- partial:partials/sidebar.jsp -->
-		<%@ include file="./partials/sidebar.jsp"%>
+		<%@ include file="../partials/sidebar.jsp"%>
 		<!-- partial -->
 		<div class="page-content-wrapper">
 			<div class="page-content-wrapper-inner">
@@ -54,7 +54,7 @@
 						<div class="col-12">
 
 							<div class="jumbotron"
-								style="background-image: url(/mstock/resources/images/main3.jpg); background-repeat: no-repeat; background-size: 100%;">
+								style="background-image: url(/mstock/resources/images/sub.png); background-repeat: no-repeat; background-size: 100%;">
 								<div class="w-50 p-3"
 									style="background-color: #fff; opacity: 0.5; margin-bottom: 100px;">
 									<h1 class="display-4"><%=company.getName()%></h1>
@@ -71,7 +71,7 @@
 								<!-- chart.js 주식차트 / 차트부분 파일 분리(./partials/stockchart.jsp)-->
 								<div>
 									<canvas id="myChart" style="border: 1px solid #000000;"></canvas>
-									<%@ include file="./partials/stockchart.jsp"%>
+									<%@ include file="../partials/stockchart.jsp"%>
 									<!-- <button id="reloadInfo">새로고침</button>
 									<span>※30초간격 자동갱신※</span> -->
 								</div>
@@ -307,7 +307,7 @@
 				<tbody id="appendArticle">
 				</tbody>
 			</table>
-			<%@ include file="./partials/newsArticle.jsp"%>
+			<%@ include file="../partials/newsArticle.jsp"%>
 
 			<div class="modal fade" id="newsInfo" tabindex="-1" role="dialog"
 				aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -369,7 +369,7 @@
 			</div>
 			<!-- content viewport ends -->
 			<!-- partial:partials/footer.jsp -->
-			<%@ include file="./partials/footer.jsp"%>
+			<%@ include file="../partials/footer.jsp"%>
 			<!-- partial -->
 		</div>
 		<!-- page content ends -->

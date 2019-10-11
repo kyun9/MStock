@@ -33,12 +33,12 @@ public class NaverLoginController {
 	@RequestMapping(value="/naver/login", method=RequestMethod.GET)
 	public String postNaverLogin(Model model) {
 		//model.addAttribute("client_id", client_id);
-		return "naverlogin";
+		return "auth/naverlogin";
 	}
 	
 	@RequestMapping(value="/naver/callback", method = RequestMethod.GET)
 	public String getCallback(String code, String state) {
-		return "callback";
+		return "auth/callback";
 	}
 	
 	@RequestMapping(value="/naver/profile", method = RequestMethod.GET)

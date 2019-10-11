@@ -47,7 +47,6 @@ public class NewCloudScheduler {
 		RConnection rc = new RConnection();
 		rc.eval("setwd('" + path + "')");
 		REXP x = rc.eval("rdata<-source(" + rsource_location + "); rdata$value");
-		rc.close();
 
 		// 감정 분석
 		RList list = x.asList();
@@ -71,8 +70,8 @@ public class NewCloudScheduler {
 		// JSON화
 		emotionService.setEmotionJSON(value, path);
 
+		rc.close();
 		System.out.println("감정분석 json 이후");
-
 //		//******************************하둡 연동 시작
 //	    Configuration conf = new Configuration();
 //		conf.set("fs.defaultFS", "hdfs://192.168.111.120:9000");

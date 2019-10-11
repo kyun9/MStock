@@ -28,7 +28,7 @@ public class LoginController {
 	
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String getLogin() {
-		return "login";
+		return "auth/login";
 	}
 	
 	@RequestMapping(value="/login", method = RequestMethod.POST)
@@ -46,7 +46,7 @@ public class LoginController {
 			mav.addObject("result", "fail");
 		}
 		
-		mav.setViewName("login");
+		mav.setViewName("auth/login");
 		
 		return mav;
 	}
