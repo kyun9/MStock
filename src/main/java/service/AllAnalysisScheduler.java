@@ -11,12 +11,10 @@ import org.springframework.scheduling.annotation.*;
 import org.springframework.stereotype.*;
 
 @Service
-public class NewCloudScheduler {
+public class AllAnalysisScheduler {
 
-	@Value("#{config['rsource.AnalyzeCompanies']}")
-	String rsource_location;
-	@Value("#{config['rsource.regressionAnalysis']}")
-	String regression_rsource_location;
+	@Value("#{config['rsource.allAnalysis']}")
+	String Rsource_Location;
 	@Autowired
 	EmotionService emotionService;
 	@Autowired
@@ -44,13 +42,14 @@ public class NewCloudScheduler {
 		}
 		// System.out.println("mod "+path);
 
+		String regressionpath = context.getRealPath("/").replaceAll("\\\\", "/") + "resources/json/";
 		// R 실행
 		RConnection rc = new RConnection();
+		rc.eval("path = '" + regressionpath + "'");
 		rc.eval("setwd('" + path + "')");
-		REXP x = rc.eval("rdata<-source(" + rsource_location + "); rdata$value");
-
+		rc.eval("rdata<-source("+Rsource_Location+")");
 		// 감정 분석
-		RList list = x.asList();
+		RList list = rc.eval("rdata$value").asList();
 		int rows = list.size();
 		int cols = list.at(0).length();
 
@@ -67,19 +66,8 @@ public class NewCloudScheduler {
 			}
 			System.out.println();
 		}
-
-		String regressionpath = context.getRealPath("/").replaceAll("\\\\", "/") + "resources/json/";
-		rc.eval("path = '" + regressionpath + "'");
-		rc.eval("source(" + regression_rsource_location + ")");
-		list = rc.eval("result").asList();
-		rows = list.size();
-		cols = list.at(0).length();
-		String[][] reg_value = new String[rows][];
-		for (int i = 0; i < rows; i++) {
-			reg_value[i] = list.at(i).asStrings();
-		}
 		// JSON화
-		emotionService.setEmotionJSON(value, path,reg_value);
+		emotionService.setEmotionJSON(value, path);
 		
 		rc.close();
 		System.out.println("감정분석 json 이후");

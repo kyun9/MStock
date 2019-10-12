@@ -10,13 +10,20 @@ library(webshot)
 library(htmlwidgets)
 library(Rserve)
 library(RColorBrewer)
+library(jsonlite)
 
 company <- c('삼성SDI','현대모비스','SK하이닉스','네이버','LG전자'
              ,'셀트리온','아모레퍼시픽','신세계','신한은행','카카오'
              ,'S-Oil','한국콜마')
+
+com_code <- c('006400','012330','000660','035420'
+              ,'066570','068270','090430','004170'
+              ,'055550','035720','010950','161890')
+
 com_num <- 1
 
-per_df <- data.frame(matrix(nrow=3,ncol=12),row.names=c('name','pos','neg'))
+per_reg_df <- data.frame(matrix(nrow=5,ncol=12)
+                         ,row.names=c('name','pos','neg','pred_val','pred_per'))
 
 #필터링 할 단어 사전
 filterword <- c('삼성','SDI','현대','모비스','SK','하이닉스','네이버'
@@ -25,7 +32,8 @@ filterword <- c('삼성','SDI','현대','모비스','SK','하이닉스','네이�
                 ,'오후','올해','지난해','내일','모레','어제','오늘'
                 ,'이날','들이','하기','비롯','이번','예정','파이낸셜'
                 ,'뉴스','때문','현대모비스','케이','엘지','NAVER','naver'
-                ,'만원','에쓰오일','신한','은행','신한은행')
+                ,'만원','에쓰오일','신한','은행','신한은행'
+                ,'co','kr','com','www','https','http','hani')
 
 #감정분석용 긍정 부정 사전 로드
 positive <- readLines('positive.txt')[-1]
@@ -50,7 +58,7 @@ repeat{
           > div.section_list > div.bd > ul > li:nth-child(',i,') > span > a'))
     content <- html_text(tag)
     content <- str_trim(unlist(str_split(content
-    ,'[-_.+a-zA-Z0-9]+[@].+[.][[a-zA-Z0-9]+|[a-zA-Z0-9]+[.][a-zA-Z0-9]+]'))[1])
+                                         ,'[-_.+a-zA-Z0-9]+[@].+[.][[a-zA-Z0-9]+|[a-zA-Z0-9]+[.][a-zA-Z0-9]+]'))[1])
     cloudlist <- c(cloudlist,content)
     savelist <- c(savelist,content)
   }
@@ -81,7 +89,7 @@ repeat{
   
   #3.조선일보 뉴스에서 해당 종목 관련 기사 5개 크롤링
   site <- read_html(paste0('http://nsearch.chosun.com/search/total.search?query='
-                    ,company[com_num],'&cs_search=gnbtotal'),encoding="UTF-8")
+                           ,company[com_num],'&cs_search=gnbtotal'),encoding="UTF-8")
   for(i in 4:8){
     tag <- html_nodes(site,paste0('div.search_news_box > dl:nth-child(',i,') > dt > a'))
     url <- html_attr(tag, 'href')  
@@ -104,7 +112,7 @@ repeat{
   filename <- file(paste0('조선일보_',company[com_num],'.txt'),encoding='UTF-8')
   writeLines(str_trim(savelist),filename)
   close(filename)
-
+  
   #4.위 3개 언론사에서 받은 기사들을 정제 후 워드클라우딩
   newstext <- gsub('[0-9]',' ',gsub('[[:punct:]]',' ',cloudlist))
   if(com_num==11){
@@ -119,21 +127,21 @@ repeat{
   text_df <- text_df %>% filter(!unlist_text_data %in% filterword)
   
   size_num <- text_df[1,2]/text_df[100,2]/15
-  if(size_num < 0.4){
+  if(size_num < 0.45){
     size_num <- size_num+0.1
   }
   text_cloud <- wordcloud2(text_df[1:100,],rotateRatio=0
                            ,fontFamily = '나눔스퀘어라운드'
                            ,size = size_num
                            ,color = rep_len(brewer.pal(9,"Blues")[9:5]
-                           ,nrow(text_df[1:100,])))
+                                            ,nrow(text_df[1:100,])))
   
   saveWidget(text_cloud,"cloud.html",selfcontained = F)
   webshot("cloud.html",paste0(company[com_num],".png")
           , delay = 5, vwidth = 800, vheight=500)
-
+  
   #5.감성분석
-
+  
   #5-1.초기 클래스(긍정,부정) 분류를 위한 데이터 프레임 생성 및 클래스 분류
   w_class <- data.frame(matrix(nrow=length(text_data), ncol=2))
   names(w_class) <- c("class","news_num")
@@ -291,13 +299,50 @@ repeat{
   
   per1 <- 100*mean1/(mean1+mean2)
   per2 <- 100*mean2/(mean1+mean2)
+ 
+  #6.회귀분석 
+  json_df <- fromJSON(paste0(path,com_code[com_num],".json"))
   
-  per_df[,com_num] <- c(company[com_num],round(per1,1),round(per2,1))
-
+  info_df <- data.frame(matrix(ncol=4,nrow=0))
+  
+  bef_time <- format(Sys.time()-3600,'%Y/%b/%d %H:%M')
+  aft_time <- format(Sys.time(),'%Y/%b/%d %H:%M')
+  
+  for(i in 1:length(json_df$Stockinfo)){
+    if(str_sub(json_df$gettime[i],1,16)>bef_time
+       &str_sub(json_df$gettime[i],1,16)<aft_time){
+      info_df <- rbind(info_df,c(json_df$Stockinfo[[i]][2]
+                                 ,json_df$Stockinfo[[i]][6]
+                                 ,str_sub(json_df$gettime[i],15,16)
+                                 ,str_sub(json_df$gettime[i],18,19))
+                       ,stringsAsFactors=F)
+    }
+  }
+  info_df[] <- lapply(info_df, function(x) as.numeric(gsub(",", "", x)))
+  info_df <- cbind(info_df[,1:2],(info_df[,3]*60+info_df[,4])/60)
+  names(info_df) <- c('marketprice','volume','time')
+  
+  model <- lm(marketprice~.,data=info_df)
+  reg_result <- summary(model)
+  
+  beta0 <- reg_result$coefficients[1]
+  beta1 <- reg_result$coefficients[2]
+  beta2 <- reg_result$coefficients[3]
+  
+  x1 <- info_df$volume[length(info_df$volume)]+
+    ((info_df$volume[length(info_df$volume)]-info_df$volume[1])/6)
+  x2 <- 70
+  
+  pred_val <- round(beta0+beta1*x1+beta2*x2,digits=-1)
+  pred_per <- round(reg_result$adj.r.squared*100,digits=1)
+  
+  per_reg_df[,com_num] <- c(company[com_num],round(per1,1),round(per2,1)
+                            ,pred_val,pred_per)
+  
   if(com_num==length(company)){
     break
   }
   com_num <- com_num+1
 }
 
-per_df
+per_reg_df

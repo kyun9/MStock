@@ -69,16 +69,20 @@
 							<div class="body-wrap">
 
 								<!-- chart.js 주식차트 / 차트부분 파일 분리(./partials/stockchart.jsp)-->
-								<div>
+								<div style="display:inline-block; border :1px solid black; width:50%">
 									<canvas id="myChart" style="border: 1px solid #000000;"></canvas>
 									<%@ include file="../partials/stockchart.jsp"%>
 									<button id="reloadInfo">새로고침</button>
-									<span>※30초간격 자동갱신※</span>
+									<span>※30초간격 실시간 자동갱신※</span><br>
+								</div>
+								<!-- 회귀분석 -->
+								<div style="display:inline-block;border :1px solid black">
+								 <span id="regressionTime" style=" font-weight: bold;"></span><br>
+								 <span id="regressionVal">dfsdf</span><br>
+								 <span id="regressionPer">sdfsdf</span>
 								</div>
 
-								<div class="row text-center"></div>
-
-								<div class="data-lists">
+								<div class="data-lists"style="display:inline-block;">
 									<dl>
 										<dt>
 											<span></span>주가정보
@@ -283,20 +287,20 @@
 
 			<div class="row align-items-center">
 				<!-- 워드클라우드 -->
-				<div class="col-12 col-md-8">
+				<div class="col-12 col-md-5">
 					<img src="/mstock/resources/rdata/<%=company.getWcimg()%>" width="100%">
 				</div>
 				
 				<!-- 감정분석 -->
 				<div class="col-6 col-md-4">
-					<p class="h2">감정 분석</p>
+					<p class="h2">실시간 뉴스 감정 분석</p>
 					<canvas id="north-america-chart"></canvas>
 					<div id="north-america-legend"></div>
 				</div>
 			</div>
 
 			<!-- Article List -->
-			<table id="article" style="border: 1px solid black">
+			<table id="article" style="border: 1px solid black; width:100px">
 				<thead>
 					<tr>
 						<th>제목</th>
@@ -329,11 +333,11 @@
 						<!--Close  Form  -->
 					</div>
 				</div>
-			</div>
+			</div><br>
 			<!-- end Article LIst -->
 
 			<!-- chat -->
-			<div class="col-md-10" style="border: 1px solid black">
+			<div class="col-md-8" style="border: 1px solid black">
 				<div class="panel panel-info">
 					<div class="panel-heading">
 						<%=company.getName()%>
@@ -457,11 +461,11 @@
 		$.getJSON(jsonLocation, function(data) {
 			$.each(data, function(n, arr) {
 				$.each(arr, function(m, company) {
-					console.log(company.code);
-					console.log(company.pos);
-					console.log(company.neg);
 					if (code == company.code) {
 						drawChart(company.pos, company.neg);
+						$("#regressionTime").text(company.time+"기준 10분 뒤 시가예측")
+						$("#regressionVal").text("시가  "+company.predictValue)
+						$("#regressionPer").text("예측 정확도 "+company.predictPercent+"%")
 					}
 				});
 			});

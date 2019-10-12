@@ -1,6 +1,8 @@
 package service;
 
 import java.io.*;
+import java.text.*;
+import java.util.*;
 
 import org.json.simple.*;
 import org.springframework.stereotype.*;
@@ -9,7 +11,9 @@ import org.springframework.stereotype.*;
 public class EmotionService {
 	
 	@SuppressWarnings("unchecked")
-	public void setEmotionJSON(String[][] value, String path,String[][] reg_value) throws IOException {
+	public void setEmotionJSON(String[][] value, String path) throws IOException {
+		Date date= new Date();
+		SimpleDateFormat current = new SimpleDateFormat("yyyy-mm-dd hh:mm");
 		
 		for(int i=0; i<value.length; i++) {
 			JSONObject jsonObject = new JSONObject();
@@ -18,8 +22,9 @@ public class EmotionService {
 			info.put("code", value[i][0]);
 			info.put("pos", value[i][1]);
 			info.put("neg", value[i][2]);
-			info.put("predictValue",reg_value[i][0]);
-			info.put("predictPercent",reg_value[i][1]);
+			info.put("predictValue",value[i][3]);
+			info.put("predictPercent",value[i][4]);
+			info.put("time",current.format(date));
 			arr.add(info);
 			jsonObject.put("emotion", arr);
 			saveEmotionJSON(jsonObject, value[i][0], path);
