@@ -10353,7 +10353,7 @@ footer {
     flex-direction: column; }
 
 /* Tables */
-.table,
+/* .table,
 table {
   margin-bottom: 0; }
   .table thead tr th,
@@ -10473,7 +10473,7 @@ table {
     .table.info-table tr th.actions,
     table.info-table tr td.actions,
     table.info-table tr th.actions {
-      padding-left: 0; }
+      padding-left: 0; } */
 
 /* Timeline */
 .timeline-vertical {

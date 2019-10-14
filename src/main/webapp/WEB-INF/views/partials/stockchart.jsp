@@ -27,7 +27,7 @@ var drawingStockInfo = function(){$.getJSON('/mstock/resources/json/<%=request.g
 					var maxTime = today+" 16:00:00";
 					var minJuka = Number(data[data.length-1].Stockinfo[9].replace(/,/gi,''));
 					var maxJuka = Number(data[data.length-1].Stockinfo[8].replace(/,/gi,''));
-					var stepJuka =(maxJuka-minJuka)/10;
+					var stepJuka =(maxJuka-minJuka)/5;
 					var ctx = document.getElementById('myChart');
 					
 					var myChart = new Chart(ctx,{
@@ -109,6 +109,10 @@ var drawingStockInfo = function(){$.getJSON('/mstock/resources/json/<%=request.g
 	
 	
 	$(document).ready(function() {
+		
+		var ctx = document.getElementById("myChart");
+		ctx.height = 70;
+		
 		/* 새로 고침 버튼 누르시 */
 		$("#reloadInfo").click(function() {
 			drawingStockInfo();

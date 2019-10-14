@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="vo.StockInfoVO, vo.CompanyVO, vo.UserVO, vo.AccountVO, java.util.HashMap"%>
+<%@ page
+	import="vo.StockInfoVO, vo.CompanyVO, vo.UserVO, vo.AccountVO, java.util.HashMap"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="http://asp1.krx.co.kr/inc/js/asp_chart.js"></script>
+
 <!-- <script type="text/javascript" src="resources/js/common.js"></script> -->
 <link rel="stylesheet" type="text/css"
 	href="resources/css/stockinfo.css" />
@@ -26,11 +27,21 @@
 <link rel="stylesheet" href="/mstock/resources/css/demo_1/style.css">
 <!-- Layout style -->
 <link rel="shortcut icon" href="/mstock/resources/images/favicon.ico" />
+
+
+<!-- bootstrap -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 <!-- chatting.js -->
 <script src="/mstock/resources/js/chatting.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
-<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="http://asp1.krx.co.kr/inc/js/asp_chart.js"></script>
+
+
 </head>
 <body class="header-fixed">
 	<%
@@ -54,66 +65,48 @@
 						<div class="col-12">
 
 							<div class="jumbotron"
-								style="background-image: url(/mstock/resources/images/sub.png); background-repeat: no-repeat; background-size: 100%;">
+								style="background-image: url(/mstock/resources/images/main3.jpg); background-repeat: no-repeat; background-size: 100%;">
 								<div class="w-50 p-3"
 									style="background-color: #fff; opacity: 0.5; margin-bottom: 100px;">
 									<h1 class="display-4"><%=company.getName()%></h1>
-									<p class="lead">
-										<span><span class="time_img"></span><span id="time0"></span>
-											기준 (<%=stock.getJanggubun()%>)</span>
-									</p>
 								</div>
 							</div>
 
 
-							<div class="body-wrap">
-
-								<!-- chart.js 주식차트 / 차트부분 파일 분리(./partials/stockchart.jsp)-->
-								<div style="display:inline-block; border :1px solid black; width:50%">
-									<canvas id="myChart" style="border: 1px solid #000000;"></canvas>
-									<%@ include file="../partials/stockchart.jsp"%>
-									<button id="reloadInfo">새로고침</button>
-									<span>※30초간격 실시간 자동갱신※</span><br>
+							<div class="text-center">
+								<div class="row">
+									<!-- chart.js 주식차트 / 차트부분 파일 분리(./partials/stockchart.jsp)-->
+									<div class="w-100 p-3"
+										style="border: 1px solid black; float: none; margin: 0 auto">
+										<canvas id="myChart"></canvas>
+										<%@ include file="../partials/stockchart.jsp"%>
+										<button id="reloadInfo">새로고침</button>
+										<span>※30초간격 실시간 자동갱신※</span><br>
+									</div>
 								</div>
-								<!-- 회귀분석 -->
-								<div style="display:inline-block;border :1px solid black">
-								 <span id="regressionTime" style=" font-weight: bold;"></span><br>
-								 <span id="regressionVal">dfsdf</span><br>
-								 <span id="regressionPer">sdfsdf</span>
-								</div>
+								
+								<hr>
 
-								<div class="data-lists"style="display:inline-block;">
-									<dl>
-										<dt>
-											<span></span>주가정보
-										</dt>
-										<dd>
-											<div class="main_stock_box1">
-												<ul>
-													<li>
-														<div class="main_stock_box1_title">
-															<ul>
-																<li class="main_stock_box1_title1"></li>
-																<li class="main_stock_box1_title2"><span
-																	class="CurJuka">현재가</span><span id="1"></span></li>
-															</ul>
-															<ul>
-																<li class="main_stock_box1_contn"><span
-																	class="title">전일대비</span> <span> <span
-																		class="up" id="2"> </span> <span class="bohab" id="3">
-																	</span> <span class="down" id="4"> </span>
-																</span></li>
-																<li class="main_stock_box1_contn"><span
-																	class="title">거래량</span> <span id="5"></span></li>
-																<li class="main_stock_box1_contn"><span
-																	class="title">거래대금</span> <span id="6"></span></li>
-															</ul>
-														</div>
-													</li>
-												</ul>
-											</div>
-											<div class="main_stock_box2">
-												<table id="stockInfo">
+									<div class="card shadow p-3 mb-5 bg-white rounded h-100">
+										<div class="card-header">
+										  	<p class="h2"><%=company.getName()%> (<%= stock.getJongCd()%>)</p>
+										  	<p class="display-income"><span>
+										  	<span class="time_img"></span>
+										  	<span id="time0"></span>기준 (<%=stock.getJanggubun()%>)</span></p>
+										</div>
+										
+										<div class="card-body">
+												<table class="table">
+													<tr>
+														<th>현재가</th>
+														<td id="1"></td>
+														<th colspan="2">전일대비</th>
+														<td>
+										    				<span class="up" id="2"></span> 
+													        <span class="bohab" id="3"></span> 
+												        	<span class="down" id="4"></span>
+									    				</td>
+													</tr>
 													<tr>
 														<th>시가</th>
 														<td id="7"></td>
@@ -132,16 +125,34 @@
 														<th colspan="2">액면가</th>
 														<td id="12"></td>
 													</tr>
+													<tr>
+														<th>거래량</th>
+														<td id="5"></td>
+														<th colspan="2">거래대금</th>
+														<td id="6"></td>
+													</tr>
 												</table>
+										
 											</div>
-										</dd>
-									</dl>
+										</div>
+							
+								<hr>
+								
+								<!-- 회귀분석 -->
+								<div>
+									<span id="regressionTime" style="font-weight: bold;"></span><br>
+									<span id="regressionVal">dfsdf</span><br>
+									 <span id="regressionPer">sdfsdf</span>
 								</div>
+								
+								<hr>
+
+
 								<!-- 매수하기 기능 -->
 								<!-- Button trigger modal -->
 								<%	if(session.getAttribute("user")!=null &&request.getAttribute("accountInfo") != null){
 									AccountVO account = (AccountVO) request.getAttribute("accountInfo");
-							%>
+								%>
 
 								<button type="button" class="btn btn-primary"
 									data-toggle="modal" data-target="#exampleModalCenter">종목
@@ -221,8 +232,10 @@
 								});
 							</script>
 								<!-- 매수기능 끝  -->
-								<div class="tab_content">
-									<table id="tradedPrice_day">
+								
+								<div class="card">
+									<div class="card-body">
+									<table class="table">
 										<tr>
 											<th>일자</th>
 											<th>종가</th>
@@ -278,7 +291,10 @@
 											}
 										%>
 									</table>
+									</div>
 								</div>
+								
+								
 							</div>
 						</div>
 					</div>
@@ -288,9 +304,10 @@
 			<div class="row align-items-center">
 				<!-- 워드클라우드 -->
 				<div class="col-12 col-md-5">
-					<img src="/mstock/resources/rdata/<%=company.getWcimg()%>" width="100%">
+					<img src="/mstock/resources/rdata/<%=company.getWcimg()%>"
+						width="100%">
 				</div>
-				
+
 				<!-- 감정분석 -->
 				<div class="col-6 col-md-4">
 					<p class="h2">실시간 뉴스 감정 분석</p>
@@ -300,7 +317,7 @@
 			</div>
 
 			<!-- Article List -->
-			<table id="article" style="border: 1px solid black; width:100px">
+			<table id="article" style="border: 1px solid black; width: 100px">
 				<thead>
 					<tr>
 						<th>제목</th>
@@ -333,7 +350,8 @@
 						<!--Close  Form  -->
 					</div>
 				</div>
-			</div><br>
+			</div>
+			<br>
 			<!-- end Article LIst -->
 
 			<!-- chat -->
@@ -390,7 +408,7 @@
 	<!-- build:js -->
 	<script src="/mstock/resources/js/template.js"></script>
 	<!-- endbuild -->
-	
+
 	<!-- 차트 그리기 -->
 	<script>
 		var drawChart = function(pos, neg) {
@@ -455,7 +473,7 @@
 		}
 
 		var code = '<%=company.getName()%>';
-		var jsonLocation = '/mstock/resources/rdata/emotion'+code+'.json';
+		var jsonLocation = '/mstock/resources/rdata/emotion' + code + '.json';
 		//alert(code);
 		//alert(jsonLocation);
 		$.getJSON(jsonLocation, function(data) {
@@ -463,14 +481,16 @@
 				$.each(arr, function(m, company) {
 					if (code == company.code) {
 						drawChart(company.pos, company.neg);
-						$("#regressionTime").text(company.time+"기준 10분 뒤 시가예측")
-						$("#regressionVal").text("시가  "+company.predictValue)
-						$("#regressionPer").text("예측 정확도 "+company.predictPercent+"%")
+						$("#regressionTime").text(
+								company.time + "기준 10분 뒤 시가예측")
+						$("#regressionVal").text("시가  " + company.predictValue)
+						$("#regressionPer").text(
+								"예측 정확도 " + company.predictPercent + "%")
 					}
 				});
 			});
 		});
 	</script>
-	
+
 </body>
 </html>

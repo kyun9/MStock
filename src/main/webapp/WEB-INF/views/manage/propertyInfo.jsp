@@ -145,15 +145,7 @@
 														</c:choose>
 													</div>
 													
-													<div class="row">
-													    <div class="col"></div>
-													    <div class="col-6">
-														    <div class="progress" style="height: 20px;">
-															  <div class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
-															</div>
-													    </div>
-													    <div class="col"></div>
-												  </div>
+													
 													
 												</div>
 
