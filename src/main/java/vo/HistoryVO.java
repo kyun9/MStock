@@ -8,6 +8,7 @@ public class HistoryVO {
 	int price;
 	int quantity;
 	String datetime;
+	
 	public int getHistory_id() {
 		return history_id;
 	}

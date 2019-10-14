@@ -79,6 +79,9 @@ public class PropertyInfoController {
 		int curJuka = companyDAO.getCurJuka(purchaseVO.getCompany_id());
 		int credit = curJuka * purchaseVO.getQuantity();
 		
+		//Price Set
+		purchaseVO.setPrice(purchaseVO.getPrice() * purchaseVO.getQuantity());
+		
 		if(accountDAO.updateSellCredit(purchaseVO.getAccount_id(), credit)) {
 			//보유한 주식 개수와 매도하려는 주식 개수가 같으면 Delete 아니면 Update
 			int quantity = purchaseDAO.getQuantity(purchaseVO.getList_id());
@@ -91,7 +94,7 @@ public class PropertyInfoController {
 					System.out.println("Delete Fail");
 				}
 			} else {
-				if(purchaseDAO.sellStockUpdate(purchaseVO)) {
+				if(purchaseDAO.sellStockUpdateQuantity(purchaseVO) && purchaseDAO.sellStockUpdatePrice(purchaseVO)) {
 					check = true;
 					System.out.println("Update Success");
 				} else {
@@ -113,9 +116,11 @@ public class PropertyInfoController {
 	//보유하고 있는 종목 중 company_id의 구매목록 리스트를 보냄 
 	@RequestMapping(value="/property/modal", method = RequestMethod.POST)
 	@ResponseBody
-	public Object postCheckEmail(@RequestParam(value="company_id") String company_id, @RequestParam(value="account_id") String account_id) {
+	public Object postPropertyModal(@RequestParam(value="company_id") String company_id, @RequestParam(value="account_id") String account_id) {
 		HashMap<String, List<PurchaseVO>> map = new HashMap<String, List<PurchaseVO>>();
 		List<PurchaseVO> purchaseList = purchaseDAO.getOneCompanyStock(company_id, account_id);
+		//System.out.println(purchaseList.get(0).getPrice());
+		//System.out.println(purchaseList.get(1).getPrice());
 		map.put("purchaseList", purchaseList);
 		return map;
 	}

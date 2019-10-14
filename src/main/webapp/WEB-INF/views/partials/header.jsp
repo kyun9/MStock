@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<nav class="t-header"  style="background-color:#003399" >
+<nav class="t-header"  style="background-color:#575DFA" >
 	<div class="t-header-brand-wrapper" style="border-bottom: 5px solid #EAEAEA;">
 		<a href="/mstock"> <img class="logo"
 			src="/mstock/resources/images/logo.svg"> <img
@@ -34,9 +34,9 @@
 					</ul>
 				</c:when>
 				<c:otherwise>
-					<ul class="nav ml-auto">
-						<li class="nav-item display-income"><a
-							class="nav-link active" href="/mstock/logout" style ="color:white">로그아웃</a></li>
+					<ul class="nav ml-auto">					
+						<li class="nav-item display-income"><a class="nav-link active" href="/mstock/mypage" style ="color:white">마이페이지</a></li>
+						<li class="nav-item display-income"><a class="nav-link active" href="/mstock/logout" style ="color:white">로그아웃</a></li>
 					</ul>
 				</c:otherwise>
 			</c:choose>

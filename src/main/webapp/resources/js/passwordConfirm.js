@@ -3,6 +3,7 @@
  */
 		/* 비밀번호 확인 */
 		$(function() {
+			
 			$('#inputPasswordRe').on(
 					"blur",
 					function() {

@@ -37,7 +37,7 @@
 					<div class="row">
 						<div class="jumbotron container h-75 d-inline-block text-center">
 							<h1 class="display-4">My Page</h1>
-							<p class="lead">${user.nickname}님의개인정보를수정할수있습니다</p>
+							<p class="lead">${user.nickname}님의 개인정보를 수정할 수 있습니다</p>
 							<hr class="my-4">
 
 							<c:choose>
@@ -153,7 +153,7 @@
 											</div>
 
 											<button id="updateBtn" type="submit"
-												class="btn btn-secondary">수정하기</button>
+												class="btn btn-secondary" disabled>수정하기</button>
 											<button id="cancleBtn" type="button"
 												class="btn btn-secondary">취소하기</button>
 
@@ -195,5 +195,10 @@
 	<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<!-- passwordConfirm.js -->
 	<script src="/mstock/resources/js/passwordConfirm.js"></script>
+	
+	<script>
+		
+	</script>
+	
 </body>
 </html>

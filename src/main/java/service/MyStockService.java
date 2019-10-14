@@ -49,7 +49,11 @@ public class MyStockService {
 			myStockList.get(i).setProfit_rate(profit_rate);
 			
 			
-			System.out.println("가격 " + price);
+			System.out.println("현재주가 : " + curjuka);
+			System.out.println("개당가격 : " + perPrice);
+			System.out.println("양 : " + quantity);
+			
+			System.out.println("가격 " + price);	
 			System.out.println("수익 " + profit);
 			System.out.println("수익률 : " + profit_rate);
 			//System.out.println("주가 " + curjuka);

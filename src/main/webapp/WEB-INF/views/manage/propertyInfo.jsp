@@ -22,6 +22,28 @@
 <!-- Layout style -->
 <link rel="shortcut icon" href="/mstock/resources/images/favicon.ico" />
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<style>
+.progress {
+    position: relative;
+	height: 25px;
+}
+.progress > .progress-type {
+	position: absolute;
+	left: 0px;
+	font-weight: 800;
+	padding: 3px 30px 2px 10px;
+	color: rgb(255, 255, 255);
+	background-color: rgba(25, 25, 25, 0.2);
+}
+.progress > .progress-completed {
+	position: absolute;
+	right: 0px;
+	font-weight: 800;
+	padding: 3px 10px 2px;
+}
+</style>
+
 </head>
 <body class="header-fixed">
 
@@ -59,6 +81,8 @@
 
 									<div class="row">
 										<div class="card container">
+										
+											<hr class="my-4">
 											<div class="row align-items-center">
 											
 												<div class="col-6 col-md-4">
@@ -70,7 +94,11 @@
 															</tr>
 															<tr>
 																<th>매입 금액</th>
-																<td>0</td>
+																<td id="price_value"></td>
+															</tr>
+															<tr>
+																<th>평가 금액</th>
+																<td id="stock_value"></td>
 															</tr>
 															<tr>
 																<th>평가 손익</th>
@@ -85,11 +113,52 @@
 													<div id="north-america-legend"></div>
 												</div>
 
-												<div class="col-6 col-md-4">
-													<h1>${propertyVO.grade}</h1>
+												<div class="col-6 col-md-4">			
+													
+													<div>
+														<p class="h6">${propertyVO.grade} 등급</p>
+													</div>
+																						
+													<div>
+														<c:choose>
+															<c:when test="${propertyVO.grade eq '브론즈'}">
+																<img src="/mstock/resources/images/grade/grade-bronze.svg" width="150">
+															</c:when>
+															<c:when test="${propertyVO.grade eq '실버'}">
+																<img src="/mstock/resources/images/grade/grade-silver.svg" width="150">
+															</c:when>
+															<c:when test="${propertyVO.grade eq '골드'}">
+																<img src="/mstock/resources/images/grade/grade-gold.svg" width="150">
+															</c:when>
+															<c:when test="${propertyVO.grade eq '플래티넘'}">
+																<img src="/mstock/resources/images/grade/grade-platinum.svg" width="150">
+															</c:when>
+															<c:when test="${propertyVO.grade eq '다이아'}">
+																<img src="/mstock/resources/images/grade/grade-diamond.svg" width="150">
+															</c:when>
+															<c:when test="${propertyVO.grade eq '마스터'}">
+																<img src="/mstock/resources/images/grade/grade-master.svg" width="150">
+															</c:when>
+															<c:when test="${propertyVO.grade eq '킹'}">
+																<img src="/mstock/resources/images/grade/grade-king.svg" width="150">
+															</c:when>
+														</c:choose>
+													</div>
+													
+													<div class="row">
+													    <div class="col"></div>
+													    <div class="col-6">
+														    <div class="progress" style="height: 20px;">
+															  <div class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+															</div>
+													    </div>
+													    <div class="col"></div>
+												  </div>
+													
 												</div>
 
 											</div>
+											<hr class="my-4">
 
 
 										</div>
@@ -118,7 +187,7 @@
 																<th>매도</th>
 															</tr>
 														</thead>
-														<tbody>
+														<tbody id="myStockInfo">
 															<c:forEach var="list" items="${myStockList}">
 																<tr>
 																	<td>${list.company_id}</td>
@@ -142,6 +211,7 @@
 											</div>
 										</div>
 									</div>
+									
 
 								</div>
 
@@ -181,7 +251,7 @@
 													</table>
 
 													<div class="form-group">
-														<label for="inputQuantity">현재 가격</label> <input
+														<label for="inputCurJuka">현재 가격</label> <input
 															class="form-control" id="inputCurJuka" readonly>
 													</div>
 
@@ -193,22 +263,22 @@
 													</div>
 
 													<div class="form-group">
-														<label for="inputQuantity">총 판매 가격</label> <input
+														<label for="inputTotalValue">총 판매 가격</label> <input
 															class="form-control" id="inputTotalValue"
 															placeholder="총 판매 가격" readonly>
 													</div>
 
 													<div class="form-group">
-														<label for="inputQuantity">수익률</label> <input
+														<label for="inputProfitRate">수익률</label> <input
 															class="form-control" id="inputProfitRate"
 															placeholder="수익률" readonly>
 													</div>
 
 
 													<input type="hidden" id="list_id" name="list_id" value="0"></input>
-													<input type="hidden" id="account_id" name="account_id"
-														value="0"></input> <input type="hidden" id="company_id"
-														name="company_id" value="0"></input>
+													<input type="hidden" id="account_id" name="account_id" value="0"></input> 
+													<input type="hidden" id="company_id" name="company_id" value="0"></input>
+													<input type="hidden" id="price" name="price" value="0"></input>
 
 												</div>
 												<div class="modal-footer">
@@ -258,7 +328,7 @@
 	        labels: ["Credit", "Stock"],
 	        datasets: [{
 	            data: [${propertyVO.credit}, ${propertyVO.stock_value}],
-	            backgroundColor: ["#ff944d", "#8caaff"],
+	            backgroundColor: ["#cccccc", "#575dfa"],
 	            borderColor: "rgba(0,0,0,0)"
 	          }]
 	      };
@@ -282,10 +352,10 @@
 	        legendCallback: function(chart) { 
 	          var text = [];
 	          text.push('<div class="report-chart">');
-	            text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[0] + '"></div><p class="mb-0">보유 Credit</p></div>');
+	            text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[0] + '"></div><p class="mb-0">크레딧</p></div>');
 	            text.push('<p class="mb-0" id="chart_credit">${propertyVO.credit}</p>');
 	            text.push('</div>');
-	            text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[1] + '"></div><p class="mb-0">보유 주식</p></div>');
+	            text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[1] + '"></div><p class="mb-0">주식</p></div>');
 	            text.push('<p class="mb-0" id="chart_stock_value">${propertyVO.stock_value}</p>');
 	            text.push('</div>');
 	          text.push('</div>');
@@ -373,17 +443,19 @@
 						var curJuka = "";
 						var price ="";
 						var account_id = ${accountVO.account_id}
-						$("tr >td:nth-child(1)").each(function(idx){
+						$("#myStockInfo > tr >td:nth-child(1)").each(function(idx){
 							if(i==idx){
 								company_id = $(this).text();
 								$("#company_id").val(company_id);
 							}
 						});
-						$("tr >td:nth-child(2)").each(function(idx){
-							if(i==idx)
+						$("#myStockInfo > tr >td:nth-child(2)").each(function(idx){
+							if(i==idx){
 								company_name = $(this).text();
+								//alert(company_name);
+							}
 						});
-						$("tr >td:nth-child(3)").each(function(idx){
+						$("#myStockInfo > tr >td:nth-child(3)").each(function(idx){
 							if(i==idx)
 								curJuka = $(this).text();
 						});
@@ -401,7 +473,7 @@
 									html += "<td><input type='radio' name='select' value='"+i+"' required></input></td>";
 									html += "<td>"+data.purchaseList[i].company_id+"</td>";
 									html += "<td>"+company_name+"</td>";
-									html += "<td>"+numberWithCommas(data.purchaseList[i].price)+"</td>";
+									html += "<td>"+numberWithCommas(data.purchaseList[i].price/data.purchaseList[i].quantity)+"</td>";
 									html += "<td>"+data.purchaseList[i].quantity+"</td>";
 									html += "<td>"+data.purchaseList[i].datetime+"</td>";
 									html += "</tr>";
@@ -413,15 +485,18 @@
 								alert("Error");
 							}
 						});
+						
 						$("#inputQuantity").val("");
 						$("#inputQuantity").removeAttr("max");
 						$("#inputCurJuka").val(curJuka);
 						$("#inputTotalValue").val("");
 						$("#inputProfitRate").val("");
-						$("#list_id").val("");						
+						$("#list_id").val("");
+						
 						/* 매도 Modal에 대한 처리 */
 						$("input:radio[name=select]").on("change", function(){
-							$("#inputProfitRate").removeClass("text-primary text-danger");
+							$("#inputProfitRate").removeClass("text-primary");
+							$("#inputProfitRate").removeClass("text-danger");
 							
 							/* 선택한 radio의 quantity, price 읽기 */
 							var idx = Number($(this).val());
@@ -438,6 +513,7 @@
 							$("#modal-tbody > tr > td:nth-child(4)").each(function(i){
 								if(idx == i){
 									price = $(this).text();
+									$("#price").val(removeCommas(price));
 								}
 							});
 							
@@ -451,6 +527,9 @@
 							/* account_id set */
 							$("#account_id").val(${accountVO.account_id});
 							
+							/* price set */
+							//$("#price").val(price*1);
+							
 							function updateInfo(){
 								var totalValue = removeCommas(curJuka) * Number($("#inputQuantity").val());
 								$("#inputTotalValue").val(numberWithCommas(totalValue));
@@ -460,18 +539,21 @@
 							}
 							
 							$("#inputQuantity").on("change", function(){
-								
-								if($(this).val() > quantity){
+								quantity = $("#inputQuantity").attr("max");
+								//alert("총 주식 양* : " + quantity);
+								//alert("현 주식 양* : " + $(this).val());
+								 if($(this).val()*1 > quantity*1){
+									 //console.log("총 주식 양 : " + quantity);
+									 //console.log("현 주식 양 : " + $(this).val());
 									alert("보유한 주식보다 많을 수 없습니다");
 									$(this).val(quantity);
-								} else {
-									updateInfo();
-								} 
-								
+								}
+								updateInfo();
 							});
 							
 							updateInfo();
 						});
+						
 						
 					});
 				});
@@ -484,7 +566,8 @@
 			$("#profit_rate").html(${propertyVO.profit_rate}.toFixed(1)+"%");
 			$("#chart_credit").html(numberWithCommas(${propertyVO.credit}));
 			$("#chart_stock_value").html(numberWithCommas(${propertyVO.stock_value}));
-			
+			$("#stock_value").html(numberWithCommas(${propertyVO.stock_value}));
+			$("#price_value").html(numberWithCommas(${propertyVO.price_value}));
 		});
 		
 	</script>

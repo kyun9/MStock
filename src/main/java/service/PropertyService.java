@@ -22,6 +22,13 @@ public class PropertyService {
 		int credit = accountVO.getCredit();
 		propertyVO.setCredit(credit);
 		
+		//price_value set(전체 주식 구매 금액을 합한 값)
+		int price_value = 0;
+		if(purchaseDAO.checkStock(accountVO.getAccount_id()) != 0) {
+			price_value = purchaseDAO.getPriceValue(accountVO.getAccount_id());
+		}
+		propertyVO.setPrice_value(price_value);
+		
 		//stock_value set(전체 주식 가치를 합한 값)
 		int stock_value = 0;
 		if(purchaseDAO.checkStock(accountVO.getAccount_id()) != 0) {

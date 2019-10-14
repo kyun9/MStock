@@ -17,7 +17,7 @@ public class ImageService {
 	public String getPath(MultipartFile file, String id) throws IllegalStateException, IOException {
 		String path = context.getRealPath("/") + "resources/images/profile/" + id + ".png";
 		String fileName = id+".png";
-		//System.out.println(path);
+		System.out.println(path);
 		file.transferTo(new File(path));
 		return fileName;
 	}

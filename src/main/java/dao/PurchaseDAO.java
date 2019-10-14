@@ -21,6 +21,14 @@ public class PurchaseDAO {
 		return count;
 	}
 	
+	//총 주식 구매액 get
+	public int getPriceValue(int account_id) {
+		int price_value;
+		String statement = "resource.PurchaseMapper.getPriceValue";
+		price_value = session.selectOne(statement, account_id);
+		return price_value;
+	}
+	
 	//총 주식 보유액 get
 	public int getStockValue(int account_id) {
 		int stock_value;
@@ -80,10 +88,22 @@ public class PurchaseDAO {
 		return quantity;
 	}
 	
-	//매도Update Version
-	public boolean sellStockUpdate(PurchaseVO purchaseVO) {
+	//매도Update Quantity
+	public boolean sellStockUpdateQuantity(PurchaseVO purchaseVO) {
 		int check = 0;
-		String statement = "resource.PurchaseMapper.sellStockUpdate";
+		String statement = "resource.PurchaseMapper.sellStockUpdateQuantity";
+		check = session.update(statement, purchaseVO);
+		if(check != 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	//매도 Update Price
+	public boolean sellStockUpdatePrice(PurchaseVO purchaseVO) {
+		int check = 0;
+		String statement = "resource.PurchaseMapper.sellStockUpdatePrice";
 		check = session.update(statement, purchaseVO);
 		if(check != 0) {
 			return true;

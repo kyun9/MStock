@@ -2,11 +2,18 @@ package vo;
 
 public class PropertyVO {
 	int credit;
+	int price_value;
 	int stock_value;
 	double profit_rate;
 	String grade;
 	
 	
+	public int getPrice_value() {
+		return price_value;
+	}
+	public void setPrice_value(int price_value) {
+		this.price_value = price_value;
+	}
 	public String getGrade() {
 		return grade;
 	}

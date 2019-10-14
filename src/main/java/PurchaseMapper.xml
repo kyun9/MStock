@@ -8,6 +8,11 @@
 	<select id="checkStock" parameterType="int" resultType="int">
 		SELECT COUNT(*) FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{account_id}
 	</select>
+	
+	<!-- getPriceValue-->
+	<select id="getPriceValue" parameterType="int" resultType="int">
+		SELECT SUM(PRICE) FROM PURCHASE_LIST WHERE ACCOUNT_ID = #{account_id} GROUP BY ACCOUNT_ID
+	</select>
 
 	<!-- getStockValue-->
 	<select id="getStockValue" parameterType="int" resultType="int">
@@ -39,9 +44,14 @@
 		SELECT QUANTITY FROM PURCHASE_LIST WHERE LIST_ID = #{list_id}
 	</select>
 	
-	<!-- sellStockUpdate -->
-	<update id="sellStockUpdate" parameterType="vo.PurchaseVO">
+	<!-- sellStockUpdateQuantity -->
+	<update id="sellStockUpdateQuantity" parameterType="vo.PurchaseVO">
 		UPDATE PURCHASE_LIST SET QUANTITY = QUANTITY - #{quantity} WHERE LIST_ID = #{list_id}
+	</update>
+	
+	<!-- sellStockUpdatePrice -->
+	<update id="sellStockUpdatePrice" parameterType="vo.PurchaseVO">
+		UPDATE PURCHASE_LIST SET PRICE = PRICE - #{price} WHERE LIST_ID = #{list_id}
 	</update>
 	
 	<!-- sellStockDelete -->
