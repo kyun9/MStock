@@ -48,7 +48,7 @@
 			</ul></li>
 		<li><a href="/mstock/property"> <span class="link-title">내 자산</span><i class="mdi mdi-gauge link-icon"></i></a></li>
 		<li><a href="/mstock/history"> <span class="link-title">히스토리</span><i class="mdi mdi-gauge link-icon"></i></a></li>
-		<li><a href="pages/forms/form-elements.html"> <span
+		<li><a href="/mstock/board?page=1"> <span
 				class="link-title">게시판</span> <i
 				class="mdi mdi-clipboard-outline link-icon"></i>
 		</a></li>

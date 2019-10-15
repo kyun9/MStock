@@ -1073,7 +1073,8 @@ pre {
     margin-left: 91.66667%; } }
 
 .table {
-  width: 100%;
+  width: 800px;
+  margin: auto;
   margin-bottom: 1rem;
   color: #212529; }
   .table th,

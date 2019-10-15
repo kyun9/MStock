@@ -1,9 +1,7 @@
 package com.project.mstock;
 
-import java.util.*;
+import javax.servlet.http.*;
 
-import org.rosuda.REngine.*;
-import org.rosuda.REngine.Rserve.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +22,8 @@ public class StockInfoController {
 	AccountDAO accountDAO;
 	@Autowired
 	PurchaseDAO purchasesDAO;
+	@Autowired
+	HttpSession session;
 	
 	@ModelAttribute("user")
 	public UserVO createUserModel() {
@@ -50,6 +50,12 @@ public class StockInfoController {
 				
 				mav.setViewName("stockinfo/stockInfo");
 			}
+		session.setAttribute("codeValue", code);
+		mav.addObject("info", service.getInfo(code));
+		mav.addObject("comInfo", companyDAO.selectOneCompay(code));
+		System.out.println("여기까지");
+		if (userVO.getU_id() != 0) {
+			mav.addObject("accountInfo", accountDAO.getAccount(userVO.getU_id()));
 		}
 		
 		return mav;
