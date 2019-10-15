@@ -47,17 +47,11 @@ public class StockInfoController {
 				mav.addObject("info", service.getInfo(code));
 				mav.addObject("comInfo", companyDAO.selectOneCompay(code));
 				mav.addObject("accountInfo", accountVO);
-				
 				mav.setViewName("stockinfo/stockInfo");
+				session.setAttribute("codeValue", code);
 			}
-		session.setAttribute("codeValue", code);
-		mav.addObject("info", service.getInfo(code));
-		mav.addObject("comInfo", companyDAO.selectOneCompay(code));
-		System.out.println("여기까지");
-		if (userVO.getU_id() != 0) {
-			mav.addObject("accountInfo", accountDAO.getAccount(userVO.getU_id()));
+			
 		}
-		
 		return mav;
 	}
 
