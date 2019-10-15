@@ -21,6 +21,36 @@
 <link rel="stylesheet" href="/mstock/resources/css/demo_1/style.css">
 <!-- Layout style -->
 <link rel="shortcut icon" href="/mstock/resources/images/favicon.ico" />
+
+<style type="text/css">
+.video-container {
+	position:relative;
+	padding-bottom:56.25%;
+	height:0;
+	overflow:hidden;
+}
+
+.video-container iframe, video-container object, video-container embed {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+}
+
+.content {
+	position:absolute;
+	top: 50%;
+	height: 240px;
+	/* background-color: #fff;
+	opacity:0.75; */
+}
+
+.content p {
+	color: #fff;
+}
+</style>
+
 </head>
 <body class="header-fixed">
 	<!-- partial:partials/header.jsp -->
@@ -36,15 +66,32 @@
 				<div class="content-viewport">
 					<div class="row">  
 						<div class="col-12">
-						
+							
+							 <div class="video-container" style="margin-bottom:50px">
+							 	<iframe class="video" frameborder="0" src="https://youtube.com/embed/mXo0fG2hWAM?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&autohide=1&playlist=mXo0fG2hWAM" allow="autoplay; encrypted-media" allowfullscreen style="pointer-events: none; width: 100%; height: 100%;  opacity: 0.7;"></iframe>
+							 	
+							 	<div class="content text-center w-100 p-3" style="/* background-color:#fff; opacity:0.75;*/ display:table-cell; vertical-align:middle">
+							 		<p class="h1" style="margin-bottom:30px;">나만의 STOCK-LEANING 플랫폼</p>
+							 		<p class="h3">당신의 호기심과 가능성이 실현되는 곳</p>
+							 		<p class="h3">부자가 되는 시작, MStock</p>
+								</div>
+								
+							 </div>
+							 
+							 <!--
 							<div class="jumbotron" style="background-image: url(/mstock/resources/images/main3.jpg); background-repeat: no-repeat; background-size:100%;">
 								<div class="w-50 p-3" style="background-color: #fff; opacity: 0.5; margin-bottom: 100px;">
 									<h1 class="display-4">MStock</h1>
 									<p class="lead">모의 주식 서비스 & 실시간 데이터 분석</p>
 								</div>
 							</div>
+							--> 
 							
-							<!-- 기업 정보 출력// 한줄에 4개 내용 출력  -->  
+							
+							<!-- 기업 정보 출력// 한줄에 4개 내용 출력  -->
+							<div style="margin-bottom:20px;">
+								<h3>종목 리스트</h3>
+							</div>
 							<% ArrayList<CompanyVO> list = (ArrayList<CompanyVO>) request.getAttribute("companyInfo");
 								if(!list.isEmpty()){
 									int t =0;
@@ -93,5 +140,19 @@
 	<script src="/mstock/resources/js/template.js"></script>
 	<script src="/mstock/resources/js/dashboard.js"></script>
 	<!-- endbuild -->
+	
+	<!-- Video -->
+	<!-- Scripts -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="/mstock/resources/js/yt-video-background.min.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		$('.video-background').youtubeBackground({
+			videoId: 'mXo0fG2hWAM',
+			backgroundColor: '#212121',
+			backgroundImage: 'https://i.ytimg.com/vi/ITpIv6Efz8Y/maxresdefault.jpg', // For mobile devices
+			opacity: 0.6
+		});
+	</script>
+	
 </body>
 </html>

@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <nav class="t-header"  style="background-color:#575DFA" >
-	<div class="t-header-brand-wrapper" style="border-bottom: 5px solid #EAEAEA;">
+	<div class="t-header-brand-wrapper" style="border-bottom: 5px solid #fff;">
 		<a href="/mstock"> <img class="logo"
 			src="/mstock/resources/images/logo.svg"> <img
 			class="logo-mini" src="/mstock/resources/images/logo_mini.svg">

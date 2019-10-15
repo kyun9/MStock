@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="sidebar" style="background-color:#EAEAEA">
+<div class="sidebar" style="background-color:#ccc">
 	<c:choose>
 		<c:when test="${user.u_id eq ''}">
 			<div class="user-profile">
@@ -29,8 +29,8 @@
 	</c:choose>
   
 	<ul class="navigation-menu">
-		<li class="nav-category-divider" >MAIN</li>
-		<li><a href="/mstock/property"> <span class="link-title">내 자산</span><i class="mdi mdi-gauge link-icon"></i></a></li>
+		<li class="nav-category-divider" >MENU</li>
+		
 		<li><a href="#sample-pages" data-toggle="collapse" aria-expanded="false"> <span class="link-title">종목</span> <i class="mdi mdi-flask link-icon"></i></a>
 			<ul class="collapse navigation-submenu" id="sample-pages">
 				<li><a href="/mstock/stockinfo?code=006400">삼성SDI</a></li>
@@ -46,6 +46,8 @@
 				<li><a href="/mstock/stockinfo?code=010950">S-Oil</a></li>
 				<li><a href="/mstock/stockinfo?code=161890">한국콜마</a></li>
 			</ul></li>
+		<li><a href="/mstock/property"> <span class="link-title">내 자산</span><i class="mdi mdi-gauge link-icon"></i></a></li>
+		<li><a href="/mstock/history"> <span class="link-title">히스토리</span><i class="mdi mdi-gauge link-icon"></i></a></li>
 		<li><a href="pages/forms/form-elements.html"> <span
 				class="link-title">게시판</span> <i
 				class="mdi mdi-clipboard-outline link-icon"></i>
@@ -55,7 +57,7 @@
 				class="mdi mdi-chart-donut link-icon"></i>
 		</a></li>
 		
-		<li class="nav-category-divider">DOCS</li>
+		<!-- <li class="nav-category-divider">DOCS</li> -->
 		<li><a href="docs/docs.html"> <span class="link-title">파산 신청</span>
 				<i class="mdi mdi-asterisk link-icon"></i>
 		</a></li>

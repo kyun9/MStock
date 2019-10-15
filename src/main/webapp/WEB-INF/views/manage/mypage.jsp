@@ -153,9 +153,9 @@
 											</div>
 
 											<button id="updateBtn" type="submit"
-												class="btn btn-secondary" disabled>수정하기</button>
+												class="btn btn-primary" disabled>수정하기</button>
 											<button id="cancleBtn" type="button"
-												class="btn btn-secondary">취소하기</button>
+												class="btn btn-secondary" style="margin-left:10px">취소하기</button>
 
 										</form>
 									</div>
@@ -197,6 +197,9 @@
 	<script src="/mstock/resources/js/passwordConfirm.js"></script>
 	
 	<script>
+		$("#cancleBtn").on("click", function(){
+			location.href = "/mstock/";
+		});
 		
 	</script>
 	

@@ -41,6 +41,17 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
 <script src="http://asp1.krx.co.kr/inc/js/asp_chart.js"></script>
 
+<style type="text/css">
+	.fixed-footer {
+		position:fixed; 
+		left:0px; 
+		bottom:0px; 
+		height:60px; 
+		width:100%; 
+		background:#fff;
+		z-index:3;
+	}
+</style>
 
 </head>
 <body class="header-fixed">
@@ -67,33 +78,31 @@
 							<div class="jumbotron"
 								style="background-image: url(/mstock/resources/images/main3.jpg); background-repeat: no-repeat; background-size: 100%;">
 								<div class="w-50 p-3"
-									style="background-color: #fff; opacity: 0.5; margin-bottom: 100px;">
-									<h1 class="display-4"><%=company.getName()%></h1>
+									style="background-color: #fff; opacity: 0.7; margin-bottom: 50px;">
+									<h1 class="display-4" style="margin-bottom:20px;"><%=company.getName()%> (<%= stock.getJongCd()%>)</h1>
+									<p class="h5"><span><span class="time_img"></span>
+										  	<span id="time0"></span>기준 (<%=stock.getJanggubun()%>)</span></p>
 								</div>
 							</div>
+							
+							
 
 
 							<div class="text-center">
 								<div class="row">
 									<!-- chart.js 주식차트 / 차트부분 파일 분리(./partials/stockchart.jsp)-->
 									<div class="w-100 p-3"
-										style="border: 1px solid black; float: none; margin: 0 auto">
+										style="border: 1px solid #ccc; float: none; margin: 0 auto">
 										<canvas id="myChart"></canvas>
 										<%@ include file="../partials/stockchart.jsp"%>
+										<span>※30초간격 실시간 자동갱신※</span>
 										<button id="reloadInfo">새로고침</button>
-										<span>※30초간격 실시간 자동갱신※</span><br>
 									</div>
 								</div>
 								
 								<hr>
 
-									<div class="card shadow p-3 mb-5 bg-white rounded h-100">
-										<div class="card-header">
-										  	<p class="h2"><%=company.getName()%> (<%= stock.getJongCd()%>)</p>
-										  	<p class="display-income"><span>
-										  	<span class="time_img"></span>
-										  	<span id="time0"></span>기준 (<%=stock.getJanggubun()%>)</span></p>
-										</div>
+									<div class="card">
 										
 										<div class="card-body">
 												<table class="table">
@@ -141,97 +150,14 @@
 								<!-- 회귀분석 -->
 								<div>
 									<span id="regressionTime" style="font-weight: bold;"></span><br>
-									<span id="regressionVal">dfsdf</span><br>
-									 <span id="regressionPer">sdfsdf</span>
+									<span id="regressionVal"></span><br>
+									 <span id="regressionPer"></span>
 								</div>
 								
 								<hr>
 
 
-								<!-- 매수하기 기능 -->
-								<!-- Button trigger modal -->
-								<%	if(session.getAttribute("user")!=null &&request.getAttribute("accountInfo") != null){
-									AccountVO account = (AccountVO) request.getAttribute("accountInfo");
-								%>
-
-								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#exampleModalCenter">종목
-									매수하기</button>
-								<!-- Modal -->
-								<div class="modal fade" id="exampleModalCenter" tabindex="-1"
-									role="dialog" aria-labelledby="exampleModalCenterTitle"
-									aria-hidden="true">
-									<div class="modal-dialog modal-dialog-centered" role="document">
-										<div class="modal-content">
-											<!-- Form  -->
-											<form method="post" action="/mstock/stockinfo">
-												<input type="hidden" name="company_id"
-													value=<%= stock.getJongCd() %>> <input
-													type="hidden" name="price" id="price"> <input
-													type="hidden" name="account_id"
-													value=<%=account.getAccount_id() %>>
-												<div class="modal-header">
-													<h5 class="modal-title" id="exampleModalCenterTitle">종목
-														매수하기</h5>
-													<button type="button" class="close" data-dismiss="modal"
-														aria-label="Close">
-														<span aria-hidden="true">&times;</span>
-													</button>
-												</div>
-												<div class="modal-body">
-													종목 코드 :
-													<%= stock.getJongCd() %><br> 종목명 :
-													<%=company.getName()%><br> 구매 개수 : <input id="a"
-														type="number" name="quantity" value=1 min=1><br>
-													현재 가격 : <span id="b" style="font-weight: bold"></span><br>
-													나의 보유 자산 : <span id="c"><%=account.getCredit()  %></span><span>Credit</span>
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary"
-														data-dismiss="modal">Close</button>
-													<button type="submit" onclick="return check();"
-														class="btn btn-primary">매수하기</button>
-												</div>
-											</form>
-											<!--Close  Form  -->
-										</div>
-									</div>
-								</div>
-								<%} %>
-								<script>
-									function check(){
-										 var my =  $("#c").text();
-										 var count = $("#a").val();
-								          var result = count * val;
-										 if(my<result){
-											 alert("크레딧이 부족합니다.");
-											 return false;
-										 }
-										 else{
-											 alert("구매하였습니다.");
-										 }
-									}
-							
-										var val =  "<%=stock.getStockinfo()[1]%>";
-								val = val.replace(',', '');
-								$("#b").text(val);
-								$("#price").val(val);
-								$("#a").bind('keyup mouseup', function() {
-									var current = $("#c").text();
-									var count = $("#a").val();
-									var result = count * val;
-									if (result > current) {
-										$("#b").text("보유 크레딧을 초과하였습니다.");
-										$("#b").css("color", "red");
-									} else {
-										$("#b").css("color", "black");
-										$("#price").val(result);
-										$("#b").text(result);
-									}
-
-								});
-							</script>
-								<!-- 매수기능 끝  -->
+								
 								
 								<div class="card">
 									<div class="card-body">
@@ -300,26 +226,53 @@
 					</div>
 				</div>
 			</div>
+			
+			<hr>
 
-			<div class="row align-items-center">
-				<!-- 워드클라우드 -->
-				<div class="col-12 col-md-5">
-					<img src="/mstock/resources/rdata/<%=company.getWcimg()%>"
-						width="100%">
+			<!-- 데이터 랩 -->
+			
+			
+				<div class="row text-center" style="margin-left:auto; margin-right:auto;">
+					<!-- 워드클라우드 -->
+					
+					<div class="col-12 col-md-7">
+						<div class="card">
+							<div class="card-header">
+								<p class="h6">실시간 뉴스 기반 워드클라우드</p>
+							</div>
+							<div class="card-body">
+								<img src="/mstock/resources/rdata/<%=company.getWcimg()%>" width="100%">
+							</div>
+						</div>
+					</div>
+	
+					<!-- 감정분석 -->
+					<div class="col-12 col-md-5">
+					<div class="card">
+						<div class="card-header">
+							<p class="h6">실시간 뉴스 기반 감정 분석</p>
+						</div>
+						<div class="card-body">
+						<canvas id="north-america-chart"></canvas>
+						<div id="north-america-legend"></div>
+						</div>
+						
+					</div>
+					</div>
+					
 				</div>
-
-				<!-- 감정분석 -->
-				<div class="col-6 col-md-4">
-					<p class="h2">실시간 뉴스 감정 분석</p>
-					<canvas id="north-america-chart"></canvas>
-					<div id="north-america-legend"></div>
-				</div>
-			</div>
+			
+			<hr>
 
 			<!-- Article List -->
-			<table id="article" style="border: 1px solid black; width: 100px">
+			<div class="card">
+			<div class="card-header text-center">
+				<!-- <p class="h6">실시간 증시 뉴스</p> -->
+			</div>
+			<div class="card-body">
+				<table id="article" style="border: 1px solid #ccc; width: 100%">
 				<thead>
-					<tr>
+					<tr class="text-right">
 						<th>제목</th>
 						<th>언론사</th>
 						<th>시간</th>
@@ -328,6 +281,7 @@
 				<tbody id="appendArticle">
 				</tbody>
 			</table>
+			
 			<%@ include file="../partials/newsArticle.jsp"%>
 
 			<div class="modal fade" id="newsInfo" tabindex="-1" role="dialog"
@@ -351,15 +305,23 @@
 					</div>
 				</div>
 			</div>
-			<br>
+			
+			</div>
+			</div>
+			
 			<!-- end Article LIst -->
+			
+			<hr>
 
 			<!-- chat -->
-			<div class="col-md-8" style="border: 1px solid black">
+			<div class="card">
+				<div class="card-header">
+				</div>
+				
+				<div class="card-body" style="border: 1px solid #ccc; width:100%">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<%=company.getName()%>
-						채팅방
+					<p class="h5" style="margin-top:20px; margin-left:20px;"><%=company.getName()%> 채팅방</p>
 					</div>
 					<div class="panel-body">
 						<ul class="media-list">
@@ -370,7 +332,7 @@
 
 									<div class="media">
 										<div class="media-body " id="message"
-											style="overflow: auto; width: 500px; height: 150px;"></div>
+											style="overflow: auto; width: 500px; height: 200px;"></div>
 									</div>
 
 								</div>
@@ -388,7 +350,103 @@
 						</div>
 					</div>
 				</div>
+				
+				</div>
+				
 			</div>
+			<!-- chat end -->
+			
+			<!-- fixed footer -->
+			<div class="fixed-footer">
+				<div class="text-center">
+					<!-- 매수하기 기능 -->
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-danger btn-lg btn-block"
+						data-toggle="modal" data-target="#exampleModalCenter"><%=company.getName()%> 매수하기</button>
+				</div>
+			</div>
+
+			<!-- Modal -->
+			
+			<% AccountVO account = (AccountVO) request.getAttribute("accountInfo"); %>
+			<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalCenterTitle"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<!-- Form  -->
+						<form method="post" action="/mstock/stockinfo">
+							<input type="hidden" name="company_id"
+								value=<%= stock.getJongCd() %>> <input
+								type="hidden" name="price" id="price"> <input
+								type="hidden" name="account_id"
+								value=<%=account.getAccount_id() %>>
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalCenterTitle">종목
+									매수하기</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								종목 코드 :
+								<%= stock.getJongCd() %><br> 종목명 :
+								<%=company.getName()%><br> 구매 개수 : <input id="a"
+									type="number" name="quantity" value=1 min=1><br>
+								현재 가격 : <span id="b" style="font-weight: bold"></span><br>
+								나의 보유 자산 : <span id="c"><%=account.getCredit()  %></span><span>Credit</span>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<button type="submit" onclick="return check();"
+									class="btn btn-primary">매수하기</button>
+							</div>
+						</form>
+						<!--Close  Form  -->
+					</div>
+				</div>
+			</div>
+			
+			<script>
+				function check(){
+					 var my =  $("#c").text();
+					 var count = $("#a").val();
+			          var result = count * val;
+					 if(my<result){
+						 alert("크레딧이 부족합니다.");
+						 return false;
+					 }
+					 else{
+						 alert("구매하였습니다.");
+					 }
+				}
+		
+					var val =  "<%=stock.getStockinfo()[1]%>";
+			val = val.replace(',', '');
+			$("#b").text(val);
+			$("#price").val(val);
+			$("#a").bind('keyup mouseup', function() {
+				var current = $("#c").text();
+				var count = $("#a").val();
+				var result = count * val;
+				if (result > current) {
+					$("#b").text("보유 크레딧을 초과하였습니다.");
+					$("#b").css("color", "red");
+				} else {
+					$("#b").css("color", "black");
+					$("#price").val(result);
+					$("#b").text(result);
+				}
+
+			});
+		</script>
+		
+		
+			<!-- 매수기능 끝  -->
+			
+			
 			<!-- content viewport ends -->
 			<!-- partial:partials/footer.jsp -->
 			<%@ include file="../partials/footer.jsp"%>
@@ -417,7 +475,7 @@
 					labels : [ "pos", "neg" ],
 					datasets : [ {
 						data : [ pos, neg ],
-						backgroundColor : [ "#ff944d", "#8caaff" ],
+						backgroundColor : [ "#66a3ff", "#ff6666" ],
 						borderColor : "rgba(0,0,0,0)"
 					} ]
 				};
@@ -482,8 +540,8 @@
 					if (code == company.code) {
 						drawChart(company.pos, company.neg);
 						$("#regressionTime").text(
-								company.time + "기준 10분 뒤 시가예측")
-						$("#regressionVal").text("시가  " + company.predictValue)
+								company.time + " 기준")
+						$("#regressionVal").text("10분 뒤의 현재가 예측 결과 :  " + company.predictValue)
 						$("#regressionPer").text(
 								"예측 정확도 " + company.predictPercent + "%")
 					}

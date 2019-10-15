@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -22,27 +24,6 @@
 <!-- Layout style -->
 <link rel="shortcut icon" href="/mstock/resources/images/favicon.ico" />
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-<style>
-.progress {
-    position: relative;
-	height: 25px;
-}
-.progress > .progress-type {
-	position: absolute;
-	left: 0px;
-	font-weight: 800;
-	padding: 3px 30px 2px 10px;
-	color: rgb(255, 255, 255);
-	background-color: rgba(25, 25, 25, 0.2);
-}
-.progress > .progress-completed {
-	position: absolute;
-	right: 0px;
-	font-weight: 800;
-	padding: 3px 10px 2px;
-}
-</style>
 
 </head>
 <body class="header-fixed">
@@ -66,9 +47,10 @@
 									<h1 class="display-4">Property Management</h1>
 									<p class="lead">${user.nickname}님의 자산 관리 페이지입니다</p>
 									<hr class="my-4">
-									<p class="lead">아직 계좌가 없습니다.</p>
-									<p class="lead">계좌를 생성하고 모의 주식을 즐겨보세요.</p>
-									<p class="lead">계좌를 생성하면 1,000만 크레딧이 즉시 지급됩니다.</p>
+									<p class="lead">계좌가 아직 없습니다</p>
+									<p class="lead">계좌를 생성하고 모의 주식을 즐겨보세요</p>
+									<p class="lead">계좌 생성시 1,000만 크레딧이 즉시 지급됩니다</p>
+									<br>
 									<a class="btn btn-primary btn-lg" href="/mstock/account/insert"
 										role="button">계좌 생성</a>
 								</div>
@@ -86,6 +68,7 @@
 											<div class="row align-items-center">
 											
 												<div class="col-6 col-md-4">
+													
 													<table class="table table-bordered">
 														<tbody>
 															<tr>
@@ -115,8 +98,8 @@
 
 												<div class="col-6 col-md-4">			
 													
-													<div>
-														<p class="h6">${propertyVO.grade} 등급</p>
+													<div style="margin-bottom:20px">
+														<p class="h6">등급  [${propertyVO.grade}]</p>
 													</div>
 																						
 													<div>
@@ -144,9 +127,7 @@
 															</c:when>
 														</c:choose>
 													</div>
-													
-													
-													
+
 												</div>
 
 											</div>
@@ -161,46 +142,52 @@
 								<div class="row container text-center">
 									<div class="col-md-12 grid-margin stretch-card">
 										<div class="card">
-											<div class="card-body">
-												<!-- <p class="card-title mb-0">Top Products</p> -->
-												<div class="table-responsive text-center">
-													<table class="table table-hover">
-														<thead>
-															<tr>
-																<th>종목코드</th>
-																<th>종목명</th>
-																<th>현재가</th>
-																<th>전일대비</th>
-																<th>등락률</th>
-																<th>구매가</th>
-																<th>수량</th>
-																<th>손익</th>
-																<th>수익률</th>
-																<th>매도</th>
-															</tr>
-														</thead>
-														<tbody id="myStockInfo">
-															<c:forEach var="list" items="${myStockList}">
-																<tr>
-																	<td>${list.company_id}</td>
-																	<td>${list.name}</td>
-																	<td>${list.curjuka}</td>
-																	<td>${list.debi}</td>
-																	<td>${list.dongrak}</td>
-																	<td>${list.price}</td>
-																	<td>${list.quantity}</td>
-																	<td>${list.profit}</td>
-																	<td>${list.profit_rate}</td>
-																	<td><button type="button"
-																			class="btn btn-secondary btn-sm" data-toggle="modal"
-																			data-target="#modal">매도</button></td>
-																</tr>
-															</c:forEach>
-														</tbody>
-													</table>
-
-												</div>
-											</div>
+										
+											<c:choose>
+												<c:when test="${fn:length(myStockList) > 0}">
+													<div class="card-body">
+														<!-- <p class="card-title mb-0">Top Products</p> -->
+														<div class="table-responsive text-center">
+															<table class="table table-hover">
+																<thead>
+																	<tr>
+																		<th>종목코드</th>
+																		<th>종목명</th>
+																		<th>현재가</th>
+																		<th>전일대비</th>
+																		<th>등락률</th>
+																		<th>구매가</th>
+																		<th>수량</th>
+																		<th>손익</th>
+																		<th>수익률</th>
+																		<th>매도</th>
+																	</tr>
+																</thead>
+																<tbody id="myStockInfo">
+																	<c:forEach var="list" items="${myStockList}">
+																		<tr>
+																			<td>${list.company_id}</td>
+																			<td>${list.name}</td>
+																			<td>${list.curjuka}</td>
+																			<td>${list.debi}</td>
+																			<td>${list.dongrak}</td>
+																			<td>${list.price}</td>
+																			<td>${list.quantity}</td>
+																			<td>${list.profit}</td>
+																			<td>${list.profit_rate}</td>
+																			<td><button type="button"
+																					class="btn btn-danger btn-sm" data-toggle="modal"
+																					data-target="#modal">매도</button></td>
+																		</tr>
+																	</c:forEach>
+																</tbody>
+															</table>
+		
+														</div>
+													</div>
+												</c:when>
+											</c:choose>
+											
 										</div>
 									</div>
 									
@@ -276,7 +263,7 @@
 												<div class="modal-footer">
 													<button type="button" class="btn btn-secondary"
 														data-dismiss="modal">취소</button>
-													<button type="submit" class="btn btn-primary">매도</button>
+													<button type="submit" class="btn btn-danger">매도</button>
 												</div>
 											</div>
 										</form>
@@ -555,11 +542,12 @@
 			
 			/* 보유 자산 정보에 대한 처리 */
 			$("#total_property").html(numberWithCommas(${propertyVO.credit + propertyVO.stock_value}));
-			$("#profit_rate").html(${propertyVO.profit_rate}.toFixed(1)+"%");
+			/* $("#profit_rate").html(${propertyVO.profit_rate}.toFixed(1)+"%"); */
 			$("#chart_credit").html(numberWithCommas(${propertyVO.credit}));
 			$("#chart_stock_value").html(numberWithCommas(${propertyVO.stock_value}));
 			$("#stock_value").html(numberWithCommas(${propertyVO.stock_value}));
 			$("#price_value").html(numberWithCommas(${propertyVO.price_value}));
+			$("#profit_rate").html(${propertyVO.price_value} != 0 ? ((${propertyVO.stock_value}-${propertyVO.price_value}) / ${propertyVO.price_value} * 100).toFixed(1) +"%" : 0.0 + "%");
 		});
 		
 	</script>
