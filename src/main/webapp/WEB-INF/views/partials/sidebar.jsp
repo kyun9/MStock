@@ -46,7 +46,7 @@
 				<li><a href="/mstock/stockinfo?code=010950">S-Oil</a></li>
 				<li><a href="/mstock/stockinfo?code=161890">한국콜마</a></li>
 			</ul></li>
-		<li><a href="pages/forms/form-elements.html"> <span
+		<li><a href="/mstock/board?page=1"> <span
 				class="link-title">게시판</span> <i
 				class="mdi mdi-clipboard-outline link-icon"></i>
 		</a></li>
