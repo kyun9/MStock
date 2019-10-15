@@ -1,9 +1,7 @@
 package com.project.mstock;
 
-import java.util.*;
+import javax.servlet.http.*;
 
-import org.rosuda.REngine.*;
-import org.rosuda.REngine.Rserve.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +22,8 @@ public class StockInfoController {
 	AccountDAO accountDAO;
 	@Autowired
 	PurchaseDAO purchasesDAO;
+	@Autowired
+	HttpSession session;
 	
 	@ModelAttribute("user")
 	public UserVO createUserModel() {
@@ -33,6 +33,7 @@ public class StockInfoController {
 	@RequestMapping(value = "/stockinfo", method = RequestMethod.GET)
 	public ModelAndView stockinfoGet(@ModelAttribute("user") UserVO userVO, String code) {
 		ModelAndView mav = new ModelAndView();
+		session.setAttribute("codeValue", code);
 		mav.addObject("info", service.getInfo(code));
 		mav.addObject("comInfo", companyDAO.selectOneCompay(code));
 		System.out.println("여기까지");
