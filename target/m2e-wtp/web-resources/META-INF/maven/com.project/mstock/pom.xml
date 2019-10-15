@@ -203,6 +203,7 @@
 		</dependency>
 		<!-- jdk 설정 -->
 		<!-- 서버단에서 다시 경로 수정 필요 -->
+		<!-- <systemPath>/usr/local/java/lib/tools.jar</systemPath> -->
 		<dependency>
 			<groupId>jdk.tools</groupId>
 			<artifactId>jdk.tools</artifactId>
