@@ -79,9 +79,9 @@
 												</div>
 											</div>
 
-											<button id="updateBtn"  type="submit" class="btn btn-secondary">수정하기</button>
+											<button id="updateBtn"  type="submit" class="btn btn-primary">수정하기</button>
 											<button id="cancleBtn" type="button"
-												class="btn btn-secondary">취소하기</button>
+												class="btn btn-secondary" style="margin-left:10px">취소하기</button>
 
 										</form>
 									</div>

@@ -196,7 +196,7 @@ table tr th{
 table tr td:first-child{
 	
     border-left: 1px solid #dbdbdb;
-    border-top: 1px solid #dbdbdb;
+    /* border-top: 1px solid #dbdbdb; */
 }
 table tr td:last-child{
 
@@ -252,15 +252,15 @@ table tr:last-child td{
 
 
 table tr td .up{
-	float: left;
+	float: right;
 	color:#FF4848;
 }
 table tr td .down{
-	float:left;
+	float:right;
 	color:#2478FF;
 }
 table tr td .bohab{
-	float:left;
+	float:right;
 }
 
 .footer-wrap{

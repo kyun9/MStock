@@ -20,4 +20,9 @@
 		SELECT REPLACE(CURJUKA, ',', '') FROM COMPANYS WHERE COMPANY_ID = #{company_id} 
 	</select>
 	
+	<!-- getCompanyName-->
+	<select id="getCompanyName" parameterType="string" resultType="String">
+		SELECT NAME FROM COMPANYS WHERE COMPANY_ID = #{company_id} 
+	</select>
+	
 </mapper>

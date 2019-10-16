@@ -21,6 +21,13 @@
 <link rel="stylesheet" href="/mstock/resources/css/demo_1/style.css">
 <!-- Layout style -->
 <link rel="shortcut icon" href="/mstock/resources/images/favicon.ico" />
+
+<!-- Table Style -->
+<link rel="stylesheet" type="text/css" href="resources/css/table.css" />
+
+<!-- JQuery -->
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 </head>
 <body class="header-fixed">
 
@@ -44,9 +51,9 @@
 						<!-- Table -->
 						<div class="container text-center">
 
-							<div class="w-100 p-3 h-75 d-inline-block">
+							<div class="w-100 p-3 h-75 d-inline-block" style="margin-bottom:20px">
 								<table class="table">
-									<thead>
+									
 										<tr>
 											<th scope="col">상태</th>
 											<th scope="col">종목번호</th>
@@ -55,14 +62,14 @@
 											<th scope="col">수량</th>
 											<th scope="col">날짜</th>
 										</tr>
-									</thead>
+									
 									<tbody>
 										<c:forEach var="list" items="${historyList}">
 											<tr>
 												<td>${list.status}</td>
 												<td>${list.company_id}</td>
-												<td>Name</td>
-												<td>${list.price}</td>
+												<td class="name">${list.company_id}</td>
+												<td class="price">${list.price}</td>
 												<td>${list.quantity}</td>
 												<td>${list.datetime}</td>
 											</tr>
@@ -136,7 +143,35 @@
 			location.href = "/mstock/history?page=" + page;
 		}
 		$(function() {
-
+			//세 자리마다 Comma 찍는 func
+			function numberWithCommas(x) {
+			    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+			
+			//price 세 자리마다 Comma 찍기
+			$(".price").each(function(){
+				var price = $(this).text();
+				$(this).text(numberWithCommas(price));
+			});
+			
+			//Company Name 출력하기
+			$(".name").each(function(index, item){
+				var dom = $(this);
+				$.ajax({
+					url: "/mstock/history/name",
+					type: "POST",
+					data: $(this).text(),
+					contentType: "application/json; charset=utf-8;",
+					dataType: "json",
+					success: function(data){
+						dom.text(data.name);
+					},
+					error:function(request,status,error){
+						alert(error);
+					}
+				});
+			});
+			
 		});
 	</script>
 

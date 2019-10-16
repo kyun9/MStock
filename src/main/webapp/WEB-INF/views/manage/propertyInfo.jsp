@@ -25,6 +25,9 @@
 <link rel="shortcut icon" href="/mstock/resources/images/favicon.ico" />
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
+<!-- Table Style -->
+<link rel="stylesheet" type="text/css" href="resources/css/table.css" />
+
 </head>
 <body class="header-fixed">
 
@@ -68,12 +71,15 @@
 											<div class="row align-items-center">
 											
 												<div class="col-6 col-md-4">
-													
-													<table class="table table-bordered">
+													<table class="table">
 														<tbody>
 															<tr>
 																<th>총 자산</th>
 																<td id="total_property"></td>
+															</tr>
+															<tr>
+																<th>총 손익</th>
+																<td id="total_rate"></td>
 															</tr>
 															<tr>
 																<th>매입 금액</th>
@@ -149,7 +155,6 @@
 														<!-- <p class="card-title mb-0">Top Products</p> -->
 														<div class="table-responsive text-center">
 															<table class="table table-hover">
-																<thead>
 																	<tr>
 																		<th>종목코드</th>
 																		<th>종목명</th>
@@ -162,7 +167,6 @@
 																		<th>수익률</th>
 																		<th>매도</th>
 																	</tr>
-																</thead>
 																<tbody id="myStockInfo">
 																	<c:forEach var="list" items="${myStockList}">
 																		<tr>
@@ -213,9 +217,7 @@
 													</button>
 												</div>
 												<div class="modal-body">
-													<table
-														class="table table-hover text-center shadow p-3 mb-5 bg-white rounded">
-														<thead>
+													<table class="table" style="margin-bottom:20px">
 															<tr>
 																<th>선택</th>
 																<th>종목코드</th>
@@ -224,7 +226,6 @@
 																<th>수량</th>
 																<th>구매날짜</th>
 															</tr>
-														</thead>
 														<tbody id="modal-tbody">
 														</tbody>
 													</table>
@@ -376,6 +377,11 @@
 				return x.toString().replace(/-/gi, "");
 			}
 			
+			//퍼센트 제거 func
+			function removePercent(x) {
+				return x.toString().replace(/%/gi, "");
+			}
+			
 			//
 			
 			//보유 주식 테이블에 대한 func
@@ -412,7 +418,7 @@
 				
 				$("tr > td:nth-child(9)").each(function(i){
 					var price_rate = $(this).text()*1;
-					$(this).text(price_rate.toFixed(1)+"%").addClass(price_rate >= 0 ? "text-primary" : "text-danger");
+					$(this).text(price_rate.toFixed(2)+"%").addClass(price_rate >= 0 ? "text-primary" : "text-danger");
 				});
 				
 				$("tr > td:nth-child(10)").each(function(i){
@@ -514,7 +520,7 @@
 								$("#inputTotalValue").val(numberWithCommas(totalValue));
 								
 								var profitRate = (removeCommas(curJuka) - removeCommas(price)) / removeCommas(price) * 100;
-								$("#inputProfitRate").val(profitRate.toFixed(1) + "%").addClass(profitRate > 0 ? "text-primary" : "text-danger");
+								$("#inputProfitRate").val(profitRate.toFixed(2) + "%").addClass(profitRate > 0 ? "text-primary" : "text-danger");
 							}
 							
 							$("#inputQuantity").on("change", function(){
@@ -542,12 +548,30 @@
 			
 			/* 보유 자산 정보에 대한 처리 */
 			$("#total_property").html(numberWithCommas(${propertyVO.credit + propertyVO.stock_value}));
-			/* $("#profit_rate").html(${propertyVO.profit_rate}.toFixed(1)+"%"); */
+			$("#total_rate").html(${propertyVO.profit_rate}.toFixed(2)+"%");
 			$("#chart_credit").html(numberWithCommas(${propertyVO.credit}));
 			$("#chart_stock_value").html(numberWithCommas(${propertyVO.stock_value}));
 			$("#stock_value").html(numberWithCommas(${propertyVO.stock_value}));
 			$("#price_value").html(numberWithCommas(${propertyVO.price_value}));
-			$("#profit_rate").html(${propertyVO.price_value} != 0 ? ((${propertyVO.stock_value}-${propertyVO.price_value}) / ${propertyVO.price_value} * 100).toFixed(1) +"%" : 0.0 + "%");
+			$("#profit_rate").html(${propertyVO.price_value} != 0 ? ((${propertyVO.stock_value}-${propertyVO.price_value}) / ${propertyVO.price_value} * 100).toFixed(2) +"%" : 0.0 + "%").removeClass("text-primary", "text-danger");
+			
+			/* 색상 처리 */
+			if(removePercent($("#profit_rate").html()) > 0){
+				$("#profit_rate").removeClass("text-danger");
+				$("#profit_rate").addClass("text-primary");
+			} else {
+				$("#profit_rate").removeClass("text-primary");
+				$("#profit_rate").addClass("text-danger");
+			}
+			
+			if(removePercent($("#total_rate").html()) > 0){
+				$("#total_rate").removeClass("text-danger");
+				$("#total_rate").addClass("text-primary");
+			} else {
+				$("#total_rate").removeClass("text-primary");
+				$("#total_rate").addClass("text-danger");
+			}
+			
 		});
 		
 	</script>

@@ -21,6 +21,10 @@
 <link rel="stylesheet" href="/mstock/resources/css/demo_1/style.css">
 <!-- Layout style -->
 <link rel="shortcut icon" href="/mstock/resources/images/favicon.ico" />
+
+<!-- Table Style -->
+<link rel="stylesheet" type="text/css" href="resources/css/table.css" />
+
 </head>
 <body class="header-fixed">
 	<!-- partial:partials/header.jsp -->
@@ -43,18 +47,16 @@
 						</div>
 
 						<table class="table table-bordered text-center">
-							<thead>
 								<tr>
 									<th scope="col">순위</th>
 									<th scope="col">닉네임</th>
 									<th scope="col">자산</th>
 									<th scope="col">등급</th>
 								</tr>
-							</thead>
 							<tbody>
 								<c:forEach var="list" items="${rankList}">
 									<tr>
-										<th>${list.rank_id}</th>
+										<td>${list.rank_id}</td>
 										<td>${list.nickname}</td>
 										<td>${list.property}</td>
 										<td>${list.grade}</td>

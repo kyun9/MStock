@@ -13,7 +13,7 @@ public class EmotionService {
 	@SuppressWarnings("unchecked")
 	public void setEmotionJSON(String[][] value, String path) throws IOException {
 		Date date= new Date();
-		SimpleDateFormat current = new SimpleDateFormat("yyyy-mm-dd hh:mm");
+		SimpleDateFormat current = new SimpleDateFormat("yyyy년 MM월 dd일 hh시 mm분");
 		
 		for(int i=0; i<value.length; i++) {
 			JSONObject jsonObject = new JSONObject();

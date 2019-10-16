@@ -37,4 +37,11 @@ public class CompanyDAO {
 		curJuka = session.selectOne(statement, company_id);
 		return curJuka;
 	}
+	
+	public String getCompanyName(String company_id) {
+		String companyName = null;	
+		String statement = "CompanyMapper.getCompanyName";
+		companyName = session.selectOne(statement, company_id);
+		return companyName;
+	}
 }

@@ -1073,8 +1073,9 @@ pre {
     margin-left: 91.66667%; } }
 
 .table {
-  width: 800px;
-  margin: auto;
+	width: 100%;
+  /* width: 800px; */
+  /* margin: auto; */
   margin-bottom: 1rem;
   color: #212529; }
   .table th,
@@ -1101,11 +1102,11 @@ pre {
   .table-bordered thead td {
     border-bottom-width: 2px; }
 
-.table-borderless th,
+/* .table-borderless th,
 .table-borderless td,
 .table-borderless thead th,
 .table-borderless tbody + tbody {
-  border: 0; }
+  border: 0; } */
 
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: #f8f9fb; }

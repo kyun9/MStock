@@ -23,6 +23,8 @@ public class HistoryController {
 	HistoryDAO historyDAO;
 	@Autowired
 	AccountDAO accountDAO;
+	@Autowired
+	CompanyDAO companyDAO;
 	
 	@RequestMapping(value="/history", method = RequestMethod.GET)
 	public ModelAndView getHistory(@ModelAttribute("user") UserVO userVO, @RequestParam(defaultValue="1") int page) {
@@ -56,5 +58,14 @@ public class HistoryController {
 		}
 
 		return mav;
+	}
+	
+	@RequestMapping(value="/history/name", method = RequestMethod.POST)
+	@ResponseBody
+	public Object postName(@RequestBody String company_id) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		String companyName = companyDAO.getCompanyName(company_id);
+		map.put("name", companyName);
+		return map;
 	}
 }

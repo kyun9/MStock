@@ -270,14 +270,14 @@
 				<!-- <p class="h6">실시간 증시 뉴스</p> -->
 			</div>
 			<div class="card-body">
-				<table id="article" style="border: 1px solid #ccc; width: 100%">
-				<thead>
+				<table id="article" class="table" style="border: 1px solid #ccc; width: 100%">
+				
 					<tr class="text-right">
 						<th>제목</th>
 						<th>언론사</th>
 						<th>시간</th>
 					</tr>
-				</thead>
+				
 				<tbody id="appendArticle">
 				</tbody>
 			</table>
@@ -367,41 +367,60 @@
 			</div>
 
 			<!-- Modal -->
-			
 			<% AccountVO account = (AccountVO) request.getAttribute("accountInfo"); %>
-			<div class="modal fade" id="exampleModalCenter" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalCenterTitle"
-				aria-hidden="true">
+			<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered" role="document">
 					<div class="modal-content">
 						<!-- Form  -->
 						<form method="post" action="/mstock/stockinfo">
-							<input type="hidden" name="company_id"
-								value=<%= stock.getJongCd() %>> <input
-								type="hidden" name="price" id="price"> <input
-								type="hidden" name="account_id"
-								value=<%=account.getAccount_id() %>>
+							<input type="hidden" name="company_id" value=<%= stock.getJongCd() %>> 
+							<input type="hidden" name="price" id="price" value=<%=stock.getStockinfo()[1]%>> 
+							<input type="hidden" name="account_id" value=<%=account.getAccount_id() %>>
 							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalCenterTitle">종목
-									매수하기</h5>
-								<button type="button" class="close" data-dismiss="modal"
-									aria-label="Close">
+								<h4 class="modal-title" id="exampleModalCenterTitle">매수</h4>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div class="modal-body">
-								종목 코드 :
-								<%= stock.getJongCd() %><br> 종목명 :
-								<%=company.getName()%><br> 구매 개수 : <input id="a"
-									type="number" name="quantity" value=1 min=1><br>
-								현재 가격 : <span id="b" style="font-weight: bold"></span><br>
-								나의 보유 자산 : <span id="c"><%=account.getCredit()  %></span><span>Credit</span>
+								<table style="min-width:100% !important; margin-bottom:20px">
+									<tr>
+										<th style="text-align:center !important">종목코드</th>
+										<th style="text-align:center !important">종목명</th>
+										<th style="text-align:center !important">현재가</th>
+									</tr>
+									<tbody>
+										<tr>
+											<td style="text-align:center !important"><%= stock.getJongCd() %></td>
+											<td style="text-align:center !important"><%=company.getName()%></td>
+											<td style="text-align:center !important" id="inputCurjuka"><%=stock.getStockinfo()[1]%></td>
+										</tr>
+									</tbody>
+								</table>
+								
+								<div class="form-group">
+									<label for="inputCredit">보유 크레딧</label> <input
+										class="form-control" id="inputCredit" value="<%=account.getCredit()%>" readonly>
+								</div>
+								
+								<div class="form-group">
+									<label for="inputQuantity">매수 수량</label> <input
+										type="number" class="form-control" id="inputQuantity"
+										name="quantity" placeholder="매수할 수량을 입력하세요" min="1"
+										required>
+								</div>
+								
+								<div class="form-group">
+									<label for="totalPrice">매수 금액</label>
+									<input class="form-control" id="totalPrice" readonly>
+								</div>
+							 
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
-									data-dismiss="modal">Close</button>
+									data-dismiss="modal">취소</button>
 								<button type="submit" onclick="return check();"
-									class="btn btn-primary">매수하기</button>
+									class="btn btn-danger">매수</button>
 							</div>
 						</form>
 						<!--Close  Form  -->
@@ -410,38 +429,57 @@
 			</div>
 			
 			<script>
+				//세 자리마다 Comma 찍는 func
+				function numberWithCommas(x) {
+				    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				}
+				
+				//Comma 제거 func
+				function removeCommas(x) {
+					return parseFloat(x.replace(/,/gi, ""));
+				}
+				
 				function check(){
-					 var my =  $("#c").text();
-					 var count = $("#a").val();
-			          var result = count * val;
-					 if(my<result){
-						 alert("크레딧이 부족합니다.");
+					 var myCredit =  removeCommas($("#inputCredit").val());
+					 var myCurjuka = removeCommas($("#inputCurjuka").text());
+					 var myQuantity =$("#inputQuantity").val();
+			         var totalPrice = myCurjuka * myQuantity;
+					
+			         if(myQuantity < 1){
+			        	 alert("매수 수량은 1주 이상이어야 합니다")
+			        	 return false;
+			         }
+			         
+					 if(myCredit < totalPrice){
+						 alert("크레딧이 부족합니다");
 						 return false;
 					 }
 					 else{
-						 alert("구매하였습니다.");
+						 alert("매수를 완료하였습니다");
 					 }
 				}
 		
-					var val =  "<%=stock.getStockinfo()[1]%>";
-			val = val.replace(',', '');
-			$("#b").text(val);
-			$("#price").val(val);
-			$("#a").bind('keyup mouseup', function() {
-				var current = $("#c").text();
-				var count = $("#a").val();
-				var result = count * val;
-				if (result > current) {
-					$("#b").text("보유 크레딧을 초과하였습니다.");
-					$("#b").css("color", "red");
-				} else {
-					$("#b").css("color", "black");
-					$("#price").val(result);
-					$("#b").text(result);
-				}
-
-			});
-		</script>
+				<%-- var myCurjuka = <%=stock.getStockinfo()[1]%>; --%>
+				//val = val.replace(',', '');
+				//$("#b").text(val);
+				//$("#price").val(val);
+				$("#inputCredit").val(numberWithCommas(<%=account.getCredit()%>));
+				$("#inputQuantity").bind('keyup mouseup', function() {
+					var myCredit = removeCommas($("#inputCredit").val());
+					var myQuantity = $("#inputQuantity").val();
+					var myCurjuka = removeCommas($("#inputCurjuka").text());
+					var totalPrice = myCurjuka * myQuantity;
+					//var result = count * val;
+					 if(myCredit < totalPrice){
+						$("#totalPrice").val("보유 크레딧을 초과하였습니다");
+						$("#totalPrice").css("color", "red");
+					} else {
+						$("#totalPrice").val(numberWithCommas(totalPrice));
+						$("#totalPrice").css("color", "blue");
+						$("#price").val(totalPrice);
+					}
+				});
+			</script>
 		
 		
 			<!-- 매수기능 끝  -->
@@ -529,6 +567,7 @@
 						.generateLegend();
 			}
 		}
+		/* 차트 끝 */
 
 		var code = '<%=company.getName()%>';
 		var jsonLocation = '/mstock/resources/rdata/emotion' + code + '.json';
@@ -539,11 +578,9 @@
 				$.each(arr, function(m, company) {
 					if (code == company.code) {
 						drawChart(company.pos, company.neg);
-						$("#regressionTime").text(
-								company.time + " 기준")
-						$("#regressionVal").text("10분 뒤의 현재가 예측 결과 :  " + company.predictValue)
-						$("#regressionPer").text(
-								"예측 정확도 " + company.predictPercent + "%")
+						$("#regressionTime").text(company.time + " 기준");
+						$("#regressionVal").text("10분 뒤의 현재가 예측 결과 " + numberWithCommas(company.predictValue));
+						$("#regressionPer").text("예측 정확도 " + company.predictPercent + "%");
 					}
 				});
 			});

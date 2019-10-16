@@ -94,19 +94,7 @@
 			
 			</table>	
 			</div>
-			
-			<%
-				} else {
-			%>
-			<script>
-				alert("찾는 내용이 없습니다.");
-				document.location.href="/mstock/board?page=1";
-			</script>
-			<%
-				}
-			%>
-		
-		<div class="page" style="font-size:20px; text-align:center !important; margin:30px; padding: 0 auto !important;">
+					<div class="page" style="font-size:20px; text-align:center !important; margin:30px; padding: 0 auto !important;">
 	
 	<c:if test="${pagination.curRange ne 1 }">
 			<a class="page-num" style="margin:10px" onClick="fn_paging(1)">처음</a>
@@ -159,6 +147,27 @@
 				<a href="/mstock" class="color">홈으로</a>
 				<a href="/mstock/board/content/edit?action=insert">게시물작성</a>
 			</div>
+			
+			<%
+				} else {
+					if(request.getParameter("action")!=null){
+			%>
+			<script>
+				alert("찾는 내용이 없습니다.");
+				document.location.href="/mstock/board?page=1";
+			</script>
+			<%
+					}else{
+			%>
+			<div style="text-align:center;">
+				<h2>게시판에 글이 없습니다.</h2><br>
+				<h3>게시판에 첫 게시글을 써주세요.</h3><br>
+				<a href="/mstock/board/content/edit?action=insert">게시물작성</a>
+			</div>
+			<%
+					}
+				}
+			%>
 		</div>						
 						
 					</div>
