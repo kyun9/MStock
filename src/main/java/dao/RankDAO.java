@@ -40,10 +40,10 @@ public class RankDAO {
 		session.insert(statement);
 	}
 	
-	public List<RankVO> getRankList() {
+	public List<RankVO> getRankList(int startIndex) {
 		List<RankVO> list = null;
 		String statement = "resource.RankMapper.getRankList";
-		list = session.selectList(statement);
+		list = session.selectList(statement, startIndex);
 		return list;
 	}
 }

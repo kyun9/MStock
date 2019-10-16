@@ -1,21 +1,17 @@
 package com.project.mstock;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import javax.servlet.http.*;
 
-import dao.BoardDAO;
-import vo.BoardVO;
-import dao.CommentsDAO;
-import vo.Pagination;
-import vo.UserVO;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.*;
+import org.springframework.web.servlet.mvc.support.*;
+
+import dao.*;
+import vo.*;
 
 @Controller
 @SessionAttributes("user")
@@ -24,13 +20,15 @@ public class BoardController {
 	BoardDAO dao;
 	@Autowired
 	CommentsDAO cdao;
+	@Autowired
+	UserDAO udao;
 
-	@ModelAttribute("user")
 	@RequestMapping(value = "/board", method = RequestMethod.GET)
-	public ModelAndView doGet(String action,String writer,String key, String searchType,int page) {
+	public ModelAndView doGet(String action,String writer,String key, String searchType, int page) {
 		ModelAndView mav = new ModelAndView();
 		int listCnt;
 		Pagination pagination;
+		
 		if (action != null) {
 			if (action.equals("search")) { 
 				listCnt = dao.boardSearchCnt(key,searchType);
@@ -72,13 +70,13 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/board/content/edit", method = RequestMethod.GET)
-	public ModelAndView doGetEdit(BoardVO vo,String action,@ModelAttribute("user") UserVO uvo
-											 ,HttpServletRequest req) {
+	public ModelAndView doGetEdit(@ModelAttribute("user") UserVO uvo, BoardVO vo,String action,HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
+		
 		if(uvo.getU_id()==0) {
 			mav.addObject("msg", "로그인 후 사용 가능합니다.");
 			mav.setViewName("auth/login");
-		}else {
+		} else {
 			if(action.equals("update")) {
 				mav.addObject("listone",dao.listOne(Integer.parseInt(req.getParameter("bid"))));
 			}
@@ -94,6 +92,7 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		if (action.equals("insert")) {
 			mav.setViewName("redirect:/board?page=1");
+			
 			dao.insert(vo);
 			redirectAttributes.addFlashAttribute("msg", "게시글 작성을 완료했습니다.");
 		} else if (action.equals("update")) {
@@ -102,5 +101,14 @@ public class BoardController {
 			redirectAttributes.addFlashAttribute("msg", "게시글 수정을 완료했습니다.");
 		}
 		return mav;
+	}
+	
+	@RequestMapping(value="/board/nickname", method = RequestMethod.POST)
+	@ResponseBody
+	public Object postNickname(@RequestBody int u_id) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		String nickname = udao.getNickname(u_id);
+		map.put("nickname", nickname);
+		return map;
 	}
 }

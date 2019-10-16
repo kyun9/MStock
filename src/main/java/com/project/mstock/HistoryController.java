@@ -54,7 +54,6 @@ public class HistoryController {
 				
 				mav.setViewName("manage/history");				
 			}
-			
 		}
 
 		return mav;

@@ -44,4 +44,11 @@ public class CompanyDAO {
 		companyName = session.selectOne(statement, company_id);
 		return companyName;
 	}
+	
+	public List<String> getCompanyId(String word) {
+		List<String> companyId = null;	
+		String statement = "CompanyMapper.getCompanyId";
+		companyId = session.selectList(statement, word);
+		return companyId;
+	}
 }

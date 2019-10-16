@@ -20,6 +20,20 @@ public class AccountDAO {
 		return vo;
 	}
 	
+	public int getAccountCnt() {
+		int cnt = 0;
+		String statement = "resource.AccountMapper.getAccountCnt";
+		cnt = session.selectOne(statement);
+		return cnt;
+	}
+	
+	public int getAccountPrice(int account_id) {
+		int price = 0;
+		String statement = "resource.AccountMapper.getAccountPrice";
+		price = session.selectOne(statement, account_id);
+		return price;
+	}
+	
 	public List<AccountVO> getAccountList(){
 		List<AccountVO> list = null;
 		String statement = "resource.AccountMapper.getAccountList";

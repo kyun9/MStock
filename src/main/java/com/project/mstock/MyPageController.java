@@ -33,7 +33,7 @@ public class MyPageController {
 		ModelAndView mav = new ModelAndView();
 		
 		//session이 없으면 login으로 보냄
-		if(userVO == null) {
+		if(userVO.getU_id() == 0) {
 			mav.setViewName("redirect:/login");
 		} else {
 			mav.setViewName("manage/mypage");			

@@ -48,6 +48,8 @@
 
 .content p {
 	color: #fff;
+	text-shadow: 4px 2px 2px gray;
+	/* text-shadow: 6px 2px 2px gray; */
 }
 </style>
 
@@ -66,12 +68,17 @@
 				<div class="content-viewport">
 					<div class="row">  
 						<div class="col-12">
+							<c:if test="${!empty search}">
+								<script>
+									alert("${search}");
+								</script>
+							</c:if>
 							
 							 <div class="video-container" style="margin-bottom:50px">
 							 	<iframe class="video" frameborder="0" src="https://youtube.com/embed/mXo0fG2hWAM?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&autohide=1&playlist=mXo0fG2hWAM" allow="autoplay; encrypted-media" allowfullscreen style="pointer-events: none; width: 100%; height: 100%;  opacity: 0.7;"></iframe>
 							 	
 							 	<div class="content text-center w-100 p-3" style="/* background-color:#fff; opacity:0.75;*/ display:table-cell; vertical-align:middle">
-							 		<p class="h1" style="margin-bottom:30px;">나만의 STOCK-LEANING 플랫폼</p>
+							 		<p class="h1" style="margin-bottom:30px;">나만의 Stock-Learning 플랫폼</p>
 							 		<p class="h3">당신의 호기심과 가능성이 실현되는 곳</p>
 							 		<p class="h3">부자가 되는 시작, MStock</p>
 								</div>
@@ -153,6 +160,28 @@
 			opacity: 0.6
 		});
 	</script>
+	
+	<!-- 2019/10/17에 처리할 것 -->
+	<!-- 
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script>
+		$(function(){
+			$.ajax({
+				url: "/mstock/partial/price",
+				type: "POST",
+				data: ${user.u_id},
+				contentType: "application/json; charset=utf-8;",
+				dataType: "json",
+				success: function(data){
+					$("#total-price").text(data.price);
+				},
+				error:function(request,status,error){
+					alert(error);
+				}
+			});
+		});
+	</script>
+	 -->
 	
 </body>
 </html>

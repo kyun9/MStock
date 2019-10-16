@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="sidebar" style="background-color:#ccc">
+<div class="sidebar" style="background-color:#e6e6e6">
 	<c:choose>
 		<c:when test="${user.u_id eq ''}">
 			<div class="user-profile">
@@ -22,9 +22,12 @@
 				</div>
 				<div class="info-wrapper">
 					<p class="user-name h2">${user.nickname}</p>
-					<p class="display-income">Credit</p>
+					<p id="total-price" class="display-income">0</p>
 				</div>
 			</div>
+			
+			<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+			
 		</c:otherwise>
 	</c:choose>
   
@@ -36,7 +39,7 @@
 				<li><a href="/mstock/stockinfo?code=006400">삼성SDI</a></li>
 				<li><a href="/mstock/stockinfo?code=000660">SK하이닉스</a></li>
 				<li><a href="/mstock/stockinfo?code=012330">현대모비스</a></li>
-				<li><a href="/mstock/stockinfo?code=035420">네이버</a></li>
+				<li><a href="/mstock/stockinfo?code=035420">Naver</a></li>
 				<li><a href="/mstock/stockinfo?code=066570">LG전자</a></li>
 				<li><a href="/mstock/stockinfo?code=068270">셀트리온</a></li>
 				<li><a href="/mstock/stockinfo?code=090430">아모레퍼시픽</a></li>
@@ -58,7 +61,7 @@
 		</a></li>
 		
 		<!-- <li class="nav-category-divider">DOCS</li> -->
-		<li><a href="docs/docs.html"> <span class="link-title">파산 신청</span>
+		<li><a href="/mstock/bankrupty"> <span class="link-title">파산 신청</span>
 				<i class="mdi mdi-asterisk link-icon"></i>
 		</a></li>
 	</ul>

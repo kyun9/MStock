@@ -41,6 +41,13 @@
 			<div class="page-content-wrapper-inner">
 				<div class="content-viewport">
 					<div class="row">
+					
+					<div class="jumbotron container text-center">
+						<h1 class="display-4">Board</h1>
+						<!-- <i class="fas fa-crown"></i> -->
+						<p class="lead">자유롭게 의견을 주고 받을 수 있는 게시판입니다</p>
+						<hr class="my-4">
+					</div>
 <div id="wrap" style="width:900px; margin:30px auto;">
 
 	<div id="content">
@@ -52,9 +59,9 @@
 	<form method="get" action="/mstock/board/content/edit">
 			<div class="view_top">
 				<h3><%= one.getTitle() %></h3>
-				<hr color="#aaa" style="height:2px">
+				<hr>
 				<div class="list_btn">
-				<p><span style="font-weight: bold;"><%= one.getWriter() %></span> / <%= one.getWritedate() %>
+				<p><span class="writer" style="font-weight: bold;"><%= one.getWriter() %></span> / <%= one.getWritedate() %>
 				<span style="float:right">
 				<a href="/mstock/board?page=1">목록</a>
  				<% if(one.getWriter()==uid){ %> 
@@ -68,7 +75,7 @@
 			<br><br>
 			
 			<div class="view_bottom">
-				<pre><%= one.getContent() %></pre>
+				<p><%= one.getContent() %><p>
 			</div>
 			
 			<input type="hidden" name="action" value="update"> 
@@ -85,8 +92,8 @@
 		<br>
 		<br>
 		<br>
-		<h5 align="center">댓글</h5>	
-		<hr color="#aaa">
+		<h5 align="left">댓글</h5>	
+		<hr>
 	<div>
 		<%
 			if(request.getAttribute("comlist")!=null){
@@ -95,7 +102,7 @@
 		%>
 			<div id="content<%=cvo.getCid()%>" style="display:block;">
 				<div>
-				<%= cvo.getWriter() %> &nbsp;|&nbsp; <%= cvo.getWritedate() %>  
+				<span class="writer"><%= cvo.getWriter() %></span> &nbsp;|&nbsp; <%= cvo.getWritedate() %>  
 				<%
 					if(cvo.getWriter()==uid){
 				%>
@@ -114,8 +121,8 @@
 					}
 				%>
 				</div>
-				<pre style="font-size:15px; margin-bottom:10px; margin-top:10px;
-				white-space: pre-wrap; word-wrap: break-word;"><span><%= cvo.getContent() %></span></pre>
+				<p style="font-size:15px; margin-bottom:10px; margin-top:10px;
+				white-space: pre-wrap; word-wrap: break-word;"><span><%= cvo.getContent() %></span></p>
 			</div>
 			<div id="updatecom<%=cvo.getCid()%>" style="display:none;">
 				<form method="post" action="/mstock/comment">
@@ -193,6 +200,28 @@
 	<script src="/mstock/resources/js/template.js"></script>
 	<script src="/mstock/resources/js/dashboard.js"></script>
 	<!-- endbuild -->
+	
+	<script>
+		$(function(){
+			$(".writer").each(function(){
+				var dom = $(this);
+				$.ajax({
+					url: "/mstock/board/nickname",
+					type: "POST",
+					data: $(this).text(),
+					contentType: "application/json; charset=utf-8;",
+					dataType: "json",
+					success: function(data){
+						dom.text(data.nickname);
+					},
+					error:function(request,status,error){
+						alert(error);
+					}
+				});
+				
+			});
+		});
+	</script>
 	
 	<script>
 	function deletecom(cv1,cv2){

@@ -28,7 +28,7 @@ public class AllAnalysisScheduler {
 //            						,"S-Oil","한국콜마"};
 //	public static String[] news = {"파이낸셜","한겨레","조선일보"};
 //	
-	@Scheduled(fixedRate = 600000)
+	//@Scheduled(fixedRate = 600000)
 	public void cloud() throws RserveException, IOException, Exception {
 		// R코드를 source 하여 클라우드 저장 및 뉴스 기사 텍스트로 저장
 		// 뉴스 기사는 언론사 3개 별 주식 종목 관련

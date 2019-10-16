@@ -22,6 +22,13 @@
 <link rel="stylesheet" href="/mstock/resources/css/demo_1/style.css">
 <!-- Layout style -->
 <link rel="shortcut icon" href="/mstock/resources/images/favicon.ico" />
+
+<!-- Table Style -->
+<link rel="stylesheet" type="text/css" href="resources/css/table.css" />
+
+<!-- JQuery -->
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 </head>
 <body class="header-fixed">
 	<c:if test="${!empty msg}">
@@ -39,115 +46,149 @@
 		<!-- content viewport start -->
 		<div class="page-content-wrapper">
 			<div class="page-content-wrapper-inner">
-				<div class="content-viewport" style="width:900px; margin:0 auto;">
-				
-				<h2 style="text-align:center; margin : 30px; font-weight:bold;">게시판</h2>
-				
+				<div class="content-viewport">
 					<div class="row">
+					
+						<div class="jumbotron container text-center">
+							<h1 class="display-4">Board</h1>
+							<!-- <i class="fas fa-crown"></i> -->
+							<p class="lead">자유롭게 의견을 주고 받을 수 있는 게시판입니다</p>
+							<hr class="my-4">
+						</div>
+					
 						
-						<div id="boardList" class="table">
+						<div class="container text-center">
 			
-			<%
-				ArrayList<BoardVO> list = (ArrayList<BoardVO>) request.getAttribute("list");
-				if (!list.isEmpty()) {
-			%>
-			<div>
-			<table class="table-info">
- 				<colgroup>
-					<col width="20%" />
-					<col width="30%" />
-					<col width="20%" />
-					<col width="20%" />
-					<col width="10%" />
-				</colgroup>
+							<%
+								ArrayList<BoardVO> list = (ArrayList<BoardVO>) request.getAttribute("list");
+								if (!list.isEmpty()) {
+							%>
+						
+							<!-- table -->
+							<div style="margin-bottom:20px;">
+							<table class="table">
+								<tr>
+									<th >번호</th>
+									<th >제목</th>
+									<th >작성자</th>
+									<th >작성일</th>
+									<th >조회수</th>
+								</tr>	
+								<tbody>
+									<%
+										for (BoardVO vo : list) {
+									%>
+									<tr>
+										<td><%=vo.getBid()%></td>
+										<td>
+											<a href='/mstock/board/content?bid=<%=vo.getBid()%>&action=read'><%=vo.getTitle()%></a>
+										</td>
+										<td class="writer">
+											<%-- <a href='/mstock/board?page=1&action=listwriter&writer=<%=vo.getWriter()%>'><%=vo.getWriter()%></a> --%>
+											<%=vo.getWriter()%>
+										</td>
+										<td><%=vo.getWritedate()%></td>
+										<td><%=vo.getCnt()%></td>
+									</tr>
+				
+									<%
+										}
+									%>
+								</tbody>						
+							</table>	
+						</div>
+						
+						<script>
+							$(function(){
+								$(".writer").each(function(){
+									var dom = $(this);
+									$.ajax({
+										url: "/mstock/board/nickname",
+										type: "POST",
+										data: $(this).text(),
+										contentType: "application/json; charset=utf-8;",
+										dataType: "json",
+										success: function(data){
+											dom.text(data.nickname);
+										},
+										error:function(request,status,error){
+											alert(error);
+										}
+									});
+									
+								});
+							});
+						</script>
+						
+						<!-- Paging -->
+						<div>
+							<ul class="pagination justify-content-center">
+								<c:if test="${pagination.curPage ne 1}">
+									<li class="page-item"><a class="page-link" href="#"
+										aria-label="Previous"
+										onClick="paging('${pagination.prevPage}')"> <span
+											aria-hidden="true">&laquo;</span> <span class="sr-only">Previous</span>
+									</a></li>
+								</c:if>
+								<c:forEach var="pageNum" begin="${pagination.startPage}"
+									end="${pagination.endPage}">
+									<c:choose>
+										<c:when test="${pageNum eq pagination.curPage}">
+											<li class="page-item" style="font-weight: bold;"><a
+												class="page-link" href="#" onclick="paging('${pageNum}')">${pageNum}</a></li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a class="page-link" href="#"
+												onclick="paging('${pageNum}')">${pageNum}</a></li>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+								<c:if test="${pagination.curPage ne pagination.pageCnt}">
+									<li class="page-item"><a class="page-link" href="#"
+										aria-label="Next" onClick="paging('${pagination.nextPage }')">
+											<span aria-hidden="true">&raquo;</span> <span
+											class="sr-only">Next</span>
+									</a></li>
+								</c:if>
+							</ul>
+						</div>
+						
+						<div class="text-right">
+							<button id="writeBtn" class="btn btn-primary">작성하기</button>
+						</div>
+						
+						<script>
+							$("#writeBtn").on("click", function(){
+								location.href = "/mstock/board/content/edit?action=insert";
+							});
+						</script>
+						
+						<!-- Search -->
+						<hr class="my-4">
+						<div style="position:absolute; left:25%">
+						<form method="get" action="/mstock/board">
+							<div class="form-row align-items-center">
+								<input type="hidden" name="page" value="1">
+								<input type="hidden" name="action" value="search">
+								<div class="col-auto my-1">	
+									<select name="searchType" id="cty" class="custom-select"
+									style="width:90px; height:40px; border-color:#bebebe;">
+										<option value="title">제목</option>
+										<option value="bid">글번호</option>
+										<option value="writer">작성자</option>
+									</select>							
+								</div>
+								<div class="col-auto my-1">	
+									<input type="text" class="form-control" name="key" style="width:300px; height:40px; margin:auto; padding:5px; border:1px solid; border-color:#bebebe; border-radius:5px"/>
+								</div>
+								<div class="col-auto my-1">	
+									<button type="submit" id="search" class="btn btn-light" style="width:90px; border-color:#bebebe;">검색</button>
+								</div>
+							</div>
+						</form>
+						</div>
+					
 
-				<thead>
-					<tr style="text-align:center">
-						<th >번호</th>
-						<th >제목</th>
-						<th >작성자</th>
-						<th >작성일</th>
-						<th >조회수</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					<%
-						for (BoardVO vo : list) {
-					%>
-					<tr class="table-info table-hover">
-						<td class="t_info"><%=vo.getBid()%></td>
-						<td class="title">
-						<a href='/mstock/board/content?bid=<%=vo.getBid()%>&action=read'>
-						<%=vo.getTitle()%></a></td>
-						<td class="t_info">
-						<a href='/mstock/board?page=1&action=listwriter&writer=<%=vo.getWriter()%>'>
-						<%=vo.getWriter()%></a></td>
-						<td class="t_info"><%=vo.getWritedate()%></td>
-						<td class="t_info"><%=vo.getCnt()%></td>
-					</tr>
-
-					<%
-						}
-					%>
-				</tbody>
-			
-			</table>	
-			</div>
-					<div class="page" style="font-size:20px; text-align:center !important; margin:30px; padding: 0 auto !important;">
-	
-	<c:if test="${pagination.curRange ne 1 }">
-			<a class="page-num" style="margin:10px" onClick="fn_paging(1)">처음</a>
-		</c:if>
-		<c:if test="${pagination.curPage ne 1}">
-			<a class="page-num" style="margin:10px" onClick="fn_paging('${pagination.prevPage }')">이전</a>
-		</c:if>
-			<c:forEach var="pageNum" begin="${pagination.startPage }"
-         end="${pagination.endPage }">
-         <c:choose>
-            <c:when test="${pageNum eq  pagination.curPage}">
-               <span style="font-weight: bold;"><a style="color:black !important; margin:10px;" class="page-num" href="#"
-                  onClick="fn_paging(${pageNum })">${pageNum }</a></span>
-            </c:when>
-            <c:otherwise>
-               <a class="page-num" style="color:black !important; margin:10px;"href="#" onClick="fn_paging(${pageNum })">${pageNum }</a>
-            </c:otherwise>
-         </c:choose>
-      </c:forEach>
-       <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
-			<a class="page-num" onClick="fn_paging('${pagination.nextPage }')">다음</a>
-			</c:if>
-	<c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
-			<a class="page-num" onClick="fn_paging('${pagination.pageCnt }')">끝</a>
-	</c:if>
-	</div>
-		
-			<div style="width:330px; margin:0 auto; height:50px;">
-				<form method="get" action="/mstock/board">
-				<input type="hidden" name="page" value="1">
-					<span class="select">
-						<select name="searchType" id="cty" class="custom-select"
-						style="width:90px; border-color:#bebebe;">
-							<option value="title">제목</option>
-							<option value="bid">글번호</option>
-							<option value="writer">작성자</option>
-						</select>
-					</span>
-					<input type="hidden" name="action" value="search">
-					 <span class="search"><input type="text" name="key" 
-					 style="width:150px; margin:auto; padding:5px;
-					 border:1px solid; border-color:#bebebe; border-radius:5px"/></span>
-					<span class="btn" style="padding:5px"><button type="submit" id="search" 
-					class="rounded border-secondary" style="width:60px; height:30px;
-					background-color: #c0c0ff; color: white;">검색</button></span>
-				</form>
-			</div>
-
-			<div style="float:right;">
-				<a href="/mstock" class="color">홈으로</a>
-				<a href="/mstock/board/content/edit?action=insert">게시물작성</a>
-			</div>
-			
 			<%
 				} else {
 					if(request.getParameter("action")!=null){

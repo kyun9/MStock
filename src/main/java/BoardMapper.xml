@@ -5,7 +5,7 @@
 <mapper namespace="BoardMapper">
 	<!-- 리스트 전체 및 갯수 -->
 	<select id="listAllBoard" resultType="vo.BoardVO">
-		<![CDATA[select bid, writer, title, content, writedate, cnt,rnum from
+		<![CDATA[select bid, writer, title, content, to_char(WRITEDATE,'yyyy-mm-dd HH24:mi') writedate, cnt,rnum from
 		(select bid,writer,title,content,writedate,cnt,rownum rnum from 
 		(select * from board order by bid desc))
 		where rnum between #{page}*10-9 and #{page}*10]]>
@@ -16,7 +16,7 @@
  	
  	<!-- 검색 결과 리스트 및 갯수 -->
  	<select id="searchInfo" parameterType = "java.util.HashMap" resultType="vo.BoardVO">
-		<![CDATA[select bid, writer, title, content, writedate, cnt,rnum from
+		<![CDATA[select bid, writer, title, content, to_char(WRITEDATE,'yyyy-mm-dd HH24:mi') writedate, cnt,rnum from
 		(select bid,writer,title,content,writedate,cnt,rownum rnum from
 		(select * from board where ${searchType} like '%'||#{key}||'%' order by bid desc))
 		where rnum between #{page}*10-9 and #{page}*10]]>
@@ -27,7 +27,7 @@
 	
 	<!-- 작성자 클릭 결과 리스트 및 갯수 -->
 		<select id="listWriter" resultType="vo.BoardVO" parameterType="java.util.HashMap">
-		<![CDATA[select bid, writer, title, content, writedate, cnt,rnum from
+		<![CDATA[select bid, writer, title, content, to_char(WRITEDATE,'yyyy-mm-dd HH24:mi') writedate, cnt,rnum from
 		(select bid,writer,title,content,writedate,cnt,rownum rnum from
 		(select * from board where writer=#{writer} order by bid desc)) 
 		where rnum between #{page}*10-9 and #{page}*10]]>
@@ -54,7 +54,7 @@
  	
 	<!-- 게시물 1개 보기 및 조회수 증가 -->
     <select id="listOneBoard" resultType ="vo.BoardVO" parameterType="_int">
-		select * from board where bid=#{bid}
+		select bid, writer, title, content, to_char(WRITEDATE,'yyyy-mm-dd HH24:mi') writedate, cnt from board where bid=#{bid}
 	</select>
 	<update id="updateCount" parameterType="_int">
 		update board set cnt = cnt+1 where bid = #{bid}

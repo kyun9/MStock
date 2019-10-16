@@ -63,6 +63,15 @@
 			<div class="page-content-wrapper-inner">
 				<div class="content-viewport">
 					<div class="row">
+					
+					<div class="jumbotron container text-center">
+						<h1 class="display-4">Board</h1>
+						<!-- <i class="fas fa-crown"></i> -->
+						<p class="lead">자유롭게 의견을 주고 받을 수 있는 게시판입니다</p>
+						<hr class="my-4">
+					</div>
+					
+					
 						<h2>게시글 작성</h2>
 	<form name="form1" method="post" action="${path}/board/insert.do">
     <div>제목

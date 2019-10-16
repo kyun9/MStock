@@ -14,10 +14,10 @@
 				class="t-header-toggler t-header-mobile-toggler d-block d-lg-none">
 				<i class="mdi mdi-menu"></i>
 			</button>
-			<form action="#" class="t-header-search-box">
+			<form action="/mstock/search" method="POST" class="t-header-search-box">
 				<div class="input-group">
 					<input type="text" class="form-control" id="inlineFormInputGroup"
-						placeholder="Search" autocomplete="off">
+						placeholder="Search" name="word" autocomplete="off">
 					<button class="btn btn-primary" type="submit">
 						<i class="mdi mdi-arrow-right-thick"></i>
 					</button>

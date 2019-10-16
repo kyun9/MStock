@@ -25,4 +25,9 @@
 		SELECT NAME FROM COMPANYS WHERE COMPANY_ID = #{company_id} 
 	</select>
 	
+	<!-- getCompanyId-->
+	<select id="getCompanyId" parameterType="string" resultType="String">
+		SELECT COMPANY_ID FROM COMPANYS WHERE NAME LIKE '%'||#{word}||'%'
+	</select>
+	
 </mapper>
