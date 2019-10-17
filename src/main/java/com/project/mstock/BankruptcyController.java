@@ -1,5 +1,7 @@
 package com.project.mstock;
 
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +44,43 @@ public class BankruptcyController {
 		}
 		
 		return mav;
-
+	}
+	
+	@RequestMapping(value="/bankruptcy", method = RequestMethod.POST)
+	@ResponseBody
+	public Object postBankruptcy(@RequestBody String u_id) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		AccountVO accountVO = accountDAO.getAccount(Integer.parseInt(u_id));
+		if(accountVO != null) {
+			int credit = accountVO.getCredit();
+			int curPrice = accountDAO.getAccountPrice(accountVO.getAccount_id());
+			int totalPrice = credit+curPrice;
+			map.put("result", "success");
+			map.put("price", "" + totalPrice);
+		} else {
+			map.put("result", "fail");
+		}
+		return map;
+	}
+	
+	@RequestMapping(value="/bankruptcy/process", method = RequestMethod.POST)
+	@ResponseBody
+	public Object postBankruptcyProcess(@RequestBody String u_id) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		AccountVO accountVO = accountDAO.getAccount(Integer.parseInt(u_id));
+		if(accountVO != null) {
+			if(accountDAO.deleteAccount(accountVO.getAccount_id())) {
+				if(accountDAO.insertAccount(accountVO)) {
+					map.put("result", "success");
+				} else {
+					map.put("result", "fail");
+				}
+			} else {
+				map.put("result", "fail");
+			}
+		} else {
+			map.put("result", "fail");
+		}
+		return map;
 	}
 }

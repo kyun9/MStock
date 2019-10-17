@@ -51,7 +51,45 @@
 							<script>
 								$(function(){
 									$("#bankruptcyBtn").on("click", function(){
-										alert("총 자산이 5,000,000 이하인 경우만 신청이 가능합니다;")
+										$.ajax({
+											url: "/mstock/bankruptcy",
+											type: "POST",
+											data: String(${user.u_id}),
+											contentType: "application/json; charset=utf-8;",
+											dataType: "json",
+											success: function(data){
+												if(data.result == 'success'){
+													if(data.price*1 < 5000000){
+														alert("파산 신고가 접수 되었습니다");
+														/* 파산 진행 */
+														$.ajax({
+															url: "/mstock/bankruptcy/process",
+															type: "POST",
+															data: String(${user.u_id}),
+															contentType: "application/json; charset=utf-8;",
+															dataType: "json",
+															success: function(data){
+																if(data.result == 'success'){
+																	alert("계좌 재발급이 완료되었습니다");
+																	location.href = "/mstock/property"
+																} else {
+																	alert("계좌 재발급에 실패하였습니다");
+																}
+															},
+															error:function(request,status,error){
+																console.log("bankruptcy process error");
+															}
+														});
+													} else {
+														alert("총 자산이 5,000,000 이하인 경우만 신청이 가능합니다");
+													}	
+												}
+											},
+											error:function(request,status,error){
+												console.log("bankruptcy error");
+											}
+										});
+										
 									});
 								});
 							</script>

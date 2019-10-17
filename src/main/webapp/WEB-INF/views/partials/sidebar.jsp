@@ -39,25 +39,6 @@
 				    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 				}
 				
-				/* $.ajax({
-					url: "/mstock/partial/account",
-					type: "POST",
-					data: String(${user.u_id}),
-					contentType: "application/json; charset=utf-8;",
-					dataType: "json",
-					success: function(data){
-						if(data.result == 'success'){
-							alert("account suc");
-						} else {
-							alert("account fai");
-						}
-					},
-					error:function(request,status,error){
-						console("sidebar account error");
-					}
-				}); */
-				
-				
 				$.ajax({
 					url: "/mstock/partial/price",
 					type: "POST",

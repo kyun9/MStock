@@ -65,4 +65,11 @@ public class AccountDAO {
 		return result;
 	}
 	
+	public boolean deleteAccount(int account_id) {
+		boolean result;
+		String statement = "resource.AccountMapper.deleteAccount";
+		result = session.delete(statement, account_id) == 0 ? false : true;
+		return result;
+	}
+	
 }

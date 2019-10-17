@@ -54,20 +54,6 @@ public class PartialController {
 		return mav;
 	}
 	
-//	@RequestMapping(value="/partial/account", method = RequestMethod.POST)
-//	@ResponseBody
-//	public Object postAccount(@RequestBody String u_id) {
-//		HashMap<String, String> map = new HashMap<String, String>();
-//		AccountVO accountVO = accountDAO.getAccount(Integer.parseInt(u_id));
-//		if(accountVO != null) {
-//			map.put("result", "success");
-//		} else {
-//			map.put("result", "fail");
-//		}
-//		
-//		return map;
-//	}
-	
 	@RequestMapping(value="/partial/price", method = RequestMethod.POST)
 	@ResponseBody
 	public Object postPrice(@RequestBody String u_id) {

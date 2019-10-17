@@ -49,4 +49,9 @@
 		UPDATE ACCOUNTS SET CREDIT = CREDIT + #{credit} WHERE ACCOUNT_ID = #{account_id}
 	</update>
 	
+	<!-- deleteAccount -->
+	<delete id="deleteAccount" parameterType="int">
+		DELETE FROM ACCOUNTS WHERE ACCOUNT_ID = #{account_id}
+	</delete>
+	
 </mapper>
