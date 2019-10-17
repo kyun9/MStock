@@ -7,8 +7,7 @@
     top: 10;
     max-width: 700px;
     height: 150px;
-    clear: both;
-    background-image: url(../images/img02.png);
+    clear: both; 
     background-repeat: no-repeat;
     background-size: 110px;
     background-position: 97% 100%;
@@ -176,6 +175,7 @@
 	color: #2478FF;
 }
 
+
 table, .tab_content table{
 	position: relative;
 	min-width: 730px;
@@ -196,7 +196,7 @@ table tr th{
 table tr td:first-child{
 	
     border-left: 1px solid #dbdbdb;
-    border-top: 1px solid #dbdbdb;
+    /* border-top: 1px solid #dbdbdb; */
 }
 table tr td:last-child{
 
@@ -252,15 +252,15 @@ table tr:last-child td{
 
 
 table tr td .up{
-	float: left;
+	float: right;
 	color:#FF4848;
 }
 table tr td .down{
-	float:left;
+	float:right;
 	color:#2478FF;
 }
 table tr td .bohab{
-	float:left;
+	float:right;
 }
 
 .footer-wrap{

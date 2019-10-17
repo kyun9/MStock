@@ -1,0 +1,49 @@
+.yt-video-background {
+	position: fixed;
+	background: #000;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+}
+
+.yt-video-background .yt-video-background-image {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	-webkit-background-position: center;
+	-moz-background-position: center;
+	-o-background-position: center;
+	background-position: center;
+	-webkit-background-repeat: no-repeat;
+	-moz-background-repeat: no-repeat;
+	-o-background-repeat: no-repeat;
+	background-repeat: no-repeat;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.yt-video-background iframe {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+@media (min-aspect-ratio: 16/9) {
+	.yt-video-background {
+		height: 100%;
+		top: -100%;
+	}
+}
+
+@media (max-aspect-ratio: 16/9) {
+	.yt-video-background {
+		width: 300%;
+		left: -100%;
+	}
+}
