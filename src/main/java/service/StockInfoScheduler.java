@@ -48,7 +48,7 @@ public class StockInfoScheduler {
 	    }
 	}
 	
-	//@Scheduled(cron="0/10 * 9-16 ? * MON-FRI")  // 월요일~금, 9시에서 16시,10초간격
+	@Scheduled(cron="0/10 * 9-16 ? * MON-FRI")  // 월요일~금, 9시에서 16시,10초간격
 	//@Scheduled(cron = "0/10 * * * * *") // 10초간격 test
 	public void scaheduleJSON() {
 		StockInfoVO vo = new StockInfoVO();
