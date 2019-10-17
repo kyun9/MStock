@@ -50,7 +50,9 @@ public class PropertyInfoController {
 			//계좌를 보유 중인지 확인함
 			AccountVO accountVO = accountDAO.getAccount(userVO.getU_id());
 			if(accountVO == null) {
+				PropertyVO propertyVO = new PropertyVO();
 				mav.addObject("account", "fail");
+				mav.addObject("propertyVO", propertyVO);
 				
 			} else {
 				//계좌를 보유

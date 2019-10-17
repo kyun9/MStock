@@ -54,15 +54,34 @@ public class PartialController {
 		return mav;
 	}
 	
+//	@RequestMapping(value="/partial/account", method = RequestMethod.POST)
+//	@ResponseBody
+//	public Object postAccount(@RequestBody String u_id) {
+//		HashMap<String, String> map = new HashMap<String, String>();
+//		AccountVO accountVO = accountDAO.getAccount(Integer.parseInt(u_id));
+//		if(accountVO != null) {
+//			map.put("result", "success");
+//		} else {
+//			map.put("result", "fail");
+//		}
+//		
+//		return map;
+//	}
+	
 	@RequestMapping(value="/partial/price", method = RequestMethod.POST)
 	@ResponseBody
-	public Object postPrice(@RequestBody int u_id) {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		AccountVO accountVO = accountDAO.getAccount(u_id);
-		int credit = accountVO.getCredit();
-		int curPrice = accountDAO.getAccountPrice(accountVO.getAccount_id());
-		int totalPrice = credit+curPrice;
-		map.put("price", totalPrice);
+	public Object postPrice(@RequestBody String u_id) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		AccountVO accountVO = accountDAO.getAccount(Integer.parseInt(u_id));
+		if(accountVO != null) {
+			int credit = accountVO.getCredit();
+			int curPrice = accountDAO.getAccountPrice(accountVO.getAccount_id());
+			int totalPrice = credit+curPrice;
+			map.put("result", "success");
+			map.put("price", "" + totalPrice);
+		} else {
+			map.put("result", "fail");
+		}
 		return map;
 	}
 }

@@ -547,29 +547,31 @@
 			updateTable();
 			
 			/* 보유 자산 정보에 대한 처리 */
-			$("#total_property").html(numberWithCommas(${propertyVO.credit + propertyVO.stock_value}));
-			$("#total_rate").html(${propertyVO.profit_rate}.toFixed(2)+"%");
-			$("#chart_credit").html(numberWithCommas(${propertyVO.credit}));
-			$("#chart_stock_value").html(numberWithCommas(${propertyVO.stock_value}));
-			$("#stock_value").html(numberWithCommas(${propertyVO.stock_value}));
-			$("#price_value").html(numberWithCommas(${propertyVO.price_value}));
-			$("#profit_rate").html(${propertyVO.price_value} != 0 ? ((${propertyVO.stock_value}-${propertyVO.price_value}) / ${propertyVO.price_value} * 100).toFixed(2) +"%" : 0.0 + "%").removeClass("text-primary", "text-danger");
+			if(${account eq 'success'}){
+				$("#total_property").html(numberWithCommas(${propertyVO.credit + propertyVO.stock_value}));
+				$("#total_rate").html(${propertyVO.profit_rate}.toFixed(2)+"%");
+				$("#chart_credit").html(numberWithCommas(${propertyVO.credit}));
+				$("#chart_stock_value").html(numberWithCommas(${propertyVO.stock_value}));
+				$("#stock_value").html(numberWithCommas(${propertyVO.stock_value}));
+				$("#price_value").html(numberWithCommas(${propertyVO.price_value}));
+				$("#profit_rate").html(${propertyVO.price_value} != 0 ? ((${propertyVO.stock_value}-${propertyVO.price_value}) / ${propertyVO.price_value} * 100).toFixed(2) +"%" : 0.0 + "%").removeClass("text-primary", "text-danger");
 			
-			/* 색상 처리 */
-			if(removePercent($("#profit_rate").html()) > 0){
-				$("#profit_rate").removeClass("text-danger");
-				$("#profit_rate").addClass("text-primary");
-			} else {
-				$("#profit_rate").removeClass("text-primary");
-				$("#profit_rate").addClass("text-danger");
-			}
-			
-			if(removePercent($("#total_rate").html()) > 0){
-				$("#total_rate").removeClass("text-danger");
-				$("#total_rate").addClass("text-primary");
-			} else {
-				$("#total_rate").removeClass("text-primary");
-				$("#total_rate").addClass("text-danger");
+				/* 색상 처리 */
+				if(removePercent($("#profit_rate").html()) > 0){
+					$("#profit_rate").removeClass("text-danger");
+					$("#profit_rate").addClass("text-primary");
+				} else {
+					$("#profit_rate").removeClass("text-primary");
+					$("#profit_rate").addClass("text-danger");
+				}
+				
+				if(removePercent($("#total_rate").html()) > 0){
+					$("#total_rate").removeClass("text-danger");
+					$("#total_rate").addClass("text-primary");
+				} else {
+					$("#total_rate").removeClass("text-primary");
+					$("#total_rate").addClass("text-danger");
+				}
 			}
 			
 		});

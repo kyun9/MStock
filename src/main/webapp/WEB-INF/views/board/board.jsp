@@ -52,7 +52,7 @@
 						<div class="jumbotron container text-center">
 							<h1 class="display-4">Board</h1>
 							<!-- <i class="fas fa-crown"></i> -->
-							<p class="lead">자유롭게 의견을 주고 받을 수 있는 게시판입니다</p>
+							<p class="lead">자유 게시판</p>
 							<hr class="my-4">
 						</div>
 					
@@ -179,7 +179,7 @@
 									</select>							
 								</div>
 								<div class="col-auto my-1">	
-									<input type="text" class="form-control" name="key" style="width:300px; height:40px; margin:auto; padding:5px; border:1px solid; border-color:#bebebe; border-radius:5px"/>
+									<input type="text" class="form-control" name="key" style="width:300px; height:40px; margin:auto; border:1px solid; border-color:#bebebe; border-radius:5px"/>
 								</div>
 								<div class="col-auto my-1">	
 									<button type="submit" id="search" class="btn btn-light" style="width:90px; border-color:#bebebe;">검색</button>
@@ -187,6 +187,8 @@
 							</div>
 						</form>
 						</div>
+						
+						<div style="margin-bottom:200px;"></div>
 					
 
 			<%
@@ -244,7 +246,7 @@ function getParameterByName(name) {
         results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
- function fn_paging(cv){   
+ function paging(cv){   
 		var searching  = getParameterByName("action");
 		var searchType  = getParameterByName("searchType");
 		var writer  = getParameterByName("writer");

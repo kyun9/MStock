@@ -10,7 +10,7 @@
       		SELECT USERS_SEQ.NEXTVAL FROM DUAL     
     	</selectKey>  
     		INSERT INTO USERS 
-    		VALUES (#{u_id}, #{id}, #{password}, #{email}, #{nickname}, SYSDATE, NULL, NULL, #{status})
+    		VALUES (#{u_id}, #{id}, #{password}, #{email}, #{nickname}, SYSDATE, 'user.png', NULL, #{status})
 	</insert>
 	
 	<!-- id 중복 확인 -->

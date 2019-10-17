@@ -40,17 +40,15 @@
 					<div class="jumbotron container text-center">
 						<h1 class="display-4">Board</h1>
 						<!-- <i class="fas fa-crown"></i> -->
-						<p class="lead">자유롭게 의견을 주고 받을 수 있는 게시판입니다</p>
+						<p class="lead">자유 게시판</p>
 						<hr class="my-4">
 					</div>
 					
-					<div id="wrap" style="width:900px; margin:30px auto;">
-						<div id="content">
-						<div id="boardWrite">
-							<div class="padding">
+					<div class="container">
+				
+							<div>
 								<h3 >게시글 작성</h3>
 								<hr>
-								<br>
 								<form method="post" action="/mstock/board/content/edit">
 								<%
 									BoardVO one = (BoardVO) request.getAttribute("listone");
@@ -59,55 +57,58 @@
 								%>
 									<input type="hidden" name="action" value="insert">
 									<input type="hidden" name="writer" value="<%= request.getAttribute("U_Id")%>">
-									<div class="input_box">
-										<div class="title input">
-										<span><label style="font-weight:bold; width:10%;">제목</label></span>
-										<span>
-										<input type="text" name="title" placeholder="제목을 입력하세요."
-										style="width:50%;"/>
-										</span>
-										</div>
-									</div>
-									<br>
-									<div class="input_box" style="width:100%; margin:0 auto;">
-										<div class="title"><label style="font-weight:bold;">글쓰기</label></div>
-										<div class="input">
-											<textarea name="content" placeholder="내용을 입력해주세요."
-											style="width:100%; height:400px;" class="form-control"></textarea>
-										</div>
-									</div>
+									
+									<div class="form-group row text-center">
+									    <label for="title" class="col-sm-2 col-form-label">제목</label>
+									    <div class="col-sm-10">
+									      <input type="text" id="title" class="form-control" name="title" style="border:1px solid #ccc;" placeholder="제목을 입력하세요">
+									    </div>
+									 </div>
+									 <div class="form-group row text-center">
+									    <label for="content" class="col-sm-2 col-form-label">내용</label>
+									    <div class="col-sm-10">
+									      <textarea class="form-control" id="content" name="content" style="height:400px; border:1px solid #ccc;"></textarea>
+									    </div>
+									 </div>
 									
 								<%}else if(action.equals("update")){ %>
 								 
 									<input type="hidden" name="action" value="update">
 									<input type="hidden" name="bid" value="<%= one.getBid() %>">
 									<input type="hidden" name="writer" value="<%= request.getAttribute("U_Id")%>">
-									<div class="input_box">
-										<div class="title"><span>제목</span><input type="text" name="title"
-										 placeholder="제목을 입력하세요." value='<%= one.getTitle() %>'></div>
-									</div>
-									<div class="input_box" style="width:100%; margin:0 auto;">
-										<div class="title"><label style="font-weight:bold;">글쓰기</label></div>
-										<div class="input">
-											<textarea name="content" placeholder="내용을 입력해주세요."
-											style="width:100%; height:400px;" class="form-control"><%= one.getContent() %></textarea>
-										</div>
-									</div>
+									
+									<div class="form-group row text-center">
+									    <label for="title" class="col-sm-2 col-form-label">제목</label>
+									    <div class="col-sm-10">
+									      <input type="text" class="form-control" id="title" name="title" style="border:1px solid #ccc;" value='<%= one.getTitle() %>'>
+									    </div>
+									 </div>
+									 <div class="form-group row text-center">
+									    <label for="content" class="col-sm-2 col-form-label">내용</label>
+									    <div class="col-sm-10">
+									      <textarea class="form-control" id="content" name="content" style="width:100%;
+									       height:400px; border:1px solid #ccc;"><%= one.getContent() %></textarea>
+									    </div>
+									 </div>
+									 
+									 <script>
+										var content = $("#content").text();
+										if(content == 'null'){
+											$("#content").text("");
+										};
+									</script>
+									
 								<%} %>
 								<br>
-									<div class="button">
-										<ul>
-											<li><input type="submit" value="저장" /></li>
-											<li><input type="reset" value="초기화" class="gray" /></li>
-											<li class="last"><input type="button" value="뒤로가기" class="gray"
-											onclick="back(); return false;" /></li>
-										</ul>
+									<div class="text-center">
+										<button type="submit" class="btn btn-primary">저장</button>
+										<button type="button" class="btn btn-secondary" onclick="back(); return false;">취소</button>
 									</div>			
 								</form>
+								
 							</div>
-						</div><!-- boardWrite-->
-					
-						</div><!-- content End -->
+							
+				
 
 	<script>
 		function back(){

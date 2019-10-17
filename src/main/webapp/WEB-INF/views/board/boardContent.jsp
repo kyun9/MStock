@@ -45,37 +45,44 @@
 					<div class="jumbotron container text-center">
 						<h1 class="display-4">Board</h1>
 						<!-- <i class="fas fa-crown"></i> -->
-						<p class="lead">자유롭게 의견을 주고 받을 수 있는 게시판입니다</p>
+						<p class="lead">자유 게시판</p>
 						<hr class="my-4">
 					</div>
-<div id="wrap" style="width:900px; margin:30px auto;">
 
-	<div id="content">
+<div class="container">
+
+	<div class="w-80 p-3 mx-auto">
 	<%
 		BoardVO one = (BoardVO) request.getAttribute("listone");
 		int uid = (Integer)request.getAttribute("U_Id");
 		if (request.getAttribute("listone") != null) {
 	%>
 	<form method="get" action="/mstock/board/content/edit">
-			<div class="view_top">
+			<div style="margin-bottom:20px;">
 				<h3><%= one.getTitle() %></h3>
+				
 				<hr>
 				<div class="list_btn">
-				<p><span class="writer" style="font-weight: bold;"><%= one.getWriter() %></span> / <%= one.getWritedate() %>
-				<span style="float:right">
-				<a href="/mstock/board?page=1">목록</a>
- 				<% if(one.getWriter()==uid){ %> 
- 				<a href="/mstock/board/content/edit?action=update&bid=<%= one.getBid() %>">수정</a>
- 				<a href="/mstock/board/content?action=delete&bid=<%= one.getBid() %>">삭제</a>
- 				<%} %>
- 				</span>
+				<p><span class="writer h6"><%= one.getWriter() %> </span>&nbsp;<span style="color:#ccc;"><%= one.getWritedate() %></span> 
+					<span style="float:right">
+						<a href="/mstock/board?page=1">목록</a>
+		 				<% if(one.getWriter()==uid){ %> 
+			 				<a href="/mstock/board/content/edit?action=update&bid=<%= one.getBid() %>">수정</a>
+			 				<a href="/mstock/board/content?action=delete&bid=<%= one.getBid() %>">삭제</a>
+		 				<%} %>
+	 				</span>
 				</p>
 				</div>
 			</div>
-			<br><br>
 			
 			<div class="view_bottom">
-				<p><%= one.getContent() %><p>
+				<p id="content"><%= one.getContent() %><p>
+				<script>
+					var content = $("#content").text();
+					if(content == 'null'){
+						$("#content").text("");
+					};
+				</script>
 			</div>
 			
 			<input type="hidden" name="action" value="update"> 
@@ -83,18 +90,15 @@
 			<input type="hidden" name="title" value="<%= one.getTitle() %>"> 
 			<input type="hidden" name="content" value="<%= one.getContent() %>"> 
 			</form>
-		</div>
+	
 	<%
 		}
 	%>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+		<div style="height:100px"></div>
 		<h5 align="left">댓글</h5>	
 		<hr>
-	<div>
+		
+		<div>
 		<%
 			if(request.getAttribute("comlist")!=null){
 		    ArrayList<CommentsVO> comlist = (ArrayList<CommentsVO>)request.getAttribute("comlist");
@@ -102,54 +106,39 @@
 		%>
 			<div id="content<%=cvo.getCid()%>" style="display:block;">
 				<div>
-				<span class="writer"><%= cvo.getWriter() %></span> &nbsp;|&nbsp; <%= cvo.getWritedate() %>  
-				<%
-					if(cvo.getWriter()==uid){
-				%>
-				<span>
-				<button style="border:0; outline:0; background-color: rgba(255, 255, 255, 0);
-				 color:#adadad" onclick="updatecom('<%= cvo.getCid() %>')">
-				 수정</button>
-				</span>
-				&nbsp;|&nbsp;
-				<span>
-				<button style="border:0; outline:0; background-color: rgba(255, 255, 255, 0);
-				 color:#adadad;" onclick="deletecom('<%= one.getBid() %>','<%= cvo.getCid() %>')">
-				 삭제</button>
-				</span>
-				<%
-					}
-				%>
+					<span class="writer h6"><%= cvo.getWriter() %></span>&nbsp; <span style="color:#ccc;"><%= cvo.getWritedate() %></span>  
+					<%
+						if(cvo.getWriter()==uid){
+					%>
+					<span style="float:right">
+						<a href="#" onclick="updatecom('<%= cvo.getCid() %>')">수정</a>
+						<a href="#" onclick="deletecom('<%= one.getBid() %>','<%= cvo.getCid() %>')">삭제</a>
+					</span>
+					<%
+						}
+					%>
 				</div>
 				<p style="font-size:15px; margin-bottom:10px; margin-top:10px;
 				white-space: pre-wrap; word-wrap: break-word;"><span><%= cvo.getContent() %></span></p>
 			</div>
 			<div id="updatecom<%=cvo.getCid()%>" style="display:none;">
 				<form method="post" action="/mstock/comment">
-				<div class="row">
-				<div class="col-md-10">
 					<input type="hidden" name="action" value="update">
-					<input id="bid" name="bid" type="hidden" value='<%=one.getBid()%>'>
-					<input id="cid" name="cid" type="hidden" value='<%=cvo.getCid()%>'>
-					<input id="writer" name="writer" type="hidden" value='<%= uid %>'>
-					<span style="margin:auto;">
-					<textarea id="content" name="content" rows="2" cols="50" style="margin:0 auto;
-					 height:100px; width:100%; border:1px solid #ccc;"><%= cvo.getContent() %></textarea></span>
-				</div>
-				<div class="col-md-2">
-					<span>
-					<button style="border:0; outline:0; float:right;
-				 	background-color: #fff; color: #9999fa; padding:10px;" type="button"
-				 	onclick="updatecancle('<%= cvo.getCid() %>')">수정취소</button><br><br>
-					<input style="border:0; outline:0; background-color: #c0c0ff; width:100%;
-					 color: white;  padding:10px;" type="submit" name="submit" value="수정">
-					</span>
-				</div>
-				</div>
-					<br>				
+					<input type="hidden" id="bid" name="bid" value='<%=one.getBid()%>'>
+					<input type="hidden" id="cid" name="cid" value='<%=cvo.getCid()%>'>
+					<input type="hidden" id="writer" name="writer" value='<%= uid %>'>
+					
+					<div class="form-group">
+					    <input type="text" class="form-control" name="content" id="content" style="display: inline; width:83%; outline: 0; border:1px solid #ccc;" value=<%= cvo.getContent() %>>
+					    <input type="button" class="btn btn-secondary" style="float: right; width:7%; height:35px;"  
+						name="button" value="취소" onclick="updatecancle('<%= cvo.getCid() %>')">
+						<input type="submit" class="btn btn-primary" style="float: right; width:7%; height:35px; margin-right:10px;"  
+						name="submit" value="수정">
+				  	</div>
+								
 				</form>
 			</div>
-			<hr style="border: dotted 1px #bdbdbd;">
+			<hr>
 			<%
 		    	}
 			%>
@@ -157,23 +146,24 @@
 			}
 		%>
 	</div>
-	<br>
-	<div>
+	
+	<!-- 댓글 입력 창 -->
+	<div style="margin-bottom:20px;">
 		<form method="post" action="/mstock/comment" style="border-top:1px;">
 			<input type="hidden" name="action" value="insert">
-			<input id="bid" name="bid" type="hidden" value='<%=one.getBid()%>'>
-			<input id="writer" name="writer" type="hidden" value='<%= uid %>'>
-			<span><textarea id="content" name="content" rows="2" cols="50" 
-			style="width:80%; outline: 0; border:1px solid #ccc; margin:auto;" 
-			placeholder="댓글을 입력해주세요." onkeydown="resize(this)" onkeyup="resize(this)"></textarea></span>
-			<span><input style="float: right; width:15%; border:0; outline:0; 
-			background-color: #c0c0ff; color: white;  padding:10px;" type="submit" 
-			name="submit" value="등록"></span>
-			<br><br><br>
+			<input type="hidden" id="bid" name="bid"  value='<%=one.getBid()%>'>
+			<input type="hidden" id="writer" name="writer" value='<%= uid %>'>
+			<div class="form-group">
+			    <input type="text" class="form-control" name="content" id="content" style="display: inline; width:83%; outline: 0; border:1px solid #ccc;" placeholder="댓글을 입력해주세요">
+			    <input type="submit" class="btn btn-primary" style="float: right; width:15%; height:35px;"  
+				name="submit" value="등록">
+		  	</div>
+
 		</form>
 	</div>
+		
 	
-	
+	</div>
 
 	</div><!-- content End -->
 					</div>

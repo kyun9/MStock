@@ -67,7 +67,7 @@
 					<div class="jumbotron container text-center">
 						<h1 class="display-4">Board</h1>
 						<!-- <i class="fas fa-crown"></i> -->
-						<p class="lead">자유롭게 의견을 주고 받을 수 있는 게시판입니다</p>
+						<p class="lead">자유 게시판</p>
 						<hr class="my-4">
 					</div>
 					
