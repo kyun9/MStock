@@ -70,6 +70,11 @@ public class RegisterController {
 	@ResponseBody
 	public Object postCheckNickname(@RequestBody String nickname) {
 		HashMap<String, String> map = new HashMap<String, String>();
+		if(nickname.length() > 6) {
+			map.put("msg", "닉네임은 6글자 이하여야 합니다");
+			map.put("result", "fail");
+			return map;
+		}
 		if(dao.checkNickname(nickname)) {
 			map.put("msg", "사용 가능한 닉네임입니다");
 			map.put("result", "success");

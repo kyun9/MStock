@@ -110,7 +110,7 @@
 														<th>현재가</th>
 														<td id="1"></td>
 														<th colspan="2">전일대비</th>
-														<td>
+														<td id="dabi">
 										    				<span class="up" id="2"></span> 
 													        <span class="bohab" id="3"></span> 
 												        	<span class="down" id="4"></span>
@@ -568,6 +568,11 @@
 			}
 		}
 		/* 차트 끝 */
+		
+		//부호 제거 func
+		function removeSign(x) {
+			return x.toString().replace(/-/gi, "");
+		}
 
 		var code = '<%=company.getName()%>';
 		var jsonLocation = '/mstock/resources/rdata/emotion' + code + '.json';
@@ -580,7 +585,7 @@
 						drawChart(company.pos, company.neg);
 						$("#regressionTime").text(company.time + " 기준");
 						$("#regressionVal").text("10분 뒤의 현재가 예측 결과 " + numberWithCommas(company.predictValue));
-						$("#regressionPer").text("예측 정확도 " + company.predictPercent + "%");
+						$("#regressionPer").text("예측 정확도 " + removeSign(company.predictPercent) + "%");
 					}
 				});
 			});

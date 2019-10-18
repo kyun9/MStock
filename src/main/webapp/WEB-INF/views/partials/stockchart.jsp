@@ -37,11 +37,11 @@ var drawingStockInfo = function(){$.getJSON('/mstock/resources/json/<%=request.g
 									datasets : [ {
 										data : curjuka,
 										backgroundColor : 'transparent',
-										borderColor : "#000000",
+										borderColor : "#4d4d4d",
 										lineTension : 0,
 										pointRadius : 0,
 										pointHitRadius : 5,
-										borderWidth : 0.5
+										borderWidth : 0.3
 									//선굵기
 									} ]
 								},
@@ -104,6 +104,7 @@ var drawingStockInfo = function(){$.getJSON('/mstock/resources/json/<%=request.g
 };
 	/* 30초마다 자동 reload */
 	var reloadTimer = setInterval(function() {
+		//$("debi").text("");
 		drawingStockInfo();
 	}, 30000);
 	

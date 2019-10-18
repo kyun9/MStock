@@ -28,9 +28,11 @@
 		
 		String clientId = properties.getProperty("naver.client_id");//애플리케이션 클라이언트 아이디값";
 		String clientSecret = properties.getProperty("naver.client_secret");//애플리케이션 클라이언트 시크릿값";
+		String callbackURL = properties.getProperty("naver.callback_url"); //애플리케이션 콜백 URL;
+		
 		String code = request.getParameter("code");
 		String state = request.getParameter("state");
-		String redirectURI = URLEncoder.encode("http://localhost:8000/mstock/naver/callback", "UTF-8");
+		String redirectURI = URLEncoder.encode(callbackURL, "UTF-8");
 		String apiURL;
 		apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
 		apiURL += "client_id=" + clientId;

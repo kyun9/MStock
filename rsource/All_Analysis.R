@@ -12,7 +12,7 @@ library(Rserve)
 library(RColorBrewer)
 library(jsonlite)
 
-company <- c('삼성SDI','현대모비스','SK하이닉스','네이버','LG전자'
+company <- c('삼성SDI','현대모비스','SK하이닉스','NAVER','LG전자'
              ,'셀트리온','아모레퍼시픽','신세계','신한은행','카카오'
              ,'S-Oil','한국콜마')
 

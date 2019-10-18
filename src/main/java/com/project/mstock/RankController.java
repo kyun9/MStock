@@ -28,6 +28,7 @@ public class RankController {
 		
 		//수동으로 랭크 돌리기
 		//rankService.updateRank();
+		//System.out.println("rankService 실행");
 		
 		//Paging
 		int accountCnt = accountDAO.getAccountCnt();

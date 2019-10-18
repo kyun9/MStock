@@ -21,7 +21,9 @@
 		properties.load(inputStream);
 		
 		String clientId = properties.getProperty("naver.client_id");//애플리케이션 클라이언트 아이디값";
-		String redirectURI = URLEncoder.encode("http://localhost:8000/mstock/naver/callback", "UTF-8");
+		String callbackURL = properties.getProperty("naver.callback_url"); //애플리케이션 콜백 URL;
+		
+		String redirectURI = URLEncoder.encode(callbackURL, "UTF-8");
 		SecureRandom random = new SecureRandom();
 		String state = new BigInteger(130, random).toString();
 		String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
