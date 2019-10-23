@@ -47,6 +47,6 @@ public class NaverLoginController {
 			model.addAttribute("user", loginDAO.getUserInfo(vo.getId()));
 		}
 		
-		return "redirect:/mstock";
+		return "redirect:/";
 	}
 }
