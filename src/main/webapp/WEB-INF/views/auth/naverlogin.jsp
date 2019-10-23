@@ -32,7 +32,7 @@
 		apiURL += "&state=" + state;
 		session.setAttribute("state", state);
 		//System.out.println(apiURL);
-	%>
+	%> 
 	<script>
 	$(function(){
 		location.href = "<%=apiURL%>";

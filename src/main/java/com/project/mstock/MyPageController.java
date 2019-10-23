@@ -39,7 +39,6 @@ public class MyPageController {
 			mav.setViewName("manage/mypage");			
 		}
 		
-		//System.out.println(userVO.getId());
 		return mav;
 	}
 	

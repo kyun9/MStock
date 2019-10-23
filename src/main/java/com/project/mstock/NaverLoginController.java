@@ -32,7 +32,6 @@ public class NaverLoginController {
 	
 	@RequestMapping(value="/naver/login", method=RequestMethod.GET)
 	public String postNaverLogin(Model model) {
-		//model.addAttribute("client_id", client_id);
 		return "auth/naverlogin";
 	}
 	
@@ -51,6 +50,6 @@ public class NaverLoginController {
 			model.addAttribute("user", loginDAO.getUserInfo(vo.getId()));
 		}
 		
-		return "redirect:http://70.12.113.177:8000/mstock";
+		return "redirect:http://localhost:8000/mstock";
 	}
 }

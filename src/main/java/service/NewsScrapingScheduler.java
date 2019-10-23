@@ -47,8 +47,9 @@ public class NewsScrapingScheduler {
 		String folderPath = context.getRealPath("/")+"/resources/json";
 		File filePath = new File(path + FileName + ".json");
 		File folder = new File(folderPath);
+		//폴더 존재 여부
 		if(!folder.exists()) {
-			folder.mkdir(); //폴더 생성합니다.
+			folder.mkdir(); 
 			System.out.println("폴더가 생성되었습니다.");
 		}
 		try {

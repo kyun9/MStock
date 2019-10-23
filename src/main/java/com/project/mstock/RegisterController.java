@@ -46,7 +46,6 @@ public class RegisterController {
 				mav.addObject("result", "fail");
 			}
 		} 
-		
 		mav.setViewName("auth/register");  
 		
 		return mav;

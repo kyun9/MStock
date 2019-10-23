@@ -34,7 +34,7 @@ public class StockInfoController {
 	public ModelAndView stockinfoGet(@ModelAttribute("user") UserVO userVO, String code) {
 		ModelAndView mav = new ModelAndView();
 		
-		//세션 없으면 로그인 페이지로 이동
+		//세션 없으면 로그인 페이지로  이동
 		if(userVO.getU_id() == 0) {
 			mav.setViewName("redirect:/login");
 		} else {

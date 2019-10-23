@@ -17,7 +17,6 @@ public class RankScheduler {
 	@Autowired
 	RankDAO rankDAO;
 	
-	//@Scheduled(cron="0 0 16 ? * 1-5")
 	public void updateRank() {
 		//모든 Account의 Rank Update
 		List<AccountVO> list = accountDAO.getAccountList();

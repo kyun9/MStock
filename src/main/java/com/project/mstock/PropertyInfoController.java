@@ -121,8 +121,6 @@ public class PropertyInfoController {
 	public Object postPropertyModal(@RequestParam(value="company_id") String company_id, @RequestParam(value="account_id") String account_id) {
 		HashMap<String, List<PurchaseVO>> map = new HashMap<String, List<PurchaseVO>>();
 		List<PurchaseVO> purchaseList = purchaseDAO.getOneCompanyStock(company_id, account_id);
-		//System.out.println(purchaseList.get(0).getPrice());
-		//System.out.println(purchaseList.get(1).getPrice());
 		map.put("purchaseList", purchaseList);
 		return map;
 	}

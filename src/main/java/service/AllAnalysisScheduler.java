@@ -20,19 +20,10 @@ public class AllAnalysisScheduler {
 	@Autowired
 	ServletContext context;
 
-	// hadoop 연동시
-	// company : 주식 종목 12개
-	// news : 뉴스 언론사 3개
-//	public static String[] company = {"삼성SDI","현대모비스","SK하이닉스","네이버","LG전자"
-//            						,"셀트리온","아모레퍼시픽","신세계","신한은행","카카오"
-//            						,"S-Oil","한국콜마"};
-//	public static String[] news = {"파이낸셜","한겨레","조선일보"};
-//	
+	//스케쥴 10분간격
 	@Scheduled(fixedRate = 600000)
 	public void cloud() throws RserveException, IOException, Exception {
-		// R코드를 source 하여 클라우드 저장 및 뉴스 기사 텍스트로 저장
-		// 뉴스 기사는 언론사 3개 별 주식 종목 관련
-		// ex)파이낸셜_삼성SDI.txt 로 저장
+		//감성분석 사전 위치
 		String path = context.getRealPath("/").replaceAll("\\\\", "/") + "resources/rdata";
 		File folder = new File(path);
 		if (!folder.exists()) {
@@ -40,10 +31,12 @@ public class AllAnalysisScheduler {
 		} else {
 			System.out.println("이미 폴더 있음");
 		}
-		// System.out.println("mod "+path);
-
+		
+		//분석에 필요한 주식정보 json 위치 정보
 		String regressionpath = context.getRealPath("/").replaceAll("\\\\", "/") + "resources/json/";
 		// R 실행
+		// R코드를 source 하여 클라우드 저장 및 뉴스 기사 텍스트로 저장
+		// 뉴스 기사는 언론사 3개 별 주식 종목 관련
 		RConnection rc = new RConnection();
 		rc.eval("path = '" + regressionpath + "'");
 		rc.eval("setwd('" + path + "')");

@@ -26,10 +26,6 @@ public class RankController {
 	@RequestMapping(value="/rank", method = RequestMethod.GET)
 	public String getTemp(Model model, @RequestParam(defaultValue="1") int page){
 		
-		//수동으로 랭크 돌리기
-		//rankService.updateRank();
-		//System.out.println("rankService 실행");
-		
 		//Paging
 		int accountCnt = accountDAO.getAccountCnt();
 		Pagination pagination = new Pagination(accountCnt, page);

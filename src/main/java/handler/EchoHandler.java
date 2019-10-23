@@ -68,6 +68,7 @@ public class EchoHandler extends TextWebSocketHandler {
 		}
 	}
 
+    // 정보를 입력 객체 생성(회원이면 닉네임/비회원이면 '비회원+websocket session'으로 처리)
 	private Map<String,String> getInfo(WebSocketSession session) {
 		Map<String, Object> httpSession = session.getAttributes();
 		UserVO loginUser = (UserVO) httpSession.get("user");

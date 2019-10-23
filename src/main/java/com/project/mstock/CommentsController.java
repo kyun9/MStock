@@ -23,7 +23,6 @@ public class CommentsController {
 	public ModelAndView postcom(CommentsVO vo,RedirectAttributes redirectAttributes
 												,String action,int bid,int writer,@ModelAttribute("user") UserVO uvo) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println(uvo.getU_id());
 		if(uvo.getU_id()==0) {
 			mav.addObject("msg", "로그인 후 사용 가능합니다.");
 			mav.setViewName("auth/login");

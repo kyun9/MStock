@@ -102,6 +102,7 @@ var drawingStockInfo = function(){$.getJSON('/mstock/resources/json/<%=request.g
 					$("#12").text(data[data.length-1].Stockinfo[16]); 
 				});
 };
+
 	/* 30초마다 자동 reload */
 	var reloadTimer = setInterval(function() {
 		//$("debi").text("");

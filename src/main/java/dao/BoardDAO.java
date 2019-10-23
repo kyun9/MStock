@@ -26,7 +26,6 @@ public class BoardDAO {
 		boolean result = true;
 		if (session.update("BoardMapper.updateBoard", vo) != 1)
 			result = false;
-		System.out.println("DAO result : "+ result);
 		return result;
 	}
 
