@@ -20,10 +20,6 @@ public class NaverLoginController {
 	@Autowired
 	NaverLoginService service;
 	
-	/*
-	 * @Value("${naver.client_id}") private String client_id;
-	 * @Value("${naver.client_secret}") private String client_secret;
-	 */
 	
 	@ModelAttribute("user")
 	public UserVO createUserModel() {
@@ -32,6 +28,7 @@ public class NaverLoginController {
 	
 	@RequestMapping(value="/naver/login", method=RequestMethod.GET)
 	public String postNaverLogin(Model model) {
+		//model.addAttribute("client_id", client_id);
 		return "auth/naverlogin";
 	}
 	
@@ -50,6 +47,6 @@ public class NaverLoginController {
 			model.addAttribute("user", loginDAO.getUserInfo(vo.getId()));
 		}
 		
-		return "redirect:http://localhost:8000/mstock";
+		return "redirect:/mstock";
 	}
 }
