@@ -57,7 +57,7 @@
 2. Import 'mstock.dmp'
 
    ```bash
-   $ imp userid={userid}/{password}@SID file='{filename}.dmp' 
+   $ imp userid={userid}/{password}@SID file='mstock.dmp' 
    ```
 
 3. Add configure.properties
