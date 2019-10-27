@@ -1,6 +1,6 @@
 <h1><img src="./photo/mstock_logo.svg"></h1>
 
- <img src="https://img.shields.io/badge/SpringMVC-5.0.2.RELEASE-brightgreen.svg">
+ <img src="https://img.shields.io/badge/SpringMVC-5.0.2.RELEASE-brightgreen.svg"><img src="https://img.shields.io/badge/Contributors-4-yellow.svg">
 
 ## What is this?
 
@@ -11,9 +11,8 @@
 - Real-time stock information parsing and Stock Chart implementation
 - Stock Purchase/Sales and History Functions
 - Analysis through real-time news data collection and pretreatment
-  - Sensitivity Analysis, Regression Analysis, and WordCloud Using R
-
-- Knowledge sharing function (board, chat)
+  - Sentiment Analysis, Regression Analysis, and WordCloud Using R
+- Knowledge sharing function (board, chatting)
 - Real-time ranking
 
 
@@ -25,6 +24,7 @@
 - HTML5 / CSS3 / JavaScript / jQuery / Ajax
 - Bootstrap
 - Chart.js
+- WebSocket
 
 > Back-end
 
@@ -32,7 +32,7 @@
 - Tomcat v9.0 
 - JAVA (jdk1.8.0_211)
 - Mybatis
-- R, Rserve
+- R-3.6.1, Rserve
 - JSP
 - Oracle Database Express Edition 11g Release 2
 
@@ -40,18 +40,18 @@
 
 ## Installation
 
-1. https://github.com/kyun9/MStock  - ["Clone or download" Click]
+1. https://github.com/kyun9/MStock  - [Clone or download] - ["Click"]
 2. Import from Eclipse
 
 
 
 ## Usage
 
-1. Oracle database CREATE user and GRANT
+1. Oracle database CREATE USER and GRANT
 
    ```sql
-   create user {mstock} identified by {mstock};
-   grant connect, resource to {mstock};
+   CREATE USER {userid} IDENTIFIED BY {password};
+   GRANT CONNECT, RESOURCE TO {userid};
    ```
 
 2. Import 'mstock.dmp'
@@ -66,11 +66,11 @@
    #Add  '/src/main/resources/config/configure.properties'
    
    #Database Information
-   username={mstock}
-   password={mstock}
+   username={userid}
+   password={password}
    dburl= jdbc:oracle:thin:@{URL}:1521:XE
    
-   #Naver login API Info
+   #Naver login API Information
    naver.client_id={Naver_Client_Id}
    naver.client_secret={Naver_Client_Secret}
    naver.callback_url={Naver_Callback_URL}
@@ -80,13 +80,15 @@
    rsource.allAnalysis='{Folder_location}/Rsource/All_Analysis.R', encoding = 'UTF-8'
    ```
 
-4. Run the Rserve (at the installation location)
+4. Install the library related to the R source
+
+5. Run the Rserve (at the installation location)
 
    ```bash
    $ Rserve --RS-encoding utf8
    ```
 
-5. [Add server from Tomcat v9.0 in Eclipse] - [Start the server]
+6. [Add server from Tomcat v9.0 in Eclipse] - [Start the server]
 
 
 
