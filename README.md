@@ -40,8 +40,8 @@
 
 ## Installation
 
-1. https://github.com/kyun9/MStock.git  - [Clone or download]
-2. Import into Eclipse
+1. https://github.com/kyun9/MStock  - [Clone or download] - ["Click"]
+2. Import from Eclipse
 
 
 
@@ -94,4 +94,24 @@
 
 ## Screenshots
 
-<img src="./photo/main.png">
+
+
+- #### Main
+
+<img src="./photo/main_.png">
+
+
+
+
+
+- #### Stock Information
+
+<img src ="./photo/stockinfo.png">
+
+
+
+
+
+- #### Stock Purchase/Sales
+
+<img src='./photo/stockinfo2.png'>
