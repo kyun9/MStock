@@ -98,7 +98,7 @@
 
 - ### Main
 
-<img src="./photo/mainpage.png">
+<img src="./photo/mainpage.PNG">
 
 
 
