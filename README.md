@@ -96,15 +96,15 @@
 
 
 
-- #### Main
+- ### Main
 
-<img src="./photo/main_.png">
-
-
+<img src="./photo/mainpage.png">
 
 
 
-- #### Stock Information
+
+
+- ### Stock Information
 
 <img src ="./photo/stockinfo.png">
 
@@ -112,6 +112,6 @@
 
 
 
-- #### Stock Purchase/Sales
+- ### Stock Purchase/Sales
 
 <img src='./photo/stockinfo2.png'>
