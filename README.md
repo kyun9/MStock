@@ -40,7 +40,7 @@
 
 ## Installation
 
-1. https://github.com/kyun9/MStock  - [Clone or download] - ["Click"]
+1. https://github.com/kyun9/MStock.git  - [Clone or download] - ["Click"]
 2. Import from Eclipse
 
 
